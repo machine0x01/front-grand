@@ -1,9 +1,9 @@
-"use client";
-import React, { useState } from "react";
-import Image from "next/image";
+'use client';
+import Image from 'next/image';
+import React, { useState } from 'react';
 
 // Interface for blog post data
-interface BlogPost {
+type BlogPost = {
   id: string;
   title: string;
   excerpt: string;
@@ -18,106 +18,106 @@ interface BlogPost {
   tags: string[];
   featuredImage: string;
   slug: string;
-}
+};
 
 // Props interface for the component
-interface BlogPostsProps {
+type BlogPostsProps = {
   posts?: BlogPost[];
   showFilters?: boolean;
   postsPerPage?: number;
-}
+};
 
-const BlogPosts: React.FC<BlogPostsProps> = ({ 
-  posts, 
+const BlogPosts: React.FC<BlogPostsProps> = ({
+  posts,
   showFilters = true,
-  postsPerPage = 6
+  postsPerPage = 6,
 }) => {
   // Default posts data
   const defaultPosts: BlogPost[] = [
     {
-      id: "1",
-      title: "Getting Started with Modern React Development",
-      excerpt: "Learn the fundamentals of React development with hooks, context, and modern patterns that will make you a more efficient developer.",
-      author: { name: "John Doe", avatar: "/assets/avatar1.jpg" },
-      publishedAt: "2024-01-15",
+      id: '1',
+      title: 'Getting Started with Modern React Development',
+      excerpt: 'Learn the fundamentals of React development with hooks, context, and modern patterns that will make you a more efficient developer.',
+      author: { name: 'John Doe', avatar: '/assets/avatar1.jpg' },
+      publishedAt: '2024-01-15',
       readTime: 8,
-      category: "Development",
-      tags: ["React", "JavaScript", "Frontend"],
-      featuredImage: "/assets/blog1.jpg",
-      slug: "getting-started-react-development"
+      category: 'Development',
+      tags: ['React', 'JavaScript', 'Frontend'],
+      featuredImage: '/assets/blog1.jpg',
+      slug: 'getting-started-react-development',
     },
     {
-      id: "2", 
-      title: "Building Scalable APIs with Node.js",
-      excerpt: "Explore best practices for creating robust and scalable REST APIs using Node.js, Express, and modern development patterns.",
-      author: { name: "Jane Smith", avatar: "/assets/avatar2.jpg" },
-      publishedAt: "2024-01-12",
+      id: '2',
+      title: 'Building Scalable APIs with Node.js',
+      excerpt: 'Explore best practices for creating robust and scalable REST APIs using Node.js, Express, and modern development patterns.',
+      author: { name: 'Jane Smith', avatar: '/assets/avatar2.jpg' },
+      publishedAt: '2024-01-12',
       readTime: 12,
-      category: "Backend",
-      tags: ["Node.js", "API", "Backend"],
-      featuredImage: "/assets/blog2.jpg",
-      slug: "scalable-apis-nodejs"
+      category: 'Backend',
+      tags: ['Node.js', 'API', 'Backend'],
+      featuredImage: '/assets/blog2.jpg',
+      slug: 'scalable-apis-nodejs',
     },
     {
-      id: "3",
-      title: "UI/UX Design Trends for 2024",
-      excerpt: "Discover the latest design trends that are shaping user experiences in 2024, from micro-interactions to accessibility-first design.",
-      author: { name: "Mike Johnson", avatar: "/assets/avatar3.jpg" },
-      publishedAt: "2024-01-10",
+      id: '3',
+      title: 'UI/UX Design Trends for 2024',
+      excerpt: 'Discover the latest design trends that are shaping user experiences in 2024, from micro-interactions to accessibility-first design.',
+      author: { name: 'Mike Johnson', avatar: '/assets/avatar3.jpg' },
+      publishedAt: '2024-01-10',
       readTime: 6,
-      category: "Design",
-      tags: ["UI/UX", "Design", "Trends"],
-      featuredImage: "/assets/blog3.jpg",
-      slug: "ui-ux-trends-2024"
+      category: 'Design',
+      tags: ['UI/UX', 'Design', 'Trends'],
+      featuredImage: '/assets/blog3.jpg',
+      slug: 'ui-ux-trends-2024',
     },
     {
-      id: "4",
-      title: "DevOps Best Practices for Small Teams",
-      excerpt: "Learn how small development teams can implement DevOps practices effectively without overwhelming complexity or resources.",
-      author: { name: "Sarah Wilson", avatar: "/assets/avatar4.jpg" },
-      publishedAt: "2024-01-08",
+      id: '4',
+      title: 'DevOps Best Practices for Small Teams',
+      excerpt: 'Learn how small development teams can implement DevOps practices effectively without overwhelming complexity or resources.',
+      author: { name: 'Sarah Wilson', avatar: '/assets/avatar4.jpg' },
+      publishedAt: '2024-01-08',
       readTime: 10,
-      category: "DevOps",
-      tags: ["DevOps", "CI/CD", "Deployment"],
-      featuredImage: "/assets/blog4.jpg",
-      slug: "devops-best-practices-small-teams"
+      category: 'DevOps',
+      tags: ['DevOps', 'CI/CD', 'Deployment'],
+      featuredImage: '/assets/blog4.jpg',
+      slug: 'devops-best-practices-small-teams',
     },
     {
-      id: "5",
-      title: "Introduction to Machine Learning with Python",
-      excerpt: "Start your machine learning journey with Python. Learn the basics of ML algorithms and how to implement them in real projects.",
-      author: { name: "David Chen", avatar: "/assets/avatar5.jpg" },
-      publishedAt: "2024-01-05",
+      id: '5',
+      title: 'Introduction to Machine Learning with Python',
+      excerpt: 'Start your machine learning journey with Python. Learn the basics of ML algorithms and how to implement them in real projects.',
+      author: { name: 'David Chen', avatar: '/assets/avatar5.jpg' },
+      publishedAt: '2024-01-05',
       readTime: 15,
-      category: "AI/ML",
-      tags: ["Machine Learning", "Python", "AI"],
-      featuredImage: "/assets/blog5.jpg",
-      slug: "machine-learning-python-intro"
+      category: 'AI/ML',
+      tags: ['Machine Learning', 'Python', 'AI'],
+      featuredImage: '/assets/blog5.jpg',
+      slug: 'machine-learning-python-intro',
     },
     {
-      id: "6",
-      title: "Web Performance Optimization Strategies",
-      excerpt: "Boost your website's performance with proven optimization techniques that improve user experience and search rankings.",
-      author: { name: "Lisa Brown", avatar: "/assets/avatar6.jpg" },
-      publishedAt: "2024-01-03",
+      id: '6',
+      title: 'Web Performance Optimization Strategies',
+      excerpt: 'Boost your website\'s performance with proven optimization techniques that improve user experience and search rankings.',
+      author: { name: 'Lisa Brown', avatar: '/assets/avatar6.jpg' },
+      publishedAt: '2024-01-03',
       readTime: 9,
-      category: "Performance",
-      tags: ["Performance", "Web", "Optimization"],
-      featuredImage: "/assets/blog6.jpg",
-      slug: "web-performance-optimization"
-    }
+      category: 'Performance',
+      tags: ['Performance', 'Web', 'Optimization'],
+      featuredImage: '/assets/blog6.jpg',
+      slug: 'web-performance-optimization',
+    },
   ];
 
   const blogPosts = posts || defaultPosts;
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [currentPage, setCurrentPage] = useState(1);
 
   // Get unique categories
-  const categories = ["All", ...Array.from(new Set(blogPosts.map(post => post.category)))];
+  const categories = ['All', ...Array.from(new Set(blogPosts.map(post => post.category)))];
 
   // Filter posts by category
-  const filteredPosts = selectedCategory === "All" 
-    ? blogPosts 
+  const filteredPosts = selectedCategory === 'All'
+    ? blogPosts
     : blogPosts.filter(post => post.category === selectedCategory);
 
   // Paginate posts
@@ -130,32 +130,32 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
   return (
-    <section className="py-16 px-6 ">
+    <section className="px-6 py-16 ">
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-         {/* <QuoteHeader title={title} description={subtitle} /> */}
+        <div className="mx-auto mb-12 max-w-2xl text-center">
+          {/* <QuoteHeader title={title} description={subtitle} /> */}
         </div>
 
         {/* Filters */}
         {showFilters && (
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {categories.map((category) => (
+          <div className="mb-12 flex flex-wrap justify-center gap-3">
+            {categories.map(category => (
               <button
                 key={category}
                 onClick={() => {
                   setSelectedCategory(category);
                   setCurrentPage(1);
                 }}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                className={`rounded-full px-6 py-3 font-medium transition-all duration-300 ${
                   selectedCategory === category
-                    ? "bg-gradient-to-r from-[#FEB101] to-[#FFD984] text-white shadow-lg"
-                    : "bg-white text-gray-700 border border-gray-200 hover:border-[#FEB101] hover:text-[#FEB101]"
+                    ? 'bg-gradient-to-r from-[#FEB101] to-[#FFD984] text-white shadow-lg'
+                    : 'border border-gray-200 bg-white text-gray-700 hover:border-[#FEB101] hover:text-[#FEB101]'
                 }`}
               >
                 {category}
@@ -165,11 +165,11 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
         )}
 
         {/* Blog Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {paginatedPosts.map((post) => (
+        <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {paginatedPosts.map(post => (
             <article
               key={post.id}
-              className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
+              className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
               {/* Featured Image */}
               <div className="relative h-48 overflow-hidden">
@@ -180,7 +180,7 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 bg-[#FEB101] text-white text-sm font-medium rounded-full">
+                  <span className="rounded-full bg-[#FEB101] px-3 py-1 text-sm font-medium text-white">
                     {post.category}
                   </span>
                 </div>
@@ -189,7 +189,7 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
               {/* Content */}
               <div className="p-6">
                 {/* Meta Information */}
-                <div className="flex items-center justify-between mb-3 text-sm text-gray-500">
+                <div className="mb-3 flex items-center justify-between text-sm text-gray-500">
                   <div className="flex items-center space-x-2">
                     {post.author.avatar && (
                       <Image
@@ -202,25 +202,29 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
                     )}
                     <span>{post.author.name}</span>
                   </div>
-                  <span>{post.readTime} min read</span>
+                  <span>
+                    {post.readTime}
+                    {' '}
+                    min read
+                  </span>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#FEB101] transition-colors">
+                <h3 className="mb-3 line-clamp-2 text-xl font-bold text-gray-900 transition-colors group-hover:text-[#FEB101]">
                   {post.title}
                 </h3>
 
                 {/* Excerpt */}
-                <p className="text-gray-600 mb-4 line-clamp-3">
+                <p className="mb-4 line-clamp-3 text-gray-600">
                   {post.excerpt}
                 </p>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {post.tags.slice(0, 3).map((tag) => (
+                <div className="mb-4 flex flex-wrap gap-2">
+                  {post.tags.slice(0, 3).map(tag => (
                     <span
                       key={tag}
-                      className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-md"
+                      className="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-600"
                     >
                       {tag}
                     </span>
@@ -232,9 +236,9 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
                   <span className="text-sm text-gray-500">
                     {formatDate(post.publishedAt)}
                   </span>
-                  <button className="text-[#FEB101] hover:text-[#FFD984] font-medium text-sm flex items-center space-x-1 transition-colors">
+                  <button className="flex items-center space-x-1 text-sm font-medium text-[#FEB101] transition-colors hover:text-[#FFD984]">
                     <span>Read More</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </button>
@@ -246,33 +250,33 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center space-x-2">
+          <div className="flex items-center justify-center space-x-2">
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 border border-gray-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#FEB101] transition-colors"
+              className="rounded-lg border border-gray-200 px-4 py-2 transition-colors hover:border-[#FEB101] disabled:cursor-not-allowed disabled:opacity-50"
             >
               Previous
             </button>
-            
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
-                className={`px-4 py-2 rounded-lg transition-colors ${
+                className={`rounded-lg px-4 py-2 transition-colors ${
                   currentPage === page
-                    ? "bg-[#FEB101] text-white"
-                    : "border border-gray-200 hover:border-[#FEB101]"
+                    ? 'bg-[#FEB101] text-white'
+                    : 'border border-gray-200 hover:border-[#FEB101]'
                 }`}
               >
                 {page}
               </button>
             ))}
-            
+
             <button
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 border border-gray-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#FEB101] transition-colors"
+              className="rounded-lg border border-gray-200 px-4 py-2 transition-colors hover:border-[#FEB101] disabled:cursor-not-allowed disabled:opacity-50"
             >
               Next
             </button>
@@ -283,4 +287,4 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
   );
 };
 
-export default BlogPosts; 
+export default BlogPosts;

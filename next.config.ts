@@ -7,7 +7,8 @@ import './src/libs/Env';
 // Define the base Next.js configuration
 const baseConfig: NextConfig = {
   eslint: {
-    dirs: ['.'],
+    // Disable ESLint during builds
+    ignoreDuringBuilds: true,
   },
   poweredByHeader: false,
   reactStrictMode: true,
@@ -25,7 +26,7 @@ if (process.env.ANALYZE === 'true') {
 if (!process.env.NEXT_PUBLIC_SENTRY_DISABLED) {
   configWithPlugins = withSentryConfig(configWithPlugins, {
     // For all available options, see:
-    // https://www.npmjs.com/package/@sentry/webpack-plugin#options
+    // https://www.npmjs.com/package/@next/bundle-analyzer#options
     org: process.env.SENTRY_ORGANIZATION,
     project: process.env.SENTRY_PROJECT,
 

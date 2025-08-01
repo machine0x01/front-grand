@@ -1,18 +1,18 @@
 'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 
-interface MobileMenuProps {
+type MobileMenuProps = {
   items: Array<{ label: string; href: string }>;
   authItems: Array<{ label: string; href: string }>;
-}
+};
 
 const MobileMenu = ({ items, authItems }: MobileMenuProps) => {
   return (
-    <details className="md:hidden relative">
-      <summary className="text-white cursor-pointer p-2">
+    <details className="relative md:hidden">
+      <summary className="cursor-pointer p-2 text-white">
         <svg
-          className="w-6 h-6"
+          className="h-6 w-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -25,39 +25,43 @@ const MobileMenu = ({ items, authItems }: MobileMenuProps) => {
           />
         </svg>
       </summary>
-      
+
       {/* Mobile Menu */}
       <div className="fixed inset-0 z-50 bg-black/50">
-        <div className="absolute top-0 right-0 h-screen w-[90vw] bg-[#1a112b] rounded-l-2xl p-6 animate-slideIn">
-          <div className="flex justify-between items-center mb-8">
-            <span className="text-yellow-500 text-lg font-bold">Menu</span>
+        <div className="animate-slideIn absolute top-0 right-0 h-screen w-[90vw] rounded-l-2xl bg-[#1a112b] p-6">
+          <div className="mb-8 flex items-center justify-between">
+            <span className="text-lg font-bold text-yellow-500">Menu</span>
             <button
               onClick={(e) => {
                 e.preventDefault();
                 const details = e.currentTarget.closest('details');
-                if (details) details.removeAttribute('open');
+                if (details) {
+                  details.removeAttribute('open');
+                }
               }}
-              className="text-white hover:text-yellow-500 text-2xl"
+              className="text-2xl text-white hover:text-yellow-500"
             >
               ✕
             </button>
           </div>
-          
+
           <div className="space-y-6">
-            {[...items, ...authItems].map((item) => (
+            {[...items, ...authItems].map(item => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="block text-white hover:text-yellow-500 text-lg py-2"
+                className="block py-2 text-lg text-white hover:text-yellow-500"
                 onClick={(e) => {
                   const details = e.currentTarget.closest('details');
-                  if (details) details.removeAttribute('open');
+                  if (details) {
+                    details.removeAttribute('open');
+                  }
                 }}
               >
                 {item.label}
               </Link>
             ))}
-          
+
             <div className="mt-8">
               {/* <LanguageSwitcher /> */}
             </div>

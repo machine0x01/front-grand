@@ -35,8 +35,6 @@ html {
   z-index: 10;
 }
 
-
-
 @keyframes scroll-left {
   0% {
     transform: translateX(0);

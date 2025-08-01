@@ -50,7 +50,7 @@ export default async function RootLayout(props: {
     <html lang={locale}>
       <body>
         <NextIntlClientProvider>
-            {props.children}
+          {props.children}
         </NextIntlClientProvider>
       </body>
     </html>

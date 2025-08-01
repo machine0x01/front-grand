@@ -1,19 +1,17 @@
-import Link from 'next/link';
+"use client"
 import { useTranslations } from 'next-intl';
-import { headers } from 'next/headers';
+import Link from 'next/link';
 import MobileMenu from './shared/MobileNavbar';
-import console from 'console';
 
-const Navbar = async () => {
+const Navbar =  () => {
   const t = useTranslations('RootLayout');
-  
+
   // Get the current pathname from headers
-  const headersList = await headers();
-  const pathname = headersList.get('x-pathname') || headersList.get('x-url') || '';
-  console.log(pathname);
-  
-  const lang = pathname.split('/')[1] || 'en';
-  
+  // const pathname = headersList.get('x-pathname') || headersList.get('x-url') || '';
+  // console.log(pathname);
+
+  const lang =  'en';
+
   const items = [
     { label: t('home_link'), href: `/${lang}` },
     { label: t('about_link'), href: `/${lang}/about` },
@@ -27,19 +25,19 @@ const Navbar = async () => {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-md bg-black/70 border-b border-white/10">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href={`/${lang}`} className="text-yellow-500 text-lg font-bold">
+    <nav className="sticky top-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur-md">
+      <div className="container mx-auto flex items-center justify-between px-4 py-4">
+        <Link href={`/${lang}`} className="text-lg font-bold text-yellow-500">
           Great Button
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex gap-8">
-          {items.map((item) => (
+        <div className="hidden gap-8 md:flex">
+          {items.map(item => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-white hover:text-yellow-500 transition-colors"
+              className="text-white transition-colors hover:text-yellow-500"
             >
               {item.label}
             </Link>
@@ -47,12 +45,12 @@ const Navbar = async () => {
         </div>
 
         {/* Desktop Auth Links */}
-        <div className="hidden md:flex items-center gap-4">
-          {authItems.map((item) => (
+        <div className="hidden items-center gap-4 md:flex">
+          {authItems.map(item => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-white hover:text-yellow-500 transition-colors"
+              className="text-white transition-colors hover:text-yellow-500"
             >
               {item.label}
             </Link>
