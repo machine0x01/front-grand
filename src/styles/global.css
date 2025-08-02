@@ -30,9 +30,17 @@ html {
   background: #6b7280;
 }
 
-/* Ensure the sticky element has proper stacking */
+/* Ensure the sticky element has proper stacking and positioning */
 .lg\:sticky {
   z-index: 10;
+  position: sticky;
+}
+
+/* Fix for sticky positioning in flex containers */
+@media (min-width: 1024px) {
+  .sticky-container {
+    align-self: flex-start;
+  }
 }
 
 @keyframes scroll-left {
@@ -53,7 +61,6 @@ html {
   }
 }
 
-/* Pause animation on hover */
 .infinite-scroll:hover {
   animation-play-state: paused;
 }

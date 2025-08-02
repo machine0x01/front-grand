@@ -6,6 +6,9 @@ import './src/libs/Env';
 
 // Define the base Next.js configuration
 const baseConfig: NextConfig = {
+  images: {
+    domains: ['localhost', '127.0.0.1', '0.0.0.0'],
+  },
   eslint: {
     // Disable ESLint during builds
     ignoreDuringBuilds: true,

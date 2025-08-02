@@ -86,6 +86,13 @@ export interface Course {
   id: number;
   name: string;
   overview: string;
+  category: {
+    name: string,
+    color: string,
+    background: string,
+    icon: string,
+    slug: string
+  },
   seo_title: string;
   seo_description: string;
   seo_keywords: string;

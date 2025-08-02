@@ -8,7 +8,7 @@ function Footer() {
       {/* Background decorative lines */}
       <div className="absolute inset-0 ">
         <img
-          src="/assets/Line.png"
+          src="/assets/images/Line.png"
           className="absolute top-0 left-0 h-full w-full scale-110 object-cover"
           alt=""
         />

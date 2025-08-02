@@ -1,14 +1,13 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-// import AboutUs from '@/components/home/AboutUs';
-// import BlogPosts from '@/components/home/BlogPosts';
-// import CoursesList from '@/components/home/CoursesList';
-// import HeroHome from '@/components/home/HeroHome';
-// import CreationsShowcase from '@/components/home/ShowCase';
-// import { StudentsComments } from '@/components/home/StudentsComments';
 import type { CourseResponse } from '@/types/home';
 import { homeService } from '@/libs/services/homeService';
 import HeroHome from '@/components/home/HeroHome';
+import AboutUs from '@/components/home/AboutUs';
+import CoursesList from '@/components/home/CoursesList';
+import { StudentsComments } from '@/components/home/StudentsComments';
+import CreationsShowcase from '@/components/home/ShowCase';
+import BlogPosts from '@/components/home/BlogPosts';
 
 type IIndexProps = {
   params: Promise<{ locale: string }>;
@@ -55,32 +54,27 @@ export default async function Index(props: IIndexProps) {
   //     }))
   //   )
   // );
-  console.log(homeData.hero)
 
   return (
-    <>
-      <HeroHome   content={homeData.hero}    />
-      
-      {/* <AboutUs 
-        about={homeData.about}
+    <main className=''>
+       <HeroHome content={homeData.hero} />
+
+      <AboutUs
+        content={homeData.about}
+      /> 
+     
+      <CoursesList content={homeData.courses_section} 
       />
-      
-      <CoursesList 
-        coursesSection={homeData.courses_section}
-        category={homeData.category}
-      />
-      
+     
       <StudentsComments 
-        testimonials={testimonials}
       />
       
+       
+  
       <CreationsShowcase 
-        items={showcaseItems}
       />
-      
       <BlogPosts 
-        faqs={homeData.faqs} */}
-      {/* /> */}
-    </>
+      /> 
+    </main>
   );
 }
