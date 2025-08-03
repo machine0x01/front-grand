@@ -1,76 +1,25 @@
 "use client"
 
-interface SyllabusItem {
-  id: number
-  color: string
-  icon: string
-  title: string
-  description: string
-}
+import { SyllabusItem } from "@/types/course"
 
-const CourseRequirements = () => {
-  const syllabusData = {
-    title: "Web Development Fundamentals",
-    items: [
-      {
-        id: 1,
-        color: "#E3F2FD",
-        icon: "/placeholder.svg?height=64&width=64",
-        title: "HTML & Semantic Markup",
-        description:
-          "Learn the foundation of web development with HTML5, semantic elements, accessibility best practices, and modern markup techniques.",
-      },
-      {
-        id: 2,
-        color: "#F3E5F5",
-        icon: "/placeholder.svg?height=64&width=64",
-        title: "CSS & Responsive Design",
-        description:
-          "Master styling with CSS3, Flexbox, Grid, responsive design principles, and modern layout techniques for all devices.",
-      },
-      {
-        id: 3,
-        color: "#E8F5E8",
-        icon: "/placeholder.svg?height=64&width=64",
-        title: "JavaScript Fundamentals",
-        description:
-          "Understand core JavaScript concepts, DOM manipulation, event handling, ES6+ features, and asynchronous programming.",
-      },
-      {
-        id: 4,
-        color: "#FFF3E0",
-        icon: "/placeholder.svg?height=64&width=64",
-        title: "React Development",
-        description:
-          "Build dynamic user interfaces with React, hooks, state management, component lifecycle, and modern React patterns.",
-      },
-      {
-        id: 5,
-        color: "#FFEBEE",
-        icon: "/placeholder.svg?height=64&width=64",
-        title: "Backend with Node.js",
-        description:
-          "Create server-side applications using Node.js, Express.js, RESTful APIs, and database integration techniques.",
-      },
-      {
-        id: 6,
-        color: "#E0F2F1",
-        icon: "/placeholder.svg?height=64&width=64",
-        title: "Database Management",
-        description:
-          "Work with databases, SQL queries, data modeling, and learn both relational and NoSQL database systems.",
-      },
-    ],
+
+interface CourseRequirementsProps {
+  content: {
+    title:string,
+    items:SyllabusItem[]
   }
-
+} 
+const CourseRequirements = ({content}:CourseRequirementsProps) => {
+  
+  const syllabusData =content
+  console.log(syllabusData);
+  
   return (
     <div className="min-h-screen py-16 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-bold text-slate-800 mb-4">{syllabusData.title}</h1>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-600">syllabus.</h2>
-          <div className="w-24 h-1 bg-blue-500 mx-auto mt-6 rounded-full"></div>
         </div>
 
         {/* Course Grid */}
