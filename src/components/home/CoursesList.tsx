@@ -3,6 +3,8 @@ import type { Course } from "@/types/home"
 import { Clock, Globe, Users } from "lucide-react"
 import Image from "next/image"
 import { useState } from "react"
+import QuoteHeader from "../Title"
+import Link from "next/link"
 
 interface CoursesListProps {
   content: {
@@ -14,6 +16,8 @@ interface CoursesListProps {
 
 export default function CoursesList({ content }: CoursesListProps) {
   // Group courses by category
+  console.log(content);
+  
   const categoriesWithCourses = content.courses.reduce((acc, course) => {
     const existingCategory = acc.find(c => c.name === course.category.name);
     if (existingCategory) {
@@ -38,7 +42,10 @@ export default function CoursesList({ content }: CoursesListProps) {
   console.log(selectedCourse);
 
   return (
-    <section className="max-w-[1920px] flex flex-col mx-auto   items-center justify-center relative">
+    <section className="max-w-[1920px] flex flex-col gap-11 mx-auto   items-center justify-center relative">
+     <div className="w-1/3">
+     <QuoteHeader title={content.title} description={content.description} />
+     </div>
       <div className="mb-12 flex gap-5">
         {/* Category Tabs */}
         {categoriesWithCourses.map((category) => (
@@ -160,10 +167,12 @@ export default function CoursesList({ content }: CoursesListProps) {
                   </div>
 
                   {/* Button */}
-                  <button className="rounded-full bg-purple-600 px-8 py-3 font-medium text-white hover:bg-purple-700 transition-colors duration-300">
+<Link href={`/course/${selectedCourse.slug}`}>
+<button className="rounded-full bg-purple-600 px-8 py-3 font-medium text-white hover:bg-purple-700 transition-colors duration-300">
                     Show more details
                   </button>
-                </div>
+
+</Link>                </div>
 
                 {/* Right Image */}
                 <div className="relative">

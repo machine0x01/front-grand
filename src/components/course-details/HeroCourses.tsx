@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Star, ShoppingCart, Check } from "lucide-react";
+import { useCart } from "@/context/cart-context";
 
 interface HeroCoursesProps {
 content: {
@@ -13,18 +14,77 @@ content: {
   price: string;
   discount: string;
   instructor: string;
+  slug: string;
 }
 }
+
 export default function HeroCourses({ content }: HeroCoursesProps) {
   const [isAdded, setIsAdded] = useState(false);
-  console.log(content)
+  const { addToCart, isInCart } = useCart();
+  const videoRef = useRef<HTMLVideoElement>(null);
   
-  const cartItems: number[] = [];
-  const isInCart = cartItems.includes(1); // Simulate product already in cart
+  // Convert string prices to numbers for calculations
+  const price = parseFloat(content.price);
+  const discount = parseFloat(content.discount);
+  const courseId = content.slug; // Use the slug as course ID
+  
+  const isInCartState = isInCart(courseId);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      const heroSection = video.closest('.relative.h-screen');
+      if (!heroSection) return;
+
+      const rect = heroSection.getBoundingClientRect();
+      const isVisible = rect.bottom > 0 && rect.top < window.innerHeight;
+
+      if (isVisible) {
+        video.play().catch(console.error);
+      } else {
+        video.pause();
+      }
+    };
+
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll);
+    
+    // Initial check
+    handleScroll();
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const handleAddToCart = () => {
+    addToCart({
+      course_id: courseId,
+      title: content.title,
+      price: price,
+      discount: discount,
+      instructor: content.instructor,
+      thumbnail: undefined, // You can add thumbnail if available
+    });
     setIsAdded(true);
-    // Add to cart logic here if needed
+  };
+
+  const handleVideoClick = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (video.requestFullscreen) {
+      video.requestFullscreen();
+    } else if ((video as any).webkitRequestFullscreen) {
+      // Safari support
+      (video as any).webkitRequestFullscreen();
+    } else if ((video as any).msRequestFullscreen) {
+      // IE/Edge support
+      (video as any).msRequestFullscreen();
+    }
   };
 
   return (
@@ -33,12 +93,15 @@ export default function HeroCourses({ content }: HeroCoursesProps) {
         {/* YouTube Video Background */}
         <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
         <video
+          ref={videoRef}
           src={content.video}
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          className="absolute inset-0 w-full h-full object-cover z-0 cursor-pointer"
           autoPlay
           muted
           loop
           playsInline
+          onClick={handleVideoClick}
+          title="Click to view fullscreen"
         />
 
         </div>
@@ -64,7 +127,7 @@ export default function HeroCourses({ content }: HeroCoursesProps) {
                   ${content.price}
                 </span>
                 <span className="bg-green-600 text-white px-2 py-0.5 rounded-md text-xs sm:text-sm">
-                  {Math.round((content.discount / content.price) * 100)}% Off
+                  {Math.round((discount / price) * 100)}% Off
                 </span>
               </div>
 
@@ -80,7 +143,7 @@ export default function HeroCourses({ content }: HeroCoursesProps) {
                 className={`flex items-center gap-2 px-6 py-3 font-semibold rounded-xl shadow-lg transition mb-8 ${
                   isAdded
                     ? "bg-green-600 text-white"
-                    : isInCart
+                    : isInCartState
                     ? "bg-gray-600 text-white"
                     : "bg-purple-600 text-white hover:bg-purple-700"
                 }`}
@@ -92,7 +155,7 @@ export default function HeroCourses({ content }: HeroCoursesProps) {
                     <Check className="w-5 h-5" />
                     Added to Cart!
                   </>
-                ) : isInCart ? (
+                ) : isInCartState ? (
                   <>
                     <ShoppingCart className="w-5 h-5" />
                     In Cart

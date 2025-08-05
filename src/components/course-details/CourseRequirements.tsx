@@ -12,7 +12,6 @@ interface CourseRequirementsProps {
 const CourseRequirements = ({content}:CourseRequirementsProps) => {
   
   const syllabusData =content
-  console.log(syllabusData);
   
   return (
     <div className="min-h-screen py-16 px-4">
@@ -22,6 +21,26 @@ const CourseRequirements = ({content}:CourseRequirementsProps) => {
           <h1 className="text-5xl md:text-6xl font-bold text-slate-800 mb-4">{syllabusData.title}</h1>
         </div>
 
+        <div className="mt-16 text-center">
+          <div className="inline-flex items-center space-x-4 bg-[#21002d]/50 rounded-full px-8 py-4 shadow-lg border border-slate-200">
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+              <span className="text-sm text-slate-600">{syllabusData.items.length} Modules</span>
+            </div>
+            <div className="w-px h-4 bg-slate-300"></div>
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
+              <span className="text-sm text-slate-600">12 Weeks</span>
+            </div>
+            <div className="w-px h-4 bg-slate-300"></div>
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
+              <span className="text-sm text-slate-600">Beginner Friendly</span>
+            </div>
+          </div>
+        </div>
+        <br />
+        <br />
         {/* Course Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {syllabusData.items.map((item, index) => (
@@ -70,24 +89,7 @@ const CourseRequirements = ({content}:CourseRequirementsProps) => {
         </div>
 
         {/* Footer Info */}
-        <div className="mt-16 text-center">
-          <div className="inline-flex items-center space-x-4 bg-white rounded-full px-8 py-4 shadow-lg border border-slate-200">
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-              <span className="text-sm text-slate-600">6 Modules</span>
-            </div>
-            <div className="w-px h-4 bg-slate-300"></div>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-              <span className="text-sm text-slate-600">12 Weeks</span>
-            </div>
-            <div className="w-px h-4 bg-slate-300"></div>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
-              <span className="text-sm text-slate-600">Beginner Friendly</span>
-            </div>
-          </div>
-        </div>
+        
       </div>
     </div>
   )

@@ -1,5 +1,7 @@
 'use client';
 
+import QuoteHeader from "../Title";
+
 
 
 const testimonials = [
@@ -34,18 +36,29 @@ const testimonials = [
   },
 ];
 
-export function StudentsComments() {
+interface StudentsCommentsProps {
+  content: {
+    quote: string;
+    course:string  
+    ref:string
+  }[]
+}
+export function StudentsComments({content}:StudentsCommentsProps) {
+  console.log(content,'content');
+  
+  const data = content || testimonials
+  
   return (
-    <div className="h-screen">
+    <div className="">
       <div className="mx-auto w-full max-w-4xl">
-        {/* <QuoteHeader
+        <QuoteHeader
           title="What Our Students Say"
           description="Whether you're a beginner or looking to refine your skills, our diverse range of animation courses has something for everyone."
-        /> */}
+        />
       </div>
-      <div className="dark:bg-grid-white/[0.05] relative flex h-[40rem] w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-md antialiased">
-        <InfiniteMovingCards items={testimonials} direction="right" speed="fast" />
-        <InfiniteMovingCards items={testimonials} direction="left" speed="fast" />
+      <div className=" relative flex h-[40rem] w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-md antialiased">
+        <InfiniteMovingCards items={data} direction="right" speed="fast" />
+        <InfiniteMovingCards items={data} direction="left" speed="fast" />
       </div>
     </div>
   );
@@ -53,8 +66,8 @@ export function StudentsComments() {
 
 type TestimonialItem = {
   quote: string;
-  name: string;
-  title: string;
+  course: string;
+  ref: string;
 };
 
 type InfiniteMovingCardsProps = {
@@ -94,7 +107,7 @@ function InfiniteMovingCards({ items, direction, speed }: InfiniteMovingCardsPro
         {duplicatedItems.map((item, index) => (
           <div
             key={index}
-            className="relative w-[350px] max-w-full flex-shrink-0 rounded-2xl border border-slate-700 bg-white px-8 py-6 md:w-[450px] dark:bg-slate-900"
+            className="relative w-[350px] max-w-full flex-shrink-0 rounded-2xl border bg-[#20002b]  px-8 py-6 md:w-[450px]"
           >
             <blockquote>
               <div
@@ -108,11 +121,11 @@ function InfiniteMovingCards({ items, direction, speed }: InfiniteMovingCardsPro
               <div className="relative z-20 mt-6 flex flex-row items-center">
                 <span className="flex flex-col gap-1">
                   <span className="text-sm leading-[1.6] font-normal text-gray-900 dark:text-gray-100">
-                    {item.name}
+                    {item.course}
                   </span>
-                  <span className="text-sm leading-[1.6] font-normal text-gray-500 dark:text-gray-400">
+                  {/* <span className="text-sm leading-[1.6] font-normal text-gray-500 dark:text-gray-400">
                     {item.title}
-                  </span>
+                  </span> */}
                 </span>
               </div>
             </blockquote>

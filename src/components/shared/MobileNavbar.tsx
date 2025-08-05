@@ -4,10 +4,9 @@ import Link from 'next/link';
 
 type MobileMenuProps = {
   items: Array<{ label: string; href: string }>;
-  authItems: Array<{ label: string; href: string }>;
 };
 
-const MobileMenu = ({ items, authItems }: MobileMenuProps) => {
+const MobileMenu = ({ items }: MobileMenuProps) => {
   return (
     <details className="relative md:hidden">
       <summary className="cursor-pointer p-2 text-white">
@@ -46,7 +45,7 @@ const MobileMenu = ({ items, authItems }: MobileMenuProps) => {
           </div>
 
           <div className="space-y-6">
-            {[...items, ...authItems].map(item => (
+            {[...items,].map(item => (
               <Link
                 key={item.href}
                 href={item.href}

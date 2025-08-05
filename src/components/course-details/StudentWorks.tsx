@@ -178,15 +178,20 @@ const StudentProjectsSwiper: React.FC<StudentProjectsSwiperProps> = ({ data }) =
      
 
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-64 h-64 bg-blue-500/40 rounded-full blur-3xl -top-32 -left-32 animate-pulse" />
+        <div className="absolute w-64 h-64  rounded-full blur-3xl -top-32 -left-32 animate-pulse" />
         <div
-          className="absolute w-96 h-96 bg-purple-500/40 rounded-full blur-3xl top-1/2 -right-48 animate-pulse"
+          className="absolute w-96 h-96 bg-purple-500/40 rounded-full blur-3xl top-1/2 -right-48 "
           style={{ animationDelay: "2s" }}
         />
-        <div
+        
+         <div
+          className="absolute w-96 h-96 bg-purple-500/40 rounded-full blur-3xl top-1/4 -left-48 "
+          style={{ animationDelay: "2s" }}
+        />
+        {/* <div
           className="absolute w-48 h-48 bg-teal-500/40 rounded-full blur-2xl bottom-0 left-1/3 animate-pulse"
           style={{ animationDelay: "4s" }}
-        />
+        /> */}
       </div>
 
       <div className="container mx-auto relative z-10 p-4 sm:p-6 lg:p-8">

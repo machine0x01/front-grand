@@ -51,7 +51,7 @@ const CourseFAQ = () => {
   ]
 
   return (
-    <div className="w-full mx-auto text-white min-h-screen p-8 bg-gray-900">
+    <div className="w-full mx-auto text-white min-h-screen p-8 ">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2 animate-fade-in">Frequently Asked Questions</h1>
         <p className="text-gray-400 text-lg animate-fade-in">
@@ -63,7 +63,7 @@ const CourseFAQ = () => {
         {faqs.map((faq, index) => (
           <div
             key={faq.id}
-            className="border border-gray-700 rounded-lg bg-gray-800/50 overflow-hidden animate-fade-in-up"
+            className="border border-gray-700 rounded-lg bg-[#1e0029] overflow-hidden animate-fade-in-up"
             style={{ animationDelay: `${index * 100}ms` }}
           >
             <button
@@ -97,26 +97,7 @@ const CourseFAQ = () => {
         ))}
       </div>
       {/* Bottom CTA Section - Removed max-w-4xl */}
-      <div
-        className="mt-12 p-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-lg animate-fade-in-up"
-        style={{ animationDelay: "600ms" }}
-      >
-        <div className="flex items-center justify-between flex-col md:flex-row gap-4">
-          <div>
-            <h3 className="text-xl font-semibold text-white mb-2">Ready to get started?</h3>
-            <p className="text-gray-300">
-              Join thousands of students who have already transformed their skills with our comprehensive course.
-            </p>
-          </div>
-          <button
-            onClick={handleCTAClick}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 whitespace-nowrap"
-            type="button"
-          >
-            Enroll Now
-          </button>
-        </div>
-      </div>
+      
       <style jsx>{`
         @keyframes fade-in {
           from {

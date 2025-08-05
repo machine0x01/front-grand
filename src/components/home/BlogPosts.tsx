@@ -2,50 +2,71 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-// Interface for blog post data
-type BlogPost = {
-  id: string;
+// Interface for blog post data from API
+export interface FeaturedBlog {
+  id: number;
   title: string;
   excerpt: string;
-  content?: string;
-  author: {
+  image_alt: string;
+  meta_description: string;
+  meta_keywords: string;
+  category: {
+    id: number;
     name: string;
-    avatar?: string;
+    description: string;
+    slug: string;
+    created_at: string;
+    updated_at: string;
   };
-  publishedAt: string;
-  readTime: number; // in minutes
-  category: string;
-  tags: string[];
-  featuredImage: string;
+  tags: Array<{
+    id: number;
+    name: string;
+    slug: string;
+    created_at: string;
+  }>;
+  tags_count: number;
   slug: string;
-};
+  featured_image: string;
+  status: string;
+  read_time: number;
+  views_count: number;
+  is_featured: boolean;
+  published_at: string;
+  created_at: string;
+  updated_at: string;
+  author: number;
+}
 
 // Props interface for the component
 type BlogPostsProps = {
-  posts?: BlogPost[];
+  featured_blogs?: FeaturedBlog[];
   showFilters?: boolean;
   postsPerPage?: number;
 };
 
 const BlogPosts: React.FC<BlogPostsProps> = ({
-  posts,
+  featured_blogs = [],
   showFilters = true,
   postsPerPage = 6,
 }) => {
-  // Default posts data
-  const defaultPosts: BlogPost[] = [
-    {
-      id: '1',
-      title: 'Getting Started with Modern React Development',
-      excerpt: 'Learn the fundamentals of React development with hooks, context, and modern patterns that will make you a more efficient developer.',
-      author: { name: 'John Doe', avatar: '/assets/avatar1.jpg' },
-      publishedAt: '2024-01-15',
-      readTime: 8,
-      category: 'Development',
-      tags: ['React', 'JavaScript', 'Frontend'],
-      featuredImage: '/assets/blog1.jpg',
-      slug: 'getting-started-react-development',
-    },
+  // Transform featured_blogs to match the component's expected format
+  const posts = React.useMemo(() => {
+    return (featured_blogs || []).map(blog => ({
+      id: blog.id.toString(),
+      title: blog.title,
+      excerpt: blog.excerpt,
+      author: { name: `Author ${blog.author}`, avatar: '' },
+      publishedAt: blog.published_at,
+      readTime: blog.read_time,
+      category: blog.category?.name || 'Uncategorized',
+      tags: blog.tags?.map((tag: any) => tag.name) || [],
+      featuredImage: blog.featured_image,
+      slug: blog.slug,
+    }));
+  }, [featured_blogs]);
+
+  // Default posts data (fallback if no featured_blogs provided)
+  const defaultPosts = [
     {
       id: '2',
       title: 'Building Scalable APIs with Node.js',
@@ -108,17 +129,18 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
     },
   ];
 
-  const blogPosts = posts || defaultPosts;
+  // Use transformed posts or default posts
+  const displayedPosts = posts.length > 0 ? posts : defaultPosts;
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [currentPage, setCurrentPage] = useState(1);
 
   // Get unique categories
-  const categories = ['All', ...Array.from(new Set(blogPosts.map(post => post.category)))];
+  const categories = ['All', ...Array.from(new Set(displayedPosts.map((post: any) => post.category)))];
 
   // Filter posts by category
   const filteredPosts = selectedCategory === 'All'
-    ? blogPosts
-    : blogPosts.filter(post => post.category === selectedCategory);
+    ? displayedPosts
+    : displayedPosts.filter((post: any) => post.category === selectedCategory);
 
   // Paginate posts
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
@@ -127,11 +149,17 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
 
   // Format date
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  // Handle author initials
+  const getAuthorInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((n: string) => n[0])
+      .join('')
+      .toUpperCase();
   };
 
   return (
@@ -166,77 +194,53 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
 
         {/* Blog Posts Grid */}
         <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {paginatedPosts.map(post => (
-            <article
-              key={post.id}
-              className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-            >
-              {/* Featured Image */}
-              <div className="relative h-48 overflow-hidden">
+          {paginatedPosts.map((post) => (
+            <div key={post.id} className="group relative">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-600/20 to-pink-600/20 opacity-0 transition-all duration-300 group-hover:opacity-100" />
+              <div className="relative h-64 overflow-hidden rounded-2xl">
                 <Image
                   src={post.featuredImage}
                   alt={post.title}
                   fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute top-4 left-4">
-                  <span className="rounded-full bg-[#FEB101] px-3 py-1 text-sm font-medium text-white">
-                    {post.category}
-                  </span>
-                </div>
               </div>
-
-              {/* Content */}
-              <div className="p-6">
-                {/* Meta Information */}
-                <div className="mb-3 flex items-center justify-between text-sm text-gray-500">
-                  <div className="flex items-center space-x-2">
-                    {post.author.avatar && (
-                      <Image
-                        src={post.author.avatar}
-                        alt={post.author.name}
-                        width={24}
-                        height={24}
-                        className="rounded-full"
-                      />
-                    )}
-                    <span>{post.author.name}</span>
+              <div className="mt-4 p-4">
+                <div className="flex justify-between items-start mb-4">
+                  <div className="flex items-center space-x-2 text-sm text-gray-400">
+                    <span>{post.category}</span>
+                    <span>•</span>
+                    <span>{post.readTime} min read</span>
                   </div>
-                  <span>
-                    {post.readTime}
-                    {' '}
-                    min read
-                  </span>
                 </div>
-
-                {/* Title */}
-                <h3 className="mb-3 line-clamp-2 text-xl font-bold text-gray-900 transition-colors group-hover:text-[#FEB101]">
-                  {post.title}
-                </h3>
-
-                {/* Excerpt */}
-                <p className="mb-4 line-clamp-3 text-gray-600">
-                  {post.excerpt}
-                </p>
-
-                {/* Tags */}
-                <div className="mb-4 flex flex-wrap gap-2">
-                  {post.tags.slice(0, 3).map(tag => (
-                    <span
-                      key={tag}
-                      className="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-600"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Date and Read More */}
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">
-                    {formatDate(post.publishedAt)}
-                  </span>
-                  <button className="flex items-center space-x-1 text-sm font-medium text-[#FEB101] transition-colors hover:text-[#FFD984]">
+                <h3 className="mb-2 text-xl font-bold text-white">{post.title}</h3>
+                <p className="mb-4 text-gray-300 line-clamp-2">{post.excerpt}</p>
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex items-center">
+                    <div className="mr-3 h-10 w-10 overflow-hidden rounded-full bg-gray-700 flex items-center justify-center">
+                      {post.author.avatar ? (
+                        <Image
+                          src={post.author.avatar}
+                          alt={post.author.name}
+                          width={40}
+                          height={40}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-white font-medium">
+                          {getAuthorInitials(post.author.name)}
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-white">{post.author.name}</p>
+                      <p className="text-xs text-gray-400">{formatDate(post.publishedAt)}</p>
+                    </div>
+                  </div>
+                  <button 
+                    className="flex items-center space-x-1 text-sm font-medium text-[#FEB101] transition-colors hover:text-[#FFD984]"
+                    onClick={() => {}}
+                  >
                     <span>Read More</span>
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -244,13 +248,13 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
                   </button>
                 </div>
               </div>
-            </article>
+            </div>
           ))}
         </div>
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-center space-x-2">
+          <div className="flex items-center justify-center space-x-2 mt-8">
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}

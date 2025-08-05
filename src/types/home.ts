@@ -147,6 +147,11 @@ export interface CourseResponse {
   faqs: FAQ[];
   category: Category;
   include_softwares: Softwares[];
+  featured_blogs: BlogPost[];
+  comments: Array<{
+    comment: string;
+    course_name: string;
+  }>;
 }
 
 // Transformed types for components

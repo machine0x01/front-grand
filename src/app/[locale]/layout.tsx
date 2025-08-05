@@ -4,6 +4,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/libs/I18nRouting';
 import '@/styles/global.css';
+import { CartProvider } from '@/context/cart-context';
 
 export const metadata: Metadata = {
   icons: [
@@ -50,7 +51,9 @@ export default async function RootLayout(props: {
     <html lang={locale}>
       <body>
         <NextIntlClientProvider>
-          {props.children}
+          <CartProvider>
+            {props.children}
+          </CartProvider>
         </NextIntlClientProvider>
       </body>
     </html>

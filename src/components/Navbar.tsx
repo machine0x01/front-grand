@@ -2,9 +2,12 @@
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import MobileMenu from './shared/MobileNavbar';
+import { ShoppingCart } from 'lucide-react';
+import { useCart } from '@/context/cart-context';
 
 const Navbar =  () => {
   const t = useTranslations('RootLayout');
+  const { getItemCount, getTotalPrice } = useCart();
 
   // Get the current pathname from headers
   // const pathname = headersList.get('x-pathname') || headersList.get('x-url') || '';
@@ -19,10 +22,6 @@ const Navbar =  () => {
     { label: t('portfolio_link'), href: `/${lang}/portfolio` },
   ];
 
-  const authItems = [
-    { label: t('sign_in_link'), href: `/${lang}/auth/signin` },
-    { label: t('sign_up_link'), href: `/${lang}/auth/signup` },
-  ];
 
   return (
     <nav className="sticky top-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur-md">
@@ -44,22 +43,29 @@ const Navbar =  () => {
           ))}
         </div>
 
-        {/* Desktop Auth Links */}
-        <div className="hidden items-center gap-4 md:flex">
-          {authItems.map(item => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-white transition-colors hover:text-yellow-500"
-            >
-              {item.label}
-            </Link>
-          ))}
+        <div className="flex items-center gap-4">
+          {/* Cart Icon */}
+          <Link
+            href={`/${lang}/cart`}
+            className="relative text-white transition-colors hover:text-yellow-500 group"
+          >
+            <ShoppingCart className="w-6 h-6" />
+            {getItemCount() > 0 && (
+              <>
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {getItemCount()}
+                </span>
+                <div className="absolute top-full right-0 mt-2 bg-white text-gray-900 text-xs rounded-lg shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  Total: ${getTotalPrice().toFixed(2)}
+                </div>
+              </>
+            )}
+          </Link>
           {/* <LanguageSwitcher /> */}
         </div>
 
         {/* Mobile Menu - This will need to be a separate client component */}
-        <MobileMenu items={items} authItems={authItems} />
+        <MobileMenu items={items} />
       </div>
     </nav>
   );

@@ -3,8 +3,10 @@ import CourseFAQ from '@/components/course-details/CoursesFaq';
 import HeroCourses from '@/components/course-details/HeroCourses';
 import InstructorProfile from '@/components/course-details/InstructorPorifle';
 import StudentProjectsSwiper from '@/components/course-details/StudentWorks';
+import SplashCursor from '@/components/shared/SplashCursor';
 import { courseService } from '@/libs/services/courseService';
 import { CourseResponse } from '@/types/course';
+import { main } from 'knip';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
@@ -41,11 +43,13 @@ export default async function Index(props: IIndexProps) {
     price: courseData.price,
     discount: courseData.discount,
     instructor: courseData.instructor.name,
+    slug: slug,
   }
   console.log(courseData.syllabus)
 
   return (
     <main className=''>
+      <SplashCursor />
       <HeroCourses content={heroContent} />
       <CourseRequirements content={courseData.syllabus[0]} />
       <StudentProjectsSwiper data={courseData.projects[0]} />

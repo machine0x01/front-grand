@@ -27,44 +27,14 @@ class HomeService {
           }
 
           const data: CourseResponse = await response.json();
-          return this.validateAndTransformData(data);
+          return data;
       } catch (error) {
           console.error('Failed to fetch home page data:', error);
           return this.getFallbackData();
       }
   }
 
-  private validateAndTransformData(data: any): CourseResponse {
-      // Validate and provide defaults for required fields
-      return {
-          hero: {
-              left_title: data.hero?.left_title || 'Welcome',
-              left_subtitle: data.hero?.left_subtitle || 'Start your journey',
-              right_title: data.hero?.right_title || 'Learn with us',
-              right_subtitle: data.hero?.right_subtitle || 'Professional courses',
-              video_ref: data.hero?.video_ref || '',
-          },
-          about: {
-              title: data.about?.title || 'About Us',
-              description: data.about?.description || 'We are passionate about education',
-              items: Array.isArray(data.about?.items) ? data.about.items : [],
-          },
-          courses_section: {
-              title: data.courses_section?.title || 'Our Courses',
-              description: data.courses_section?.description || 'Explore our course offerings',
-              courses: Array.isArray(data.courses_section?.courses) ? data.courses_section.courses : [],
-          },
-          faqs: Array.isArray(data.faqs) ? data.faqs : [],
-          category: data.category || {
-              name: 'General',
-              color: '#000000',
-              background: '#ffffff',
-              icon: '',
-              slug: 'general',
-          },
-          include_softwares: Array.isArray(data.include_softwares) ? data.include_softwares : [],
-      };
-  }
+ 
 
   private getFallbackData(): CourseResponse {
       return {

@@ -3,6 +3,7 @@
 import { ChevronLeft, ChevronRight, Play, Star } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import QuoteHeader from '../Title';
 
 // TypeScript Interfaces
 type Category = {
@@ -218,15 +219,6 @@ const mockCoursesSection: CoursesSection = {
   ],
 };
 
-// Simple QuoteHeader component since it's imported
-const QuoteHeader: React.FC<{ title: string; description: string }> = ({ title, description }) => (
-  <div className="space-y-4 text-center">
-    <h1 className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
-      {title}
-    </h1>
-    <p className="mx-auto max-w-2xl text-lg text-slate-300">{description}</p>
-  </div>
-);
 
 const CreationsShowcase: React.FC<CreationsShowcaseProps> = ({ courses_section = mockCoursesSection }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -327,7 +319,7 @@ const CreationsShowcase: React.FC<CreationsShowcaseProps> = ({ courses_section =
 
   if (!currentProject) {
     return (
-      <section className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 text-white sm:p-8">
+      <section className="flex min-h-screen items-center justify-center p-4 text-white sm:p-8">
         <div className="text-center">
           <h2 className="mb-4 text-2xl font-bold">No Projects Available</h2>
           <p className="text-slate-300">There are no projects to display for the selected category.</p>
@@ -337,7 +329,7 @@ const CreationsShowcase: React.FC<CreationsShowcaseProps> = ({ courses_section =
   }
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 text-white sm:p-8">
+    <section className="min-h-screen p-4 text-white sm:p-8">
       {/* Header Section */}
       <header className="mb-12 text-center">
         <div className="mx-auto w-full max-w-4xl">
@@ -432,7 +424,7 @@ const CreationsShowcase: React.FC<CreationsShowcaseProps> = ({ courses_section =
             }`}
           >
             {/* Project Header */}
-            <header className="mb-6 flex items-center justify-between">
+            {/* <header className="mb-6 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-lg font-semibold text-white shadow-lg">
@@ -454,7 +446,7 @@ const CreationsShowcase: React.FC<CreationsShowcaseProps> = ({ courses_section =
                   <span className="text-sm font-medium text-white">{currentProject.courseRating}</span>
                 </div>
               </div>
-            </header>
+            </header> */}
 
             {/* Project Content */}
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">

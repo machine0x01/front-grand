@@ -9,25 +9,7 @@ interface HeroHomeProps {
   content: Hero
 }
 
-// Generate a simple blur placeholder (you can also use a tool like plaiceholder)
-const shimmer = (w: number, h: number) => `
-<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <defs>
-    <linearGradient id="g">
-      <stop stop-color="#333" offset="20%" />
-      <stop stop-color="#222" offset="50%" />
-      <stop stop-color="#333" offset="70%" />
-    </linearGradient>
-  </defs>
-  <rect width="${w}" height="${h}" fill="#333" />
-  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
-  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
-</svg>`
 
-const toBase64 = (str: string) =>
-  typeof window === 'undefined'
-    ? Buffer.from(str).toString('base64')
-    : window.btoa(str)
 
 const HeroHome = ({ content }: HeroHomeProps) => {
   const [showModal, setShowModal] = useState(false);
@@ -60,8 +42,6 @@ const HeroHome = ({ content }: HeroHomeProps) => {
           quality={85}
           sizes="(max-width: 699px) 0px, 100vw"
           className="object-cover object-center hidden sm:block"
-          placeholder="blur"
-          blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(1920, 1080))}`}
           alt="calgary landscaping"
         />
 
@@ -72,8 +52,6 @@ const HeroHome = ({ content }: HeroHomeProps) => {
           quality={85}
           sizes="(max-width: 699px) 100vw, 0px"
           className="object-cover object-center block sm:hidden"
-          placeholder="blur"
-          blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 1000))}`}
           alt="calgary landscaping"
         />
 
@@ -119,12 +97,7 @@ const HeroHome = ({ content }: HeroHomeProps) => {
               </div>
 
               <div className="px-6 text-center">
-                <button
-                  type="button"
-                  className="w-full max-w-xs rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 text-sm font-semibold text-white sm:text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  our courses
-                </button>
+
               </div>
             </div>
 
@@ -142,12 +115,7 @@ const HeroHome = ({ content }: HeroHomeProps) => {
               </div>
 
               <div className="flex items-end justify-center pb-8">
-                <button
-                  type="button"
-                  className="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 font-semibold whitespace-nowrap text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  our courses
-                </button>
+                
               </div>
 
               <div className="flex flex-col justify-center text-right">
@@ -158,14 +126,14 @@ const HeroHome = ({ content }: HeroHomeProps) => {
                   {content.right_subtitle}
                 </p>
 
-                <div className="rounded-xl border border-white/20 bg-white/10 p-6 backdrop-blur-sm">
+                <div className="rounded-xl border bg-white/10 p-6 backdrop-blur-xl">
                   <button
                     type="button"
                     aria-label="Play video"
-                    className="group relative flex h-40 w-full items-center justify-center rounded-lg bg-white/5 transition-all duration-300 hover:bg-white/10 xl:h-48 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="group relative flex h-40 w-full items-center justify-center rounded-lg transition-all duration-300  xl:h-48 "
                     onClick={() => setShowModal(true)}
                   >
-                    <div className="rounded-full border border-white/30 bg-white/20 p-3 backdrop-blur-lg transition-all duration-300 group-hover:scale-110 group-hover:bg-white/30">
+                    <div className="rounded-full p-3  transition- duration-300 group-hover:scale-110 30">
                       <Play size={32} className="ml-1 text-white" />
                     </div>
                     <span className="absolute bottom-4 text-sm font-medium text-white/80">Click to play video</span>
