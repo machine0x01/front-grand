@@ -18,8 +18,8 @@ const Navbar =  () => {
   const items = [
     { label: t('home_link'), href: `/${lang}` },
     { label: t('about_link'), href: `/${lang}/about` },
-    { label: t('counter_link'), href: `/${lang}/counter` },
-    { label: t('portfolio_link'), href: `/${lang}/portfolio` },
+    { label: t('counter_link'), href: `/${lang}/courses` },
+    { label: t('portfolio_link'), href: `/${lang}/blog` },
   ];
 
 

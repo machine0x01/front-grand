@@ -47,8 +47,11 @@ export default async function RootLayout(props: {
 
   setRequestLocale(locale);
 
+  // Set direction based on locale
+  const dir = locale === 'ar' ? 'rtl' : 'ltr';
+
   return (
-    <html lang={locale}>
+    <html lang={locale} dir={dir}>
       <body>
         <NextIntlClientProvider>
           <CartProvider>

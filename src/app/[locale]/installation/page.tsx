@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import SplashCursor from '@/components/shared/SplashCursor';
 import { ChevronLeft, ChevronRight, Play, CheckCircle, Download, Settings, Monitor, Package, Zap, Shield, Rocket } from 'lucide-react';
+import QuoteHeader from '@/components/Title';
 
 type IInstallationProps = {
   params: Promise<{ locale: string }>;
@@ -109,25 +110,11 @@ export default async function InstallationPage(props: IInstallationProps) {
       <section className="relative pt-20 pb-16 px-4 sm:px-8">
         <div className="max-w-6xl mx-auto text-center">
           <div className="mb-8">
-            <h1 className="text-4xl sm:text-6xl font-bold text-white mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-              {t('title')}
-            </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              {t('description')}
-            </p>
+           <QuoteHeader title={t('title')} description={t('description')} />
           </div>
           
           {/* Progress Indicator */}
-          <div className="flex justify-center mb-12">
-            <div className="flex space-x-2">
-              {installationSteps.map((_, index) => (
-                <div
-                  key={index}
-                  className="w-3 h-3 rounded-full bg-purple-500/30 border border-purple-400/50"
-                />
-              ))}
-            </div>
-          </div>
+
         </div>
       </section>
 
