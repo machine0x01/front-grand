@@ -14,8 +14,8 @@ const CourseRequirements = ({content}:CourseRequirementsProps) => {
   const syllabusData =content
   
   return (
-    <div className="min-h-screen py-16 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[80vw] mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-bold text-slate-800 mb-4">{syllabusData.title}</h1>

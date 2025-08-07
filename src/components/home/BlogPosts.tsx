@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import React, { useState } from 'react';
+import QuoteHeader from '../Title';
 
 // Interface for blog post data from API
 export interface FeaturedBlog {
@@ -167,7 +168,10 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <div className="mx-auto mb-12 max-w-2xl text-center">
-          {/* <QuoteHeader title={title} description={subtitle} /> */}
+          <QuoteHeader 
+            title="Latest Blog Posts" 
+            description="Discover insights, tutorials, and industry trends from our expert team. Stay updated with the latest in technology and development." 
+          />
         </div>
 
         {/* Filters */}

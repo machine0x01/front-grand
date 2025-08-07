@@ -174,7 +174,7 @@ const StudentProjectsSwiper: React.FC<StudentProjectsSwiperProps> = ({ data }) =
   }, [itemsPerPage]);
 
   return (
-    <div className="min-h-screen bg-inherit text-white relative overflow-hidden">
+    <div className="min-h-screen bg-inherit text-white relative overflow-hidden px-4 sm:px-6 lg:px-8 py-16">
      
 
       <div className="absolute inset-0 overflow-hidden">
@@ -194,7 +194,7 @@ const StudentProjectsSwiper: React.FC<StudentProjectsSwiperProps> = ({ data }) =
         /> */}
       </div>
 
-      <div className="container mx-auto relative z-10 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-[80vw] mx-auto relative z-10">
         <div className="mb-8 sm:mb-12 text-center sm:text-left">
           <p className="text-gray-400 text-xs sm:text-sm mb-2 tracking-wide uppercase">
             {data.title}
@@ -205,7 +205,7 @@ const StudentProjectsSwiper: React.FC<StudentProjectsSwiperProps> = ({ data }) =
         </div>
 
         {data.items.length > 0 && (
-          <div className="student-projects-swiper relative max-w-7xl mx-auto">
+          <div className="student-projects-swiper relative">
             <div className="relative h-80 sm:h-96 md:h-[450px] lg:h-[500px] overflow-hidden">
               <div
                 className="flex transition-transform duration-500 ease-in-out h-full"

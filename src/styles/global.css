@@ -36,10 +36,20 @@ html {
   position: sticky;
 }
 
-/* Fix for sticky positioning in flex containers */
+/* Enhanced sticky positioning for better scroll behavior */
 @media (min-width: 1024px) {
   .sticky-container {
     align-self: flex-start;
+  }
+  
+  /* Ensure sticky elements don't interfere with other content */
+  .lg\:sticky {
+    will-change: transform;
+  }
+  
+  /* Smooth transition for sticky elements */
+  .sticky-transition {
+    transition: transform 0.3s ease-out;
   }
 }
 

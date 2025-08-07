@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import type { CourseResponse as HomeResponse } from '@/types/home';
-import type { CourseResponse } from '@/types/course';
+import type { CourseResponse as HomeResponse, Course } from '@/types/home';
 import { homeService } from '@/libs/services/homeService';
 import HeroHome from '@/components/home/HeroHome';
 import AboutUs from '@/components/home/AboutUs';
@@ -10,6 +9,7 @@ import { StudentsComments } from '@/components/home/StudentsComments';
 import CreationsShowcase from '@/components/home/ShowCase';
 import BlogPosts from '@/components/home/BlogPosts';
 import { courseService } from '@/libs/services/courseService';
+import SplashCursor from '@/components/shared/SplashCursor';
 
 type IIndexProps = {
   params: Promise<{ locale: string }>;
@@ -25,49 +25,213 @@ export async function generateMetadata(props: IIndexProps): Promise<Metadata> {
   return {
     title: t('meta_title'),
     description: t('meta_description'),
+    keywords: 'animation courses, motion graphics, 3D animation, visual effects, online learning',
+    openGraph: {
+      title: t('meta_title'),
+      description: t('meta_description'),
+      type: 'website',
+      locale: locale,
+      siteName: 'Grand Notion',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('meta_title'),
+      description: t('meta_description'),
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   };
 }
 
 export default async function Index(props: IIndexProps) {
   const { locale } = await props.params;
   setRequestLocale(locale);
-  const lang = locale || "ar"
-  const homeData: HomeResponse = await homeService.getHomePageData(lang);
-  const coursesData: CourseResponse[] = await courseService.getAllCourse(lang);
+  const lang = locale || "ar";
+  
+  try {
+    const homeData: HomeResponse = await homeService.getHomePageData(lang);
+    const coursesData = await courseService.getAllCourse(lang);
 
+    // Sample course data from the API response
+    const sampleCourses: Course[] = [
+      {
+        id: 1,
+        name: "مستر جرافيك",
+        overview: "الكورس ده معمول مخصوص لأي حد حابب يدخل مجال التصميم الجرافيكي من أوسع أبوابه. هنتعلم فيه الأساسيات اللي أي مصمم لازم يعرفها، زي الألوان، التايبوغرافي، والتكوين. وكمان هنتدرب عملي على استخدام برامج زي Photoshop، Illustrator، وInDesign.\r\n\r\nخلال الكورس، هتشتغل على مشاريع حقيقية تطبق فيها اللي اتعلمته، وهتطلع بـ portfolio قوي تقدر تقدمه في شغل أو freelance. الكورس مناسب للمبتدئين، ومش محتاج أي خبرة سابقة.",
+        seo_title: "التصميم الجرافيكي",
+        seo_description: "الكورس ده معمول مخصوص لأي حد حابب يدخل مجال التصميم الجرافيكي من أوسع أبوابه. هنتعلم فيه الأساسيات اللي أي مصمم لازم يعرفها، زي الألوان، التايبوغرافي، والتكوين. وكمان هنتدرب عملي على استخدام برامج زي Photoshop، Illustrator، وInDesign.\r\n\r\nخلال الكورس، هتشتغل على مشاريع حقيقية تطبق فيها اللي اتعلمته، وهتطلع بـ portfolio قوي تقدر تقدمه في شغل أو freelance. الكورس مناسب للمبتدئين، ومش محتاج أي خبرة سابقة.",
+        seo_keywords: "كلمات, مفتاحية, عربية",
+        details: [{
+          id: 14,
+          title: "waiting",
+          description: "waiting",
+          steps: [],
+          course: 1
+        }],
+        syllabus: [{
+          id: 8,
+          title: "waiting",
+          items: [{
+            id: 19,
+            title: "Ipsam aut aspernatur eum et non vel laborum Molestias molestiae",
+            description: "Blanditiis et tempor",
+            color: "#0d542b",
+            icon: "https://api.grandnotionacademy.com/media/course_syllabus/unnamed.png",
+            syllabus: 8
+          }],
+          course: 1
+        }],
+        opinions: [{
+          id: 14,
+          name: "طالب 1",
+          image: "https://api.grandnotionacademy.com/media/student_opinions/1_XYimmgL.jpg",
+          course: 1
+        }],
+        instructor: {
+          id: 8,
+          name: "المدرب أحمد",
+          main_stream_title: "gamed gamed",
+          description: "gamed gamedgamed gamedgamed gamedgamed gamedgamed gamedgamed gamedgamed gamedgamed gamedgamed gamed",
+          image: "https://api.grandnotionacademy.com/media/instructors/04e2c6533a3ee13d6511e9543f5ebac0927180fa.png",
+          social_link: "https://google.come",
+          course: 1
+        },
+        projects: [{
+          id: 8,
+          title: "اعمال الطلاب",
+          description: "اعمال الطلاب",
+          items: [{
+            id: 14,
+            title: "banger man",
+            student_name: "banger",
+            type: "video",
+            ref: "http://facebook.com",
+            file: "https://api.grandnotionacademy.com/media/student_projects/graphic.png",
+            thumb: "https://api.grandnotionacademy.com/media/thumb/fotor-ai-2025080413646.jpg",
+            description_ar: "tester man",
+            description_en: "tester shit",
+            project: 8
+          }],
+          course: 1
+        }],
+        category: {
+          name: "جرافيك",
+          color: "#0d542b",
+          background: "https://api.grandnotionacademy.com/media/categories/backgrounds/graphic.png",
+          icon: "https://api.grandnotionacademy.com/media/categories/icons/icon.png",
+          slug: "graphic"
+        },
+        faqs: [{
+          id: 8,
+          title: "اساله بتتسأل كتير",
+          items: [],
+          course: 1
+        }],
+        includes: [{
+          id: 22,
+          name: "تعلم الفوتوشوب",
+          order: 0,
+          course: 1
+        }, {
+          id: 23,
+          name: "تعليم الاليستراتو",
+          order: 0,
+          course: 1
+        }],
+        include_softwares: [{
+          id: 16,
+          image: "https://api.grandnotionacademy.com/media/course_softwares/images_WOgqZeL.jpeg",
+          alt_text: "photoshop",
+          order: 1
+        }, {
+          id: 15,
+          image: "https://api.grandnotionacademy.com/media/course_softwares/images.jpeg",
+          alt_text: "indesing",
+          order: 2
+        }],
+        video: "https://api.grandnotionacademy.com/media/course_videos/gn_bOiVzbB.mp4",
+        thumbnaill: "https://api.grandnotionacademy.com/media/course_images/fotor-ai-2025080413635.jpg",
+        price: "5000.00",
+        discount: "2500.00",
+        rating: "4.50",
+        students_rated: 3000,
+        total_students: 4500,
+        slug: "graphic-master"
+      }
+    ];
 
-  return (
-    <main className=''>
-      <HeroHome content={homeData.hero} />
+    // Provide fallback data for missing properties
+    const coursesSection = homeData.courses_section || {
+      title: lang === "ar" ? "أفضل الدورات لك" : "The Best Courses for You",
+      description: lang === "ar" ? "جراند نوتيون هي أفضل منصة لتعلم الرسوم المتحركة والموشن جرافيك" : "Grand Notion is the best platform for learning animation and motion graphics",
+      courses: sampleCourses
+    };
 
-      <AboutUs
-        content={homeData.about}
-      />
+    const comments = homeData.comments || [];
+    const featuredBlogs = homeData.featured_blogs || [];
+    return (
+      <main className='min-h-screen'>
+              <SplashCursor />
 
-      <CoursesList content={{
-        courses: coursesData,
-        title: "the best courses for you",
-        description: "grand notion is the best",
-      }}
-      />
+        <HeroHome content={homeData.hero} />
 
-      <StudentsComments
-        content={homeData.comments.map(comment => ({
-          quote: comment.comment,
-          course: comment.course_name,
-          ref: "https://google.com",
-        }))}
-      />
+        <AboutUs
+          content={homeData.about}
+        />
 
+        {coursesData.length > 0 && (
+          <CoursesList content={{
+            courses: coursesData,
+            title: coursesSection.title,
+            description: coursesSection.description,
+          }}
+          />
+        )}
 
-
-      <CreationsShowcase
-        courses_section={{ courses: coursesData, title: "the best courses for you", description: "grand notion is the best" }}
-      />
-
-      <BlogPosts
-        featured_blogs={homeData.featured_blogs}
-      />
-    </main>
-  );
+        {comments.length > 0 && (
+          <StudentsComments
+            content={comments.map(comment => ({
+              quote: comment.comment,
+              course: comment.course_name,
+              ref: "https://grandnotion.com",
+            }))}
+          />
+        )}
+ {coursesData.length > 0 && (
+          <CreationsShowcase
+            courses_section={{ 
+              courses: coursesData, 
+              title: coursesSection.title, 
+              description: coursesSection.description
+            }}
+          />
+        )}
+       
+        {featuredBlogs.length > 0 && (
+          <BlogPosts
+            featured_blogs={featuredBlogs}
+          />
+        )} 
+      </main>
+    );
+  } catch (error) {
+    console.error('Error loading home page data:', error);
+    return (
+      <main className='min-h-screen flex items-center justify-center'>
+        <div className='text-center'>
+          <h1 className='text-2xl font-bold text-white mb-4'>Something went wrong</h1>
+          <p className='text-gray-400'>Please try again later</p>
+        </div>
+      </main>
+    );
+  }
 }

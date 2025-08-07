@@ -61,15 +61,15 @@ class CourseService {
     return {
       title: 'Default Course Title',
       overview: 'Default course overview description.',
-      syllabus: {
-        title: 'Course Syllabus',
-        items: []
-      },
+      syllabus: [],
       instructor: {
         id: 1,
         name: 'Default Instructor',
+        main_stream_title: 'Default Title',
         description: 'Default instructor description.',
         image: '',
+        social_link: '',
+        course: 1,
       },
       projects: [],
       faqs: [],

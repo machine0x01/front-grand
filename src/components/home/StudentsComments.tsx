@@ -2,8 +2,6 @@
 
 import QuoteHeader from "../Title";
 
-
-
 const testimonials = [
   {
     quote:
@@ -43,20 +41,21 @@ interface StudentsCommentsProps {
     ref:string
   }[]
 }
+
 export function StudentsComments({content}:StudentsCommentsProps) {
   console.log(content,'content');
   
   const data = content || testimonials
   
   return (
-    <div className="">
-      <div className="mx-auto w-full max-w-4xl">
+    <div className="w-full h-screen flex justify-center flex-col overflow-hidden">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <QuoteHeader
           title="What Our Students Say"
           description="Whether you're a beginner or looking to refine your skills, our diverse range of animation courses has something for everyone."
         />
       </div>
-      <div className=" relative flex h-[40rem] w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-md antialiased">
+      <div className="relative flex h-[30rem] w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-md antialiased">
         <InfiniteMovingCards items={data} direction="right" speed="fast" />
         <InfiniteMovingCards items={data} direction="left" speed="fast" />
       </div>
@@ -97,7 +96,8 @@ function InfiniteMovingCards({ items, direction, speed }: InfiniteMovingCardsPro
   const duration = getAnimationDuration(speed);
 
   return (
-    <div className="relative w-full overflow-hidden">
+  <div className="relative w-full ">
+      <div className="relative w-full  overflow-hidden">
       <div
         className="flex w-max gap-4"
         style={{
@@ -107,7 +107,7 @@ function InfiniteMovingCards({ items, direction, speed }: InfiniteMovingCardsPro
         {duplicatedItems.map((item, index) => (
           <div
             key={index}
-            className="relative w-[350px] max-w-full flex-shrink-0 rounded-2xl border bg-[#20002b]  px-8 py-6 md:w-[450px]"
+            className="relative w-[300px] sm:w-[350px] md:w-[400px] lg:w-[450px] max-w-full flex-shrink-0 rounded-2xl border bg-[#20002b] px-6 sm:px-8 py-6"
           >
             <blockquote>
               <div
@@ -115,17 +115,14 @@ function InfiniteMovingCards({ items, direction, speed }: InfiniteMovingCardsPro
                 className="user-select-none pointer-events-none absolute -top-0.5 -left-0.5 -z-1 h-[calc(100%_+_4px)] w-[calc(100%_+_4px)]"
               >
               </div>
-              <span className="relative z-20 text-sm leading-[1.6] font-normal text-gray-700 dark:text-gray-100">
+              <span className="relative z-20 text-sm leading-[1.6] font-normal text-gray-700 dark:text-gray-100 break-words">
                 {item.quote}
               </span>
               <div className="relative z-20 mt-6 flex flex-row items-center">
                 <span className="flex flex-col gap-1">
-                  <span className="text-sm leading-[1.6] font-normal text-gray-900 dark:text-gray-100">
+                  <span className="text-sm leading-[1.6] font-normal text-gray-900 dark:text-gray-100 break-words">
                     {item.course}
                   </span>
-                  {/* <span className="text-sm leading-[1.6] font-normal text-gray-500 dark:text-gray-400">
-                    {item.title}
-                  </span> */}
                 </span>
               </div>
             </blockquote>
@@ -133,5 +130,6 @@ function InfiniteMovingCards({ items, direction, speed }: InfiniteMovingCardsPro
         ))}
       </div>
     </div>
+  </div>
   );
 }

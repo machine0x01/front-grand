@@ -16,7 +16,6 @@ interface CoursesListProps {
 
 export default function CoursesList({ content }: CoursesListProps) {
   // Group courses by category
-  console.log(content);
   
   const categoriesWithCourses = content.courses.reduce((acc, course) => {
     const existingCategory = acc.find(c => c.name === course.category.name);
@@ -33,7 +32,7 @@ export default function CoursesList({ content }: CoursesListProps) {
 
   // Use IDs instead of indices
   const [selectedCategorySlug, setSelectedCategorySlug] = useState(categoriesWithCourses[0]?.slug || '');
-  const [selectedCourseId, setSelectedCourseId] = useState(content.courses[0]?.id || '');
+  const [selectedCourseId, setSelectedCourseId] = useState(content.courses[0]?.id || 0);
 
   // Helper functions to find items by ID
   const selectedCategory = categoriesWithCourses.find(cat => cat.slug === selectedCategorySlug);
@@ -42,11 +41,11 @@ export default function CoursesList({ content }: CoursesListProps) {
   console.log(selectedCourse);
 
   return (
-    <section className="max-w-[1920px] flex flex-col gap-11 mx-auto   items-center justify-center relative">
-     <div className="w-1/3">
+    <section className="max-w-[1920px] flex flex-col gap-11 mx-auto items-center justify-center relative px-4 sm:px-6 lg:px-8">
+     <div className="w-full max-w-6xl">
      <QuoteHeader title={content.title} description={content.description} />
      </div>
-      <div className="mb-12 flex gap-5">
+      <div className="mb-12 flex gap-5 overflow-x-auto pb-4">
         {/* Category Tabs */}
         {categoriesWithCourses.map((category) => (
           <div
@@ -54,15 +53,15 @@ export default function CoursesList({ content }: CoursesListProps) {
             onClick={() => {
               setSelectedCategorySlug(category.slug);
               // Set the first course of the selected category as the default selected course
-              if (category.courses.length > 0) {
+              if (category.courses.length > 0 && category.courses[0]) {
                 setSelectedCourseId(category.courses[0].id);
               }
             }}
-            className={`cursor-pointer z-20 space-y-6 ${selectedCategorySlug === category.slug ? '' : ''
+            className={`cursor-pointer z-20 space-y-6 flex-shrink-0 ${selectedCategorySlug === category.slug ? '' : ''
               }`}
           >
             {/* Category Header */}
-            <div className="relative rounded-3xl overflow-hidden w-md h-72">
+            <div className="relative rounded-3xl overflow-hidden w-64 h-72">
               <Image
                 src={category.background}
                 alt="Line"
@@ -79,7 +78,7 @@ export default function CoursesList({ content }: CoursesListProps) {
                     className="mb-4"
                   />
                 )}
-                <h3 className="text-xl font-bold text-center">{category.name}</h3>
+                <h3 className="text-xl font-bold text-center px-2">{category.name}</h3>
               </div>
             </div>
           </div>
@@ -87,22 +86,22 @@ export default function CoursesList({ content }: CoursesListProps) {
       </div>
 
       {/* Selected Category's Courses */}
-      <div className="space-x-4 flex">
+      <div className="space-x-4 flex overflow-x-auto pb-4">
         {selectedCategory?.courses.map((course) => (
           <div
             onClick={() => setSelectedCourseId(course.id)}
             key={course.id}
-            className={`px-3 py-2 cursor-pointer z-20 rounded-lg backdrop-blur-sm ${
+            className={`px-3 py-2 cursor-pointer z-20 rounded-lg backdrop-blur-sm flex-shrink-0 ${
               selectedCourseId === course.id ? 'bg-white/20' : 'bg-white/10'
             }`}
           >
-            <div className="text-white text-sm font-medium">{course.name}</div>
+            <div className="text-white text-sm font-medium whitespace-nowrap">{course.name}</div>
           </div>
         ))}
       </div>
 
       <div className="w-full h-9"> </div>
-      <div className="mx-auto w-[90vw] max-w-7xl">
+      <div className="mx-auto w-full max-w-7xl">
         {/* Categories Grid */}
 
         <Image src="/assets/images/courses-text.png" alt="Line" fill className="object-cover" />
@@ -111,12 +110,12 @@ export default function CoursesList({ content }: CoursesListProps) {
         {selectedCourse && (
           <div className="w-full rounded-2xl bg-white/10 backdrop-blur-lg border shadow-lg p-6">
             <div className="relative overflow-hidden rounded-3xl p-8">
-              <div className="grid items-center gap-8 lg:grid-cols-2">
-                {/* Left Content */}
-                <div className="space-y-6 text-white">
+              <div className="grid items-start gap-8 lg:grid-cols-2">
+                {/* Left Content - Sticky */}
+                <div className="space-y-6 text-white lg:sticky lg:top-24 lg:self-start sticky-transition">
                   <div>
-                    <h1 className="mb-4 text-5xl font-bold text-orange-400 lg:text-6xl">{selectedCourse.name}</h1>
-                    <p className="text-lg leading-relaxed text-gray-300">
+                    <h1 className="mb-4 text-4xl sm:text-5xl lg:text-6xl font-bold text-orange-400 break-words">{selectedCourse.name}</h1>
+                    <p className="text-lg leading-relaxed text-gray-300 break-words">
                       {selectedCourse.overview}
                     </p>
                   </div>
@@ -154,7 +153,7 @@ export default function CoursesList({ content }: CoursesListProps) {
                   </div>
 
                   {/* Software Icons */}
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 flex-wrap">
                     {selectedCourse.include_softwares?.map((software, index) => (
                       <Image
                         key={index}

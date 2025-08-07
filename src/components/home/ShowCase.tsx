@@ -337,9 +337,9 @@ const CreationsShowcase: React.FC<CreationsShowcaseProps> = ({ courses_section =
         </div>
       </header>
 
-      <div className="container mx-auto flex flex-col gap-8 lg:flex-row">
-        {/* Sidebar */}
-        <aside className="space-y-6 lg:w-1/3">
+      <div className="container mx-auto flex flex-col gap-8 lg:flex-row lg:items-start">
+        {/* Sidebar - Sticky */}
+        <aside className="space-y-6 lg:w-1/3 lg:sticky lg:top-24 lg:self-start">
           {/* Categories Section */}
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-xl backdrop-blur-lg">
             <h2 className="mb-4 text-xl font-semibold text-white">Categories</h2>

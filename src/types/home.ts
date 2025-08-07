@@ -44,6 +44,13 @@ export interface SyllabusItem {
   syllabus: number;
 }
 
+export interface Syllabus {
+  id: number;
+  title: string;
+  items: SyllabusItem[];
+  course: number;
+}
+
 export interface Opinion {
   id: number;
   name: string;
@@ -66,7 +73,7 @@ export interface ProjectItem {
   title: string;
   student_name: string;
   type: string;
-  ref: string | null;
+  ref: string;
   file: string;
   thumb: string;
   description_ar: string;
@@ -97,7 +104,7 @@ export interface Course {
   seo_description: string;
   seo_keywords: string;
   details: CourseDetail[];
-  syllabus: SyllabusItem[];
+  syllabus: Syllabus[];
   opinions: Opinion[];
   instructor: Instructor;
   projects: Project[];
@@ -107,6 +114,15 @@ export interface Course {
   students_rated: number;
   total_students: number;
   slug: string;
+  thumbnaill: string;
+  video: string;
+  includes?: Array<{
+    id: number;
+    name: string;
+    order: number;
+    course: number;
+  }>;
+  include_softwares?: Softwares[];
 }
 
 export interface FAQItem {
@@ -139,16 +155,16 @@ export interface Softwares {
 export interface CourseResponse {
   hero: Hero;
   about: About;
-  courses_section: {
+  courses_section?: {
       title: string;
       description: string;
       courses: Course[];
   };
-  faqs: FAQ[];
-  category: Category;
-  include_softwares: Softwares[];
-  featured_blogs: BlogPost[];
-  comments: Array<{
+  faqs?: FAQ[];
+  category?: Category;
+  include_softwares?: Softwares[];
+  featured_blogs?: BlogPost[];
+  comments?: Array<{
     comment: string;
     course_name: string;
   }>;
@@ -160,6 +176,40 @@ export interface TestimonialData {
   name: string;
   image: string;
   course_id: number;
+}
+
+export interface BlogPost {
+  id: number;
+  title: string;
+  excerpt: string;
+  image_alt: string;
+  meta_description: string;
+  meta_keywords: string;
+  category: {
+    id: number;
+    name: string;
+    description: string;
+    slug: string;
+    created_at: string;
+    updated_at: string;
+  };
+  tags: Array<{
+    id: number;
+    name: string;
+    slug: string;
+    created_at: string;
+  }>;
+  tags_count: number;
+  slug: string;
+  featured_image: string;
+  status: string;
+  read_time: number;
+  views_count: number;
+  is_featured: boolean;
+  published_at: string;
+  created_at: string;
+  updated_at: string;
+  author: number;
 }
 
 export interface ShowcaseItemData {

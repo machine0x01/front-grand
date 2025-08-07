@@ -7,7 +7,6 @@ import SplashCursor from '@/components/shared/SplashCursor';
 import CircularGallery from '@/components/shared/StudentsGallary';
 import { courseService } from '@/libs/services/courseService';
 import { CourseResponse } from '@/types/course';
-import { main } from 'knip';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
@@ -16,57 +15,133 @@ type IIndexProps = {
 };
 
 export async function generateMetadata(props: IIndexProps): Promise<Metadata> {
-  const { locale } = await props.params;
-  const t = await getTranslations({
-    locale,
-    namespace: 'Index',
-  });
+  const { locale, slug } = await props.params;
+  setRequestLocale(locale);
+  const lang = locale || "ar";
+  
+  try {
+    const courseData: CourseResponse = await courseService.getCourseData(slug, lang);
+    const t = await getTranslations({
+      locale,
+      namespace: 'Course',
+    });
 
-  return {
-    title: t('meta_title'),
-    description: t('meta_description'),
-  };
+    return {
+      title: t('meta_title', { title: courseData.title }),
+      description: t('meta_description', { title: courseData.title }),
+      keywords: 'animation courses, motion graphics, 3D animation, visual effects, online learning',
+      openGraph: {
+        title: t('meta_title', { title: courseData.title }),
+        description: t('meta_description', { title: courseData.title }),
+        type: 'website',
+        locale: locale,
+        siteName: 'Grand Notion',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: t('meta_title', { title: courseData.title }),
+        description: t('meta_description', { title: courseData.title }),
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+    };
+  } catch (error) {
+    console.error('Error loading course metadata:', error);
+    const t = await getTranslations({
+      locale,
+      namespace: 'Course',
+    });
+    
+    return {
+      title: t('meta_title', { title: 'Course' }),
+      description: t('meta_description', { title: 'Course' }),
+    };
+  }
 }
 
 export default async function Index(props: IIndexProps) {
   const { locale, slug } = await props.params;
   setRequestLocale(locale);
-  const lang = locale || "ar"
-  const courseData: CourseResponse = await courseService.getCourseData(slug, lang);
+  const lang = locale || "ar";
+  
+  try {
+    const courseData: CourseResponse = await courseService.getCourseData(slug, lang);
+    const t = await getTranslations({
+      locale,
+      namespace: 'Course',
+    });
 
-  const heroContent = {
-    title: courseData.title,
-    overview: courseData.overview,
-    video: courseData.video,
-    rating: courseData.rating,
-    students_rated: courseData.students_rated,
-    total_students: courseData.total_students,
-    price: courseData.price,
-    discount: courseData.discount,
-    instructor: courseData.instructor.name,
-    slug: slug,
+    const heroContent = {
+      title: courseData.title,
+      overview: courseData.overview,
+      video: courseData.video,
+      rating: courseData.rating,
+      students_rated: courseData.students_rated,
+      total_students: courseData.total_students,
+      price: courseData.price,
+      discount: courseData.discount,
+      instructor: courseData.instructor.name,
+      slug: slug,
+    };
+
+    return (
+      <main className='min-h-screen'>
+        <SplashCursor />
+        <HeroCourses content={heroContent} />
+        <CourseRequirements content={{ title: t('course_syllabus'), items: courseData.syllabus }} />
+        
+        {courseData.opinions && courseData.opinions.length > 0 && (
+          <div style={{ height: "600px", position: "relative" }}>
+            <CircularGallery
+              items={courseData.opinions.map((i: any) => ({
+                text: i.name,
+                image: i.image,
+              }))}
+              bend={3}
+              textColor="#ffffff"
+              borderRadius={0.05}
+            />
+          </div>
+        )}
+        
+        {courseData.projects && courseData.projects.length > 0 && courseData.projects[0] && (
+          <StudentProjectsSwiper 
+            data={{ 
+              ...courseData.projects[0], 
+              course: 1,
+              items: courseData.projects[0].items.map(item => ({
+                ...item,
+                ref: item.ref || '' // Handle null ref by providing empty string
+              }))
+            }} 
+          />
+        )}
+        
+        <InstructorProfile instructor={courseData.instructor} />
+        
+        {courseData.faqs && courseData.faqs.length > 0 && courseData.faqs[0] && (
+          <CourseFAQ faq={courseData.faqs[0]} />
+        )}
+      </main>
+    );
+  } catch (error) {
+    console.error('Error loading course data:', error);
+    return (
+      <main className='min-h-screen flex items-center justify-center'>
+        <div className='text-center'>
+          <h1 className='text-2xl font-bold text-white mb-4'>Something went wrong</h1>
+          <p className='text-gray-400'>Please try again later</p>
+        </div>
+      </main>
+    );
   }
-  console.log(courseData.syllabus)
-
-  return (
-    <main className=''>
-      <SplashCursor />
-      <HeroCourses content={heroContent} />
-      <CourseRequirements content={courseData.syllabus[0]} />
-      <div style={{ height: "600px", position: "relative" }}>
-        <CircularGallery
-          items={courseData.opinions.map((i: any) => ({
-            text: i.name,
-            image: i.image,
-          }))}
-          bend={3}
-          textColor="#ffffff"
-          borderRadius={0.05}
-        />
-      </div>
-      <StudentProjectsSwiper data={courseData.projects[0]} />
-      <InstructorProfile />
-      <CourseFAQ />
-    </main>
-  );
 }

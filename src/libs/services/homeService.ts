@@ -64,6 +64,8 @@ class HomeService {
               slug: 'general',
           },
           include_softwares: [],
+          featured_blogs: [],
+          comments: [],
       };
   }
 

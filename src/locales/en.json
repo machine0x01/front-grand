@@ -12,8 +12,8 @@
     "made_with": "Made with <author></author>."
   },
   "Index": {
-    "meta_title": "Next.js Boilerplate Presentation",
-    "meta_description": "Next js Boilerplate is the perfect starter code for your project. Build your React application with the Next.js framework.",
+    "meta_title": "Grand Notion - Learn Animation & Motion Graphics Online",
+    "meta_description": "Master animation and motion graphics with our comprehensive online courses. Learn from industry experts, build your portfolio, and advance your career with Grand Notion's professional training programs.",
     "sponsors_title": "Sponsors"
   },
   "Counter": {
@@ -72,5 +72,63 @@
     "dashboard_link": "Dashboard",
     "user_profile_link": "Manage your account",
     "sign_out": "Sign out"
+  },
+  "Course": {
+    "meta_title": "Course - {title}",
+    "meta_description": "Learn {title} with our comprehensive online course. Master the skills you need with expert instruction and hands-on projects.",
+    "course_syllabus": "Course Syllabus",
+    "student_opinions": "Student Opinions",
+    "instructor_profile": "Instructor Profile",
+    "course_faq": "Frequently Asked Questions",
+    "student_projects": "Student Projects"
+  },
+  "Terms": {
+    "meta_title": "Terms and Conditions - Grand Notion",
+    "meta_description": "Read our terms and conditions carefully before using our services. Learn about our policies, rights, and responsibilities.",
+    "title": "Terms and Conditions",
+    "description": "Please read these terms and conditions carefully before using our services",
+    "acceptance_title": "1. Acceptance of Terms",
+    "acceptance_content": "By using our website or services, you agree to be bound by these terms and conditions. If you do not agree to any part of these terms, please do not use our services.",
+    "use_title": "2. Use of Services",
+    "use_content": "We provide educational courses in animation and design. You may use these services for personal educational purposes only. Commercial use of content is prohibited without prior permission.",
+    "property_title": "3. Intellectual Property",
+    "property_content": "All content, including texts, images, videos, and courses, are our intellectual property or that of our partners. Copying, distribution, or publication without prior permission is prohibited.",
+    "privacy_title": "4. Privacy",
+    "privacy_content": "We respect your privacy and are committed to protecting your personal data. Please review our privacy policy to understand how we collect and use your information.",
+    "payment_title": "5. Payments and Refunds",
+    "payment_content": "All payments are processed through secure payment gateways. Refund Policy: Full refunds can be requested within 30 days of purchase if content has not been accessed.",
+    "liability_title": "6. Legal Liability",
+    "liability_content": "We are not liable for any direct or indirect damages arising from the use of our services. Your use of the services is at your own risk.",
+    "modification_title": "7. Modification of Terms",
+    "modification_content": "We reserve the right to modify these terms at any time. You will be notified of any material changes via email or through our website.",
+    "contact_title": "8. Contact",
+    "contact_content": "If you have any questions about these terms and conditions, please contact us via email or the form on our website.",
+    "last_updated": "Last Updated: January 2024"
+  },
+  "Installation": {
+    "meta_title": "Installation Guide - Grand Notion",
+    "meta_description": "Follow our step-by-step installation guide to set up your development environment for animation and design courses.",
+    "title": "Installation Guide",
+    "description": "Follow these steps to set up your development environment and get started with our courses",
+    "step_1_title": "System Requirements Check",
+    "step_1_content": "Before installing any software, ensure your system meets the minimum requirements. You'll need at least 8GB RAM, 4GB free disk space, and a modern web browser.",
+    "step_2_title": "Download Required Software",
+    "step_2_content": "Download the latest versions of Adobe Creative Suite, Blender, and other essential tools. We recommend using the official websites to ensure you get legitimate copies.",
+    "step_3_title": "Install Adobe Creative Suite",
+    "step_3_content": "Install Photoshop, Illustrator, and After Effects from Adobe Creative Suite. Follow the installation wizard and ensure you have a valid Adobe account for activation.",
+    "step_4_title": "Install Blender",
+    "step_4_content": "Download and install Blender from the official website. Blender is free and open-source, making it perfect for learning 3D animation and modeling.",
+    "step_5_title": "Configure Development Environment",
+    "step_5_content": "Set up your workspace with proper folder structures, project templates, and asset libraries. This will help you stay organized throughout your learning journey.",
+    "step_6_title": "Install Additional Plugins",
+    "step_6_content": "Install recommended plugins and extensions for enhanced functionality. These tools will help you work more efficiently and access advanced features.",
+    "step_7_title": "Verify Installation",
+    "step_7_content": "Test all installed software to ensure everything is working correctly. Create a simple test project to verify that all tools are properly configured.",
+    "step_8_title": "Get Started",
+    "step_8_content": "You're all set! Start with our beginner courses and gradually progress to more advanced topics. Remember to save your work regularly and backup your projects.",
+    "next_step": "Next Step",
+    "previous_step": "Previous Step",
+    "complete": "Complete",
+    "video_guide": "Video Guide"
   }
 }

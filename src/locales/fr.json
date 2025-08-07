@@ -12,8 +12,8 @@
     "made_with": "Fait avec <author></author>."
   },
   "Index": {
-    "meta_title": "Présentation de Next.js Boilerplate",
-    "meta_description": "Next js Boilerplate est le code de démarrage parfait pour votre projet. Construisez votre application React avec le framework Next.js.",
+    "meta_title": "Grand Notion - Apprenez l'Animation et les Motion Graphics en Ligne",
+    "meta_description": "Maîtrisez l'animation et les motion graphics avec nos cours en ligne complets. Apprenez auprès d'experts du secteur, construisez votre portfolio et faites progresser votre carrière avec les programmes de formation professionnelle de Grand Notion.",
     "sponsors_title": "Partenaires"
   },
   "Counter": {
@@ -72,5 +72,63 @@
     "dashboard_link": "Tableau de bord",
     "user_profile_link": "Gérer votre compte",
     "sign_out": "Se déconnecter"
+  },
+  "Course": {
+    "meta_title": "Cours - {title}",
+    "meta_description": "Apprenez {title} avec notre cours en ligne complet. Maîtrisez les compétences dont vous avez besoin avec l'instruction d'experts et des projets pratiques.",
+    "course_syllabus": "Programme du Cours",
+    "student_opinions": "Avis des Étudiants",
+    "instructor_profile": "Profil de l'Instructeur",
+    "course_faq": "Questions Fréquemment Posées",
+    "student_projects": "Projets des Étudiants"
+  },
+  "Terms": {
+    "meta_title": "Conditions Générales - Grand Notion",
+    "meta_description": "Lisez attentivement nos conditions générales avant d'utiliser nos services. Apprenez nos politiques, droits et responsabilités.",
+    "title": "Conditions Générales",
+    "description": "Veuillez lire attentivement ces conditions générales avant d'utiliser nos services",
+    "acceptance_title": "1. Acceptation des Conditions",
+    "acceptance_content": "En utilisant notre site web ou nos services, vous acceptez d'être lié par ces conditions générales. Si vous n'acceptez aucune partie de ces conditions, veuillez ne pas utiliser nos services.",
+    "use_title": "2. Utilisation des Services",
+    "use_content": "Nous fournissons des cours éducatifs en animation et design. Vous pouvez utiliser ces services uniquement à des fins éducatives personnelles. L'utilisation commerciale du contenu est interdite sans autorisation préalable.",
+    "property_title": "3. Propriété Intellectuelle",
+    "property_content": "Tout le contenu, y compris les textes, images, vidéos et cours, sont notre propriété intellectuelle ou celle de nos partenaires. La copie, distribution ou publication sans autorisation préalable est interdite.",
+    "privacy_title": "4. Confidentialité",
+    "privacy_content": "Nous respectons votre vie privée et nous nous engageons à protéger vos données personnelles. Veuillez consulter notre politique de confidentialité pour comprendre comment nous collectons et utilisons vos informations.",
+    "payment_title": "5. Paiements et Remboursements",
+    "payment_content": "Tous les paiements sont traités via des passerelles de paiement sécurisées. Politique de remboursement : Des remboursements complets peuvent être demandés dans les 30 jours suivant l'achat si le contenu n'a pas été consulté.",
+    "liability_title": "6. Responsabilité Légale",
+    "liability_content": "Nous ne sommes pas responsables de tout dommage direct ou indirect résultant de l'utilisation de nos services. Votre utilisation des services est à vos propres risques.",
+    "modification_title": "7. Modification des Conditions",
+    "modification_content": "Nous nous réservons le droit de modifier ces conditions à tout moment. Vous serez informé de tout changement important par email ou via notre site web.",
+    "contact_title": "8. Contact",
+    "contact_content": "Si vous avez des questions sur ces conditions générales, veuillez nous contacter par email ou via le formulaire sur notre site web.",
+    "last_updated": "Dernière mise à jour : Janvier 2024"
+  },
+  "Installation": {
+    "meta_title": "Guide d'Installation - Grand Notion",
+    "meta_description": "Suivez notre guide d'installation étape par étape pour configurer votre environnement de développement pour les cours d'animation et de design.",
+    "title": "Guide d'Installation",
+    "description": "Suivez ces étapes pour configurer votre environnement de développement et commencer avec nos cours",
+    "step_1_title": "Vérification des Exigences Système",
+    "step_1_content": "Avant d'installer tout logiciel, assurez-vous que votre système répond aux exigences minimales. Vous aurez besoin d'au moins 8 Go de RAM, 4 Go d'espace disque libre et un navigateur web moderne.",
+    "step_2_title": "Téléchargement des Logiciels Requis",
+    "step_2_content": "Téléchargez les dernières versions d'Adobe Creative Suite, Blender et autres outils essentiels. Nous recommandons d'utiliser les sites web officiels pour vous assurer d'obtenir des copies légitimes.",
+    "step_3_title": "Installation d'Adobe Creative Suite",
+    "step_3_content": "Installez Photoshop, Illustrator et After Effects depuis Adobe Creative Suite. Suivez l'assistant d'installation et assurez-vous d'avoir un compte Adobe valide pour l'activation.",
+    "step_4_title": "Installation de Blender",
+    "step_4_content": "Téléchargez et installez Blender depuis le site web officiel. Blender est gratuit et open-source, parfait pour apprendre l'animation 3D et la modélisation.",
+    "step_5_title": "Configuration de l'Environnement de Développement",
+    "step_5_content": "Configurez votre espace de travail avec des structures de dossiers appropriées, des modèles de projet et des bibliothèques d'assets. Cela vous aidera à rester organisé tout au long de votre apprentissage.",
+    "step_6_title": "Installation de Plugins Supplémentaires",
+    "step_6_content": "Installez les plugins et extensions recommandés pour une fonctionnalité améliorée. Ces outils vous aideront à travailler plus efficacement et à accéder aux fonctionnalités avancées.",
+    "step_7_title": "Vérification de l'Installation",
+    "step_7_content": "Testez tous les logiciels installés pour vous assurer que tout fonctionne correctement. Créez un projet de test simple pour vérifier que tous les outils sont correctement configurés.",
+    "step_8_title": "Commencer",
+    "step_8_content": "Vous êtes prêt ! Commencez par nos cours débutants et progressez progressivement vers des sujets plus avancés. N'oubliez pas de sauvegarder régulièrement votre travail et de sauvegarder vos projets.",
+    "next_step": "Étape Suivante",
+    "previous_step": "Étape Précédente",
+    "complete": "Terminé",
+    "video_guide": "Guide Vidéo"
   }
 }

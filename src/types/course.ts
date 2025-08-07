@@ -3,10 +3,7 @@
 export interface CourseResponse {
   title: string;
   overview: string;
-  syllabus: {
-    title:string,
-    items:SyllabusItem[];
-  },
+  syllabus: SyllabusItem[];
   instructor: Instructor;
   projects: Project[];
   faqs: FAQ[];
@@ -18,6 +15,7 @@ export interface CourseResponse {
   rating: string;
   students_rated: number;
   total_students: number;
+  opinions?: any[];
 }
 
 export interface SyllabusItem {
@@ -31,8 +29,11 @@ export interface SyllabusItem {
 export interface Instructor {
   id: number;
   name: string;
+  main_stream_title: string;
   description: string;
   image: string;
+  social_link: string;
+  course: number;
 }
 
 export interface Project {
@@ -52,12 +53,21 @@ export interface ProjectItem {
   thumb: string;
   description_ar: string;
   description_en: string;
+  project: number;
+}
+
+export interface FAQItem {
+  id: number;
+  title: string;
+  answer: string;
+  faq: number;
 }
 
 export interface FAQ {
   id: number;
   title: string;
-  answer: string;
+  items: FAQItem[];
+  course: number;
 }
 
 export interface Software {
