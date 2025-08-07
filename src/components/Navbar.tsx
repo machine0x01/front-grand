@@ -4,6 +4,7 @@ import Link from 'next/link';
 import MobileMenu from './shared/MobileNavbar';
 import { ShoppingCart } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
+import Image from 'next/image';
 
 const Navbar =  () => {
   const t = useTranslations('RootLayout');
@@ -27,7 +28,7 @@ const Navbar =  () => {
     <nav className="sticky top-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur-md">
       <div className="container mx-auto flex items-center justify-between px-4 py-4">
         <Link href={`/${lang}`} className="text-lg font-bold text-yellow-500">
-          Great Button
+          <Image src="/assets/images/logo.webp" alt="logo" width={50} height={50} />
         </Link>
 
         {/* Desktop Nav */}

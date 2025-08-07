@@ -15,12 +15,14 @@ const CartItemComponent: React.FC<CartItemProps> = ({ item, onRemove, onUpdateQu
     onUpdateQuantity(item.course_id, newQuantity);
   };
 
+  console.log(item);
+
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+    <div className="bg-purple-900/30 rounded-xl shadow-lg border border-purple-700/50 p-6 backdrop-blur-sm">
       <div className="flex items-start gap-4">
         {/* Course Image */}
         <div className="flex-shrink-0">
-          <div className="w-24 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+          <div className="w-24 h-16 bg-purple-800/50 rounded-lg flex items-center justify-center border border-purple-700/50">
             {item.thumbnail ? (
               <img
                 src={item.thumbnail}
@@ -28,45 +30,45 @@ const CartItemComponent: React.FC<CartItemProps> = ({ item, onRemove, onUpdateQu
                 className="w-full h-full object-cover rounded-lg"
               />
             ) : (
-              <div className="text-gray-400 text-xs text-center">No Image</div>
+              <div className="text-purple-400/60 text-xs text-center">No Image</div>
             )}
           </div>
         </div>
 
         {/* Course Details */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-gray-900 mb-1 truncate">
+          <h3 className="text-lg font-semibold text-white mb-1 truncate">
             {item.title}
           </h3>
-          <p className="text-sm text-gray-600 mb-2">by {item.instructor}</p>
+          <p className="text-sm text-purple-200/70 mb-2">by {item.instructor}</p>
           
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-lg font-bold text-green-600">
+            <span className="text-lg font-bold text-purple-400">
               ${item.discount}
             </span>
-            <span className="text-sm text-gray-500 line-through">
+            <span className="text-sm text-purple-300/50 line-through">
               ${item.price}
             </span>
           </div>
 
           {/* Quantity Controls */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center border border-gray-300 rounded-lg">
+            <div className="flex items-center border border-purple-700/50 rounded-lg bg-purple-800/30">
               <button
                 onClick={() => handleQuantityChange(item.quantity - 1)}
-                className="p-2 hover:bg-gray-100 transition-colors"
+                className="p-2 hover:bg-purple-800/50 transition-colors text-purple-200"
                 disabled={item.quantity <= 1}
               >
                 <Minus className="w-4 h-4" />
               </button>
               
-              <span className="px-4 py-2 text-center min-w-[3rem]">
+              <span className="px-4 py-2 text-center min-w-[3rem] text-white">
                 {item.quantity}
               </span>
               
               <button
                 onClick={() => handleQuantityChange(item.quantity + 1)}
-                className="p-2 hover:bg-gray-100 transition-colors"
+                className="p-2 hover:bg-purple-800/50 transition-colors text-purple-200"
               >
                 <Plus className="w-4 h-4" />
               </button>
@@ -74,7 +76,7 @@ const CartItemComponent: React.FC<CartItemProps> = ({ item, onRemove, onUpdateQu
 
             <button
               onClick={() => onRemove(item.course_id)}
-              className="text-red-500 hover:text-red-700 transition-colors p-2"
+              className="text-red-400 hover:text-red-300 transition-colors p-2"
             >
               <Trash2 className="w-5 h-5" />
             </button>
@@ -83,7 +85,7 @@ const CartItemComponent: React.FC<CartItemProps> = ({ item, onRemove, onUpdateQu
 
         {/* Total Price for this item */}
         <div className="flex-shrink-0 text-right">
-          <p className="text-lg font-bold text-gray-900">
+          <p className="text-lg font-bold text-white">
             ${(item.discount * item.quantity).toFixed(2)}
           </p>
         </div>
