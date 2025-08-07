@@ -4,6 +4,7 @@ import HeroCourses from '@/components/course-details/HeroCourses';
 import InstructorProfile from '@/components/course-details/InstructorPorifle';
 import StudentProjectsSwiper from '@/components/course-details/StudentWorks';
 import SplashCursor from '@/components/shared/SplashCursor';
+import CircularGallery from '@/components/shared/StudentsGallary';
 import { courseService } from '@/libs/services/courseService';
 import { CourseResponse } from '@/types/course';
 import { main } from 'knip';
@@ -52,6 +53,17 @@ export default async function Index(props: IIndexProps) {
       <SplashCursor />
       <HeroCourses content={heroContent} />
       <CourseRequirements content={courseData.syllabus[0]} />
+      <div style={{ height: "600px", position: "relative" }}>
+        <CircularGallery
+          items={courseData.opinions.map((i: any) => ({
+            text: i.name,
+            image: i.image,
+          }))}
+          bend={3}
+          textColor="#ffffff"
+          borderRadius={0.05}
+        />
+      </div>
       <StudentProjectsSwiper data={courseData.projects[0]} />
       <InstructorProfile />
       <CourseFAQ />

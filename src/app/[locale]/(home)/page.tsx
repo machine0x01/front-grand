@@ -34,30 +34,6 @@ export default async function Index(props: IIndexProps) {
   const lang = locale || "ar"
   const homeData: HomeResponse = await homeService.getHomePageData(lang);
   const coursesData: CourseResponse[] = await courseService.getAllCourse(lang);
-  console.log(coursesData);
-
-  // const testimonials: TestimonialData[] = homeData.courses_section.courses.flatMap(course => 
-  //   course.opinions.map(opinion => ({
-  //     id: opinion.id,
-  //     name: opinion.name,
-  //     image: opinion.image,
-  //     course_id: opinion.course,
-  //   }))
-  // );
-
-  // const showcaseItems: ShowcaseItemData[] = homeData.courses_section.courses.flatMap(course => 
-  //   course.projects.flatMap(project => 
-  //     project.items.map(item => ({
-  //       id: item.id,
-  //       title: item.title,
-  //       student_name: item.student_name,
-  //       type: item.type,
-  //       thumb: item.thumb,
-  //       file: item.file,
-  //       description: locale === 'ar' ? item.description_ar : item.description_en,
-  //     }))
-  //   )
-  // );
 
 
   return (

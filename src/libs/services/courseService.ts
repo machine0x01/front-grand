@@ -24,7 +24,7 @@ class CourseService {
       }
 
       const data: CourseResponse = await response.json();
-      return this.validateAndTransformData(data);
+      return data;
     } catch (error) {
       console.error('Failed to fetch course data:', error);
       return this.getFallbackData();
@@ -54,28 +54,7 @@ class CourseService {
     }
   }
 
-  private validateAndTransformData(data: any): CourseResponse {
-    return {
-      title: data.name || 'XCourse Title',
-      overview: data.overview || 'Course Overview',
-      syllabus: Array.isArray(data.syllabus) ? data.syllabus : [],
-      instructor: data.instructor || {
-        name: 'Instructor Name',
-        description: 'Instructor Description',
-        image: '',
-      },
-      projects: Array.isArray(data.projects) ? data.projects : [],
-      faqs: Array.isArray(data.faqs) ? data.faqs : [],
-      include_softwares: Array.isArray(data.include_softwares) ? data.include_softwares : [],
-      video: data.video || '',
-      thumbnaill: data.thumbnaill || '',
-      price: data.price || '0.00',
-      discount: data.discount || '0.00',
-      rating: data.rating || '0.00',
-      students_rated: data.students_rated || 0,
-      total_students: data.total_students || 0,
-    };
-  }
+  
 
 
   private getFallbackData(): CourseResponse {
