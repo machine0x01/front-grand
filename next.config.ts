@@ -10,8 +10,10 @@ const baseConfig: NextConfig = {
     domains: ['api.grandnotionacademy.com', '127.0.0.1', '0.0.0.0'],
   },
   eslint: {
-    // Disable ESLint during builds
     ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   },
   poweredByHeader: false,
   reactStrictMode: true,

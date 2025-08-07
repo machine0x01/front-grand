@@ -47,7 +47,6 @@ export async function generateMetadata(props: ITermsProps): Promise<Metadata> {
 export default async function TermsPage(props: ITermsProps) {
   const { locale } = await props.params;
   setRequestLocale(locale);
-  const lang = locale || "ar";
   
   const t = await getTranslations({
     locale,

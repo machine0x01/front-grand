@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+
+// Force dynamic rendering to avoid static generation issues
+export const dynamic = 'force-dynamic';
 import type { CourseResponse as HomeResponse, Course } from '@/types/home';
 import { homeService } from '@/libs/services/homeService';
 import HeroHome from '@/components/home/HeroHome';
@@ -59,7 +62,33 @@ export default async function Index(props: IIndexProps) {
   
   try {
     const homeData: HomeResponse = await homeService.getHomePageData(lang);
-    const coursesData = await courseService.getAllCourse(lang);
+    const coursesResponseData = await courseService.getAllCourse(lang);
+    
+    // Transform CourseResponse[] to Course[] to match the expected type
+    const coursesData: Course[] = coursesResponseData.map(course => ({
+      id: course.id,
+      name: course.name,
+      overview: course.overview,
+      category: course.category,
+      seo_title: course.seo_title,
+      seo_description: course.seo_description,
+      seo_keywords: course.seo_keywords,
+      details: course.details,
+      syllabus: [course.syllabus], // Transform single Syllabus to Syllabus[]
+      opinions: course.opinions,
+      instructor: course.instructor,
+      projects: course.projects,
+      price: course.price,
+      discount: course.discount,
+      rating: course.rating,
+      students_rated: course.students_rated,
+      total_students: course.total_students,
+      slug: course.slug,
+      thumbnaill: course.thumbnaill,
+      video: course.video,
+      includes: course.includes,
+      include_softwares: course.include_softwares,
+    }));
 
     // Sample course data from the API response
     const sampleCourses: Course[] = [
@@ -130,12 +159,6 @@ export default async function Index(props: IIndexProps) {
           icon: "https://api.grandnotionacademy.com/media/categories/icons/icon.png",
           slug: "graphic"
         },
-        faqs: [{
-          id: 8,
-          title: "اساله بتتسأل كتير",
-          items: [],
-          course: 1
-        }],
         includes: [{
           id: 22,
           name: "تعلم الفوتوشوب",

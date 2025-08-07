@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronLeft, ChevronRight, Play, Star } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import QuoteHeader from '../Title';

@@ -10,6 +10,9 @@ import { CourseResponse } from '@/types/course';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
+// Force dynamic rendering to avoid static generation issues
+export const dynamic = 'force-dynamic';
+
 type IIndexProps = {
   params: Promise<{ locale: string, slug: string }>;
 };
@@ -27,20 +30,20 @@ export async function generateMetadata(props: IIndexProps): Promise<Metadata> {
     });
 
     return {
-      title: t('meta_title', { title: courseData.title }),
-      description: t('meta_description', { title: courseData.title }),
+      title: t('meta_title', { title: courseData.name }),
+      description: t('meta_description', { title: courseData.name }),
       keywords: 'animation courses, motion graphics, 3D animation, visual effects, online learning',
       openGraph: {
-        title: t('meta_title', { title: courseData.title }),
-        description: t('meta_description', { title: courseData.title }),
+        title: t('meta_title', { title: courseData.name }),
+        description: t('meta_description', { title: courseData.name }),
         type: 'website',
         locale: locale,
         siteName: 'Grand Notion',
       },
       twitter: {
         card: 'summary_large_image',
-        title: t('meta_title', { title: courseData.title }),
-        description: t('meta_description', { title: courseData.title }),
+        title: t('meta_title', { title: courseData.name }),
+        description: t('meta_description', { title: courseData.name }),
       },
       robots: {
         index: true,
@@ -56,14 +59,10 @@ export async function generateMetadata(props: IIndexProps): Promise<Metadata> {
     };
   } catch (error) {
     console.error('Error loading course metadata:', error);
-    const t = await getTranslations({
-      locale,
-      namespace: 'Course',
-    });
     
     return {
-      title: t('meta_title', { title: 'Course' }),
-      description: t('meta_description', { title: 'Course' }),
+      title: 'Course',
+      description: 'Course description',
     };
   }
 }
@@ -75,13 +74,13 @@ export default async function Index(props: IIndexProps) {
   
   try {
     const courseData: CourseResponse = await courseService.getCourseData(slug, lang);
-    const t = await getTranslations({
-      locale,
-      namespace: 'Course',
-    });
+    // const t = await getTranslations({
+    //   locale,
+    //   namespace: 'Course',
+    // });
 
     const heroContent = {
-      title: courseData.title,
+      title: courseData.name,
       overview: courseData.overview,
       video: courseData.video,
       rating: courseData.rating,
@@ -92,12 +91,13 @@ export default async function Index(props: IIndexProps) {
       instructor: courseData.instructor.name,
       slug: slug,
     };
+    console.log(courseData);
 
     return (
       <main className='min-h-screen'>
         <SplashCursor />
         <HeroCourses content={heroContent} />
-        <CourseRequirements content={{ title: t('course_syllabus'), items: courseData.syllabus }} />
+        <CourseRequirements content={{ title: courseData.syllabus.title, items: courseData.syllabus.items }} />
         
         {courseData.opinions && courseData.opinions.length > 0 && (
           <div style={{ height: "600px", position: "relative" }}>
@@ -120,7 +120,8 @@ export default async function Index(props: IIndexProps) {
               course: 1,
               items: courseData.projects[0].items.map(item => ({
                 ...item,
-                ref: item.ref || '' // Handle null ref by providing empty string
+                ref: item.ref || '', // Handle null ref by providing empty string
+                type: item.type as 'image' | 'video'
               }))
             }} 
           />
@@ -128,9 +129,7 @@ export default async function Index(props: IIndexProps) {
         
         <InstructorProfile instructor={courseData.instructor} />
         
-        {courseData.faqs && courseData.faqs.length > 0 && courseData.faqs[0] && (
-          <CourseFAQ faq={courseData.faqs[0]} />
-        )}
+          <CourseFAQ faq={courseData.faqs} />
       </main>
     );
   } catch (error) {

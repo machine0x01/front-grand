@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useCart } from "@/context/cart-context";
 import { useRouter } from "next/navigation";
-import { User, Mail, Phone, MapPin, ShoppingCart, Check, CreditCard } from "lucide-react";
+import { User,  MapPin, ShoppingCart,  CreditCard } from "lucide-react";
 import { paymentApiService } from "@/libs/services/PaymentApiService";
 
 interface CheckoutFormData {

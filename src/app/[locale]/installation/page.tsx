@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import SplashCursor from '@/components/shared/SplashCursor';
-import { ChevronLeft, ChevronRight, Play, CheckCircle, Download, Settings, Monitor, Package, Zap, Shield, Rocket } from 'lucide-react';
+import {  Play, CheckCircle, Download, Settings, Monitor, Package, Zap, Shield, Rocket } from 'lucide-react';
 import QuoteHeader from '@/components/Title';
 
 type IInstallationProps = {

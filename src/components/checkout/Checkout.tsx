@@ -121,7 +121,7 @@ const formatPaymentData = (userInfo: UserInfo, cartItems: CartItem[]): PaymentDa
   const totalAmount = subtotal + tax;
 
   const description = cartItems.length === 1 
-    ? `Payment for: ${cartItems[0].title}`
+    ? `Payment for: ${cartItems[0]?.title || 'Course'}`
     : `Payment for ${cartItems.length} courses`;
 
   return {

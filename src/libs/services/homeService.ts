@@ -11,7 +11,6 @@ class HomeService {
   async getHomePageData(lang: string): Promise<CourseResponse> {
       try {
           const response = await fetch(`${this.baseUrl}/api/home/?lang=${lang}`, {
-              cache: 'no-store', // Use 'force-cache' for static data
               next: { 
                   revalidate: 300 // Revalidate every 5 minutes
               },

@@ -29,10 +29,7 @@ const CourseFAQ = ({ faq }: CourseFAQProps) => {
     setExpandedFAQ(expandedFAQ === faqId ? null : faqId)
   }
 
-  const handleCTAClick = (): void => {
-    console.log("CTA button clicked")
-    // Add your CTA logic here
-  }
+
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-16">

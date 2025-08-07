@@ -10,7 +10,6 @@ class CourseService {
   async getCourseData(slug: string, lang: string): Promise<CourseResponse> {
     try {
       const response = await fetch(`${this.baseUrl}/api/courses/${slug}/?lang=${lang}`, {
-        cache: 'no-store',
         next: {
           revalidate: 300 // Revalidate every 5 minutes
         },
@@ -30,10 +29,9 @@ class CourseService {
       return this.getFallbackData();
     }
   }
-  async getAllCourse(lang: string): Promise<CourseResponse> {
+  async getAllCourse(lang: string): Promise<CourseResponse[]> {
     try {
       const response = await fetch(`${this.baseUrl}/api/courses?lang=${lang}`, {
-        cache: 'no-store',
         next: {
           revalidate: 300 // Revalidate every 5 minutes
         },
@@ -46,11 +44,11 @@ class CourseService {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data: CourseResponse = await response.json();
+      const data: CourseResponse[] = await response.json();
       return data
     } catch (error) {
       console.error('Failed to fetch course data:', error);
-      return this.getFallbackData();
+      return [];
     }
   }
 
