@@ -2,9 +2,7 @@ import CourseRequirements from '@/components/course-details/CourseRequirements';
 import CourseFAQ from '@/components/course-details/CoursesFaq';
 import HeroCourses from '@/components/course-details/HeroCourses';
 import InstructorProfile from '@/components/course-details/InstructorPorifle';
-import StudentProjectsSwiper from '@/components/course-details/StudentWorks';
 import InfiniteMenu from '@/components/shared/InfiniteMenu';
-import SplashCursor from '@/components/shared/SplashCursor';
 import CircularGallery from '@/components/shared/StudentsGallary';
 import { courseService } from '@/libs/services/courseService';
 import { CourseResponse } from '@/types/course';
@@ -104,10 +102,6 @@ export default async function Index(props: IIndexProps) {
 
   try {
     const courseData: CourseResponse = await courseService.getCourseData(slug, lang);
-    // const t = await getTranslations({
-    //   locale,
-    //   namespace: 'Course',
-    // });
 
     const heroContent = {
       title: courseData.name,
@@ -120,8 +114,8 @@ export default async function Index(props: IIndexProps) {
       discount: courseData.discount,
       instructor: courseData.instructor.name,
       slug: slug,
-    };
-    console.log(courseData);
+      offer: courseData.offers && courseData.offers.length > 0 ? courseData.offers[0] : undefined,
+    } as const;
 
     return (
       <main className='min-h-screen'>

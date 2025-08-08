@@ -1,18 +1,84 @@
 'use client';
 
 import { Hero } from '@/types/home';
-import { Play, X } from 'lucide-react';
+import { Play, X, Maximize2, Volume2, Video } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface HeroHomeProps {
   content: Hero
 }
 
-
-
 const HeroHome = ({ content }: HeroHomeProps) => {
   const [showModal, setShowModal] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // Handle fullscreen toggle
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      modalRef.current?.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  // Handle fullscreen change events
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  // Close modal when escape key is pressed
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showModal) {
+        setShowModal(false);
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [showModal]);
+
+  // Generate YouTube URL with proper parameters for fullscreen and sound
+  const getVideoUrl = () => {
+    const baseUrl = content.video_ref;
+    const params = new URLSearchParams({
+      autoplay: '1',
+      rel: '0',
+      modestbranding: '1',
+      controls: '1',
+      mute: '0', // Ensure sound is enabled
+      fs: '1', // Enable fullscreen button
+      playsinline: '0', // Allow fullscreen on mobile
+      enablejsapi: '1',
+      origin: window.location.origin
+    });
+    
+    return `${baseUrl}?${params.toString()}`;
+  };
+
+  // Open video in fullscreen directly
+  const openVideoFullscreen = () => {
+    setShowModal(true);
+    // Small delay to ensure modal is rendered before going fullscreen
+    setTimeout(() => {
+      toggleFullscreen();
+    }, 100);
+  };
 
   return (
     <>
@@ -58,6 +124,16 @@ const HeroHome = ({ content }: HeroHomeProps) => {
         {/* Optimized Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
+        {/* Floating Video Button - Top Right Corner */}
+        <button
+          onClick={openVideoFullscreen}
+          className="fixed top-6 right-6 z-20 flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-purple-700 px-4 py-3 text-white shadow-lg transition-all duration-300 hover:from-purple-500 hover:to-purple-600 hover:scale-105 hover:shadow-xl"
+          aria-label="Watch video in fullscreen"
+        >
+          <Video size={20} />
+          <span className="hidden sm:inline text-sm font-semibold">Watch Video</span>
+        </button>
+
         <div className="relative z-10 flex h-full flex-col">
           <div className="container mx-auto flex-1 px-4 sm:px-6 lg:px-8">
 
@@ -87,7 +163,7 @@ const HeroHome = ({ content }: HeroHomeProps) => {
                     type="button"
                     aria-label="Play video"
                     className="group relative flex h-32 w-full items-center justify-center rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm transition-all duration-300 hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50"
-                    onClick={() => setShowModal(true)}
+                    onClick={openVideoFullscreen}
                   >
                     <div className="rounded-full border border-white/30 bg-white/20 p-2 backdrop-blur-lg transition-all duration-300 group-hover:scale-110 group-hover:bg-white/30">
                       <Play size={24} className="ml-0.5 text-white" />
@@ -131,7 +207,7 @@ const HeroHome = ({ content }: HeroHomeProps) => {
                     type="button"
                     aria-label="Play video"
                     className="group relative flex h-40 w-full items-center justify-center rounded-lg transition-all duration-300  xl:h-48 "
-                    onClick={() => setShowModal(true)}
+                    onClick={openVideoFullscreen}
                   >
                     <div className="rounded-full p-3  transition- duration-300 group-hover:scale-110 30">
                       <Play size={32} className="ml-1 text-white" />
@@ -146,34 +222,55 @@ const HeroHome = ({ content }: HeroHomeProps) => {
 
         {showModal && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4"
             onClick={() => setShowModal(false)}
             role="dialog"
             aria-modal="true"
           >
             <div
-              className="relative aspect-video w-full max-w-4xl overflow-hidden rounded-2xl bg-black shadow-2xl"
+              ref={modalRef}
+              className="relative aspect-video w-full max-w-6xl overflow-hidden rounded-2xl bg-black shadow-2xl"
               onClick={e => e.stopPropagation()}
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setShowModal(false)}
-                className="group absolute top-4 right-4 z-10 rounded-full bg-black/50 p-2 transition-colors duration-200 hover:bg-black/70"
-                aria-label="Close video"
-                type="button"
-              >
-                <X size={24} className="text-white group-hover:text-gray-300" />
-              </button>
+              {/* Control Buttons */}
+              <div className="absolute top-4 right-4 z-10 flex gap-2">
+                {/* Fullscreen Button */}
+                <button
+                  onClick={toggleFullscreen}
+                  className="group rounded-full bg-black/50 p-2 transition-colors duration-200 hover:bg-black/70"
+                  aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+                  type="button"
+                >
+                  <Maximize2 size={20} className="text-white group-hover:text-gray-300" />
+                </button>
+                
+                {/* Close Button */}
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="group rounded-full bg-black/50 p-2 transition-colors duration-200 hover:bg-black/70"
+                  aria-label="Close video"
+                  type="button"
+                >
+                  <X size={20} className="text-white group-hover:text-gray-300" />
+                </button>
+              </div>
 
-              {/* Video Iframe - Lazy loaded */}
+              {/* Sound Indicator */}
+              <div className="absolute top-4 left-4 z-10 flex items-center gap-2 rounded-full bg-black/50 px-3 py-1">
+                <Volume2 size={16} className="text-white" />
+                <span className="text-xs text-white">Sound enabled</span>
+              </div>
+
+              {/* Video Iframe */}
               <iframe
+                ref={iframeRef}
                 className="h-full w-full"
-                src={`${content.video_ref}?autoplay=1&rel=0&modestbranding=1`}
+                src={getVideoUrl()}
                 title="Video Player"
                 frameBorder="0"
                 allowFullScreen
                 loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               />
             </div>
           </div>

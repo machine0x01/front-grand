@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { Plus, Minus } from "lucide-react"
+import { ShoppingCart } from "lucide-react"
+import Link from "next/link"
 
 interface FAQItem {
   id: number;
@@ -29,11 +31,15 @@ const CourseFAQ = ({ faq }: CourseFAQProps) => {
     setExpandedFAQ(expandedFAQ === faqId ? null : faqId)
   }
 
-
+  const scrollToTop = () => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-16">
-      <div className="max-w-[80vw] mx-auto text-white min-h-screen">
+      <div className="max-w-[80vw] mx-auto text-white h-fit">
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2 animate-fade-in">Frequently Asked Questions</h1>
           <p className="text-gray-400 text-lg animate-fade-in">
@@ -79,6 +85,39 @@ const CourseFAQ = ({ faq }: CourseFAQProps) => {
           ))}
         </div>
         {/* Bottom CTA Section - Removed max-w-4xl */}
+        <div className="mt-10">
+          <div className="relative overflow-hidden rounded-2xl border border-purple-500/20 bg-gradient-to-r from-purple-900/40 to-pink-900/40 p-5 sm:p-6">
+            <div className="absolute inset-0 -z-10 opacity-30 blur-2xl" aria-hidden>
+              <div className="h-full w-full bg-gradient-to-tr from-purple-600/40 via-fuchsia-500/30 to-pink-500/30" />
+            </div>
+            <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-start gap-3">
+                <div className="rounded-lg bg-purple-600/20 p-2 ring-1 ring-purple-400/30">
+                  <ShoppingCart className="h-5 w-5 text-purple-300" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white">Ready to enroll?</h3>
+                  <p className="text-sm text-purple-100/80">Add this course to your cart to lock in your spot and start learning.</p>
+                </div>
+              </div>
+              <div className="flex w-full gap-3 sm:w-auto">
+                <button
+                  type="button"
+                  onClick={scrollToTop}
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-400/50"
+                >
+                  Add to Cart
+                </button>
+                <Link
+                  href="/cart"
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 px-4 py-2 text-sm font-semibold text-white/90 transition-colors hover:bg-white/10"
+                >
+                  View Cart
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
         
         <style jsx>{`
           @keyframes fade-in {

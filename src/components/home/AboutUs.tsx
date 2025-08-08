@@ -2,6 +2,7 @@
 
 import type { About } from "@/types/home"
 import type React from "react"
+import SpaceBackground from "../shared/SpaceBackground"
 
 interface AboutUsProps {
   content: About
@@ -13,8 +14,11 @@ const AboutUs: React.FC<AboutUsProps> = ({ content }) => {
   const lastWord = titleWords[titleWords.length - 1]
 
   return (
-    <section id="about-us" className="relative w-full bg-primary min-h-screen">
-      <div className="container mx-auto px-6">
+    <section id="about-us" className="relative w-full bg-primary min-h-screen overflow-hidden">
+      {/* Space Background */}
+      <SpaceBackground dotCount={80} />
+      
+      <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col gap-8 lg:flex-row lg:gap-12 lg:items-start">
           {/* Left Column */}
           <div className="relative order-2 flex-shrink-0 lg:order-1 lg:w-1/2">

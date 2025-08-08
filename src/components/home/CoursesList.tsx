@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useState } from "react"
 import QuoteHeader from "../Title"
 import Link from "next/link"
+import SpaceBackground from "../shared/SpaceBackground"
 
 interface CoursesListProps {
   content: {
@@ -42,6 +43,8 @@ export default function CoursesList({ content }: CoursesListProps) {
 
   return (
     <section className="max-w-[1920px] flex flex-col gap-11 mx-auto items-center justify-center relative px-4 sm:px-6 lg:px-8">
+            <SpaceBackground dotCount={80} />
+
      <div className="w-full max-w-6xl">
      <QuoteHeader title={content.title} description={content.description} />
      </div>
