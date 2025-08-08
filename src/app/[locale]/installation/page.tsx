@@ -107,21 +107,18 @@ export default async function InstallationPage(props: IInstallationProps) {
       <SplashCursor />
       
       {/* Header Section */}
-      <section className="relative pt-20 pb-16 px-4 sm:px-8">
+      <section className="relative pt-16 sm:pt-20 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="mb-8">
+          <div className="mb-6 sm:mb-8">
            <QuoteHeader title={t('title')} description={t('description')} />
           </div>
-          
-          {/* Progress Indicator */}
-
         </div>
       </section>
 
       {/* Installation Steps */}
-      <section className="px-4 sm:px-8 pb-20">
+      <section className="px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20">
         <div className="max-w-6xl mx-auto">
-          <div className="grid gap-8">
+          <div className="grid gap-6 sm:gap-8">
             {installationSteps.map((step, index) => {
               const IconComponent = stepIcons[index];
               const isLastStep = index === installationSteps.length - 1;
@@ -134,32 +131,32 @@ export default async function InstallationPage(props: IInstallationProps) {
                   {/* Step Number */}
                 
                   {/* Step Content */}
-                  <div className="ml-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 group-hover:border-purple-400/50">
-                    <div className="flex items-start gap-6">
+                  <div className="ml-4 sm:ml-8 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 hover:bg-white/10 transition-all duration-300 group-hover:border-purple-400/50">
+                    <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
                       {/* Icon */}
-                      <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl flex items-center justify-center border border-purple-400/30">
-                        {IconComponent && <IconComponent className="w-8 h-8 text-purple-400" />}
+                      <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg sm:rounded-xl flex items-center justify-center border border-purple-400/30">
+                        {IconComponent && <IconComponent className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400" />}
                       </div>
                       
                       {/* Content */}
-                      <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-white mb-4">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">
                           {step.title}
                         </h3>
-                        <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                        <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-4 sm:mb-6">
                           {step.content}
                         </p>
                         
                         {/* Video Section */}
                         {step.video_ref && (
-                          <div className="mb-6">
-                            <div className="flex items-center gap-2 mb-3">
-                              <Play className="w-5 h-5 text-purple-400" />
-                              <span className="text-purple-400 font-medium">
+                          <div className="mb-4 sm:mb-6">
+                            <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                              <Play className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
+                              <span className="text-purple-400 font-medium text-sm sm:text-base">
                                 {t('video_guide')}
                               </span>
                             </div>
-                            <div className="relative aspect-video rounded-xl overflow-hidden bg-black/20 border border-white/10">
+                            <div className="relative aspect-video rounded-lg sm:rounded-xl overflow-hidden bg-black/20 border border-white/10">
                               <iframe
                                 src={step.video_ref}
                                 title={`${step.title} Video Guide`}
@@ -180,7 +177,7 @@ export default async function InstallationPage(props: IInstallationProps) {
                   
                   {/* Connection Line */}
                   {!isLastStep && (
-                    <div className="absolute left-6 top-12 w-0.5 h-16 bg-gradient-to-b from-purple-500 to-pink-500" />
+                    <div className="absolute left-3 sm:left-6 top-8 sm:top-12 w-0.5 h-12 sm:h-16 bg-gradient-to-b from-purple-500 to-pink-500" />
                   )}
                 </div>
               );
@@ -190,16 +187,16 @@ export default async function InstallationPage(props: IInstallationProps) {
       </section>
       
       {/* Call to Action */}
-      <section className="px-4 sm:px-8 pb-20">
+      <section className="px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-400/20 rounded-2xl p-12">
-            <h2 className="text-3xl font-bold text-white mb-4">
+          <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-400/20 rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">
               Ready to Start Learning?
             </h2>
-            <p className="text-gray-300 text-lg mb-8">
+            <p className="text-gray-300 text-base sm:text-lg mb-6 sm:mb-8">
               Now that you have everything set up, explore our comprehensive courses and start your creative journey!
             </p>
-            <button className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-lg text-white font-medium text-lg transition-all duration-300">
+            <button className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-lg text-white font-medium text-base sm:text-lg transition-all duration-300">
               Browse Courses
             </button>
           </div>

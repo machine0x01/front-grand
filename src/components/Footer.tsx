@@ -1,21 +1,26 @@
 import { ExternalLink, Facebook, Globe, Instagram, Linkedin, MapPin, Phone } from 'lucide-react';
 import React from 'react';
+import LightRays from './shared/LightRays';
 
 function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-[#0B000F] text-white">
+    <footer className="relative h-[70vh] overflow-hidden bg-[#0B000F] text-white">
 
       {/* Background decorative lines */}
-      <div className="absolute inset-0 ">
-        <img
-          src="/assets/images/Line.png"
-          className="absolute top-0 left-0 h-full w-full scale-110 object-cover"
-          alt=""
-        />
-      </div>
+      <LightRays
+    raysOrigin="bottom-center"
+    raysColor="#5d0d8f"
+    raysSpeed={1.5}
+    lightSpread={0.8}
+    rayLength={2}
+    followMouse={true}
+    mouseInfluence={0.1}
+    noiseAmount={0.3}
+    distortion={0.05}
+    className="custom-rays"
+  />
 
-      {/* Gradient overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#4A1F63]/50 to-transparent"></div>
+  <div className=' top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full bottom-0 absolute z-[5]'>
 
       <div className="relative z-10 px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         <div className="container mx-auto">
@@ -169,6 +174,7 @@ function Footer() {
           </div>
         </div>
       </div>
+  </div>
     </footer>
   );
 }

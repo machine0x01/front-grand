@@ -95,6 +95,15 @@ html {
   }
 }
 
+/* RTL-specific animations */
+[dir="rtl"] .scroll-left {
+  animation-direction: reverse;
+}
+
+[dir="rtl"] .scroll-right {
+  animation-direction: reverse;
+}
+
 .infinite-scroll:hover {
   animation-play-state: paused;
 }

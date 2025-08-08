@@ -59,11 +59,11 @@ export default async function Index(props: IIndexProps) {
   const { locale } = await props.params;
   setRequestLocale(locale);
   const lang = locale || "ar";
-  
+
   try {
     const homeData: HomeResponse = await homeService.getHomePageData(lang);
     const coursesResponseData = await courseService.getAllCourse(lang);
-    
+
     // Transform CourseResponse[] to Course[] to match the expected type
     const coursesData: Course[] = coursesResponseData.map(course => ({
       id: course.id,
@@ -203,7 +203,7 @@ export default async function Index(props: IIndexProps) {
     const featuredBlogs = homeData.featured_blogs || [];
     return (
       <main className='min-h-screen'>
-              <SplashCursor />
+        {/* <SplashCursor /> */}
 
         <HeroHome content={homeData.hero} />
 
@@ -229,21 +229,21 @@ export default async function Index(props: IIndexProps) {
             }))}
           />
         )}
- {coursesData.length > 0 && (
+        {coursesData.length > 0 && (
           <CreationsShowcase
-            courses_section={{ 
-              courses: coursesData, 
-              title: coursesSection.title, 
+            courses_section={{
+              courses: coursesData,
+              title: coursesSection.title,
               description: coursesSection.description
             }}
           />
         )}
-       
+
         {featuredBlogs.length > 0 && (
           <BlogPosts
             featured_blogs={featuredBlogs}
           />
-        )} 
+        )}
       </main>
     );
   } catch (error) {

@@ -1,71 +1,115 @@
 "use client"
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
 import MobileMenu from './shared/MobileNavbar';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Globe } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import Image from 'next/image';
 
-const Navbar =  () => {
+const Navbar = () => {
   const t = useTranslations('RootLayout');
   const { getItemCount, getTotalPrice } = useCart();
-
-  // Get the current pathname from headers
-  // const pathname = headersList.get('x-pathname') || headersList.get('x-url') || '';
-  // console.log(pathname);
-
-  const lang =  'en';
+  const pathname = usePathname();
+  const router = useRouter();
+  const locale = useLocale();
 
   const items = [
-    { label: t('home_link'), href: `/${lang}` },
-    { label: t('about_link'), href: `/${lang}/about` },
-    { label: t('counter_link'), href: `/${lang}/courses` },
-    { label: t('portfolio_link'), href: `/${lang}/blog` },
+    { label: t('home_link'), href: `` },
+    { label: t('about_link'), href: `/about` },
+    { label: t('counter_link'), href: `/courses` },
+    { label: t('portfolio_link'), href: `/blog` },
   ];
 
+  const isActive = (href: string) => {
+    return pathname === href || pathname.startsWith(href + '/');
+  };
+
+  const handleLanguageToggle = () => {
+    const newLocale = locale === 'en' ? 'ar' : 'en';
+    const currentPath = pathname.replace(`/${locale}`, '') || '/';
+    router.push(`/${newLocale}${currentPath}`);
+  };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur-md">
-      <div className="container mx-auto flex items-center justify-between px-4 py-4">
-        <Link href={`/${lang}`} className="text-lg font-bold text-yellow-500">
-          <Image src="/assets/images/logo.webp" alt="logo" width={50} height={50} />
+    <nav className="sticky top-0 z-50 border-b border-purple-700/30 backdrop-blur-xl">
+      <div className="container mx-auto flex items-center justify-between px-6 py-4">
+        {/* Logo */}
+        <Link 
+          href={`/`} 
+          className="flex items-center space-x-3 group transition-transform duration-300 hover:scale-105"
+        >
+          <div className="relative">
+            <Image 
+              src="/assets/images/logo.webp" 
+              alt="Grand Notion Academy" 
+              width={45} 
+              height={45}
+              className="rounded-lg"
+            />
+            <div className="absolute inset-0 bg-purple-600/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+        
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden gap-8 md:flex">
-          {items.map(item => (
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center space-x-1">
+          {items.map((item, index) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-white transition-colors hover:text-yellow-500"
+              className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-300 group ${
+                isActive(item.href)
+                  ? 'text-purple-400 bg-purple-900/30 border border-purple-700/50'
+                  : 'text-purple-200 hover:text-white hover:bg-purple-900/20'
+              }`}
             >
-              {item.label}
+              <span className="relative z-10">{item.label}</span>
+              {isActive(item.href) && (
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-purple-800/20 rounded-lg animate-pulse"></div>
+              )}
+              <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-purple-600 group-hover:w-full group-hover:left-0 transition-all duration-300"></div>
             </Link>
           ))}
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* Right Side Actions */}
+        <div className="flex items-center space-x-4">
           {/* Cart Icon */}
           <Link
-            href={`/${lang}/cart`}
-            className="relative text-white transition-colors hover:text-yellow-500 group"
+            href={`/cart`}
+            className="relative p-2 text-purple-200 hover:text-white hover:bg-purple-900/30 rounded-lg transition-all duration-300 group"
           >
-            <ShoppingCart className="w-6 h-6" />
+            <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
             {getItemCount() > 0 && (
               <>
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-bounce">
                   {getItemCount()}
                 </span>
-                <div className="absolute top-full right-0 mt-2 bg-white text-gray-900 text-xs rounded-lg shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                  Total: ${getTotalPrice().toFixed(2)}
+                <div className="absolute top-full right-0 mt-3 bg-purple-900/95 backdrop-blur-sm text-white text-sm rounded-xl p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap border border-purple-700/50 transform translate-y-2 group-hover:translate-y-0">
+                  <div className="flex items-center space-x-2">
+                    <ShoppingCart className="w-4 h-4 text-purple-400" />
+                    <span>Cart Total: <span className="font-bold text-purple-400">${getTotalPrice().toFixed(2)}</span></span>
+                  </div>
+                  <div className="absolute -top-1 right-3 w-2 h-2 bg-purple-900/95 transform rotate-45 border-l border-t border-purple-700/50"></div>
                 </div>
               </>
             )}
           </Link>
-          {/* <LanguageSwitcher /> */}
+
+          {/* Language Switcher Icon */}
+          <button 
+            onClick={handleLanguageToggle}
+            className="p-2 text-purple-200 hover:text-white hover:bg-purple-900/30 rounded-lg transition-all duration-300 group"
+            title={`Switch to ${locale === 'en' ? 'Arabic' : 'English'}`}
+          >
+            <Globe className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+          </button>
         </div>
 
-        {/* Mobile Menu - This will need to be a separate client component */}
+        {/* Mobile Menu */}
         <MobileMenu items={items} />
       </div>
     </nav>

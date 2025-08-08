@@ -3,6 +3,7 @@ import CourseFAQ from '@/components/course-details/CoursesFaq';
 import HeroCourses from '@/components/course-details/HeroCourses';
 import InstructorProfile from '@/components/course-details/InstructorPorifle';
 import StudentProjectsSwiper from '@/components/course-details/StudentWorks';
+import InfiniteMenu from '@/components/shared/InfiniteMenu';
 import SplashCursor from '@/components/shared/SplashCursor';
 import CircularGallery from '@/components/shared/StudentsGallary';
 import { courseService } from '@/libs/services/courseService';
@@ -21,7 +22,7 @@ export async function generateMetadata(props: IIndexProps): Promise<Metadata> {
   const { locale, slug } = await props.params;
   setRequestLocale(locale);
   const lang = locale || "ar";
-  
+
   try {
     const courseData: CourseResponse = await courseService.getCourseData(slug, lang);
     const t = await getTranslations({
@@ -59,7 +60,7 @@ export async function generateMetadata(props: IIndexProps): Promise<Metadata> {
     };
   } catch (error) {
     console.error('Error loading course metadata:', error);
-    
+
     return {
       title: 'Course',
       description: 'Course description',
@@ -71,7 +72,36 @@ export default async function Index(props: IIndexProps) {
   const { locale, slug } = await props.params;
   setRequestLocale(locale);
   const lang = locale || "ar";
-  
+
+
+  const items = [
+    {
+      image: 'http://127.0.0.1:8000/media/student_opinions/1_XYimmgL.jpg',
+      link: 'https://google.com/',
+      title: 'Item 1',
+      description: 'This is pretty cool, right?'
+    },
+    {
+      image: 'http://127.0.0.1:8000/media/student_opinions/1_XYimmgL.jpg',
+      link: 'https://google.com/',
+      title: 'Item 2',
+      description: 'This is pretty cool, right?'
+    },
+    {
+      image: 'http://127.0.0.1:8000/media/student_opinions/1_XYimmgL.jpg',
+      link: 'https://google.com/',
+      title: 'Item 3',
+      description: 'This is pretty cool, right?'
+    },
+    {
+      image: 'http://127.0.0.1:8000/media/student_opinions/1_XYimmgL.jpg',
+      link: 'https://google.com/',
+      title: 'Item 4',
+      description: 'This is pretty cool, right?'
+    }
+  ];
+
+
   try {
     const courseData: CourseResponse = await courseService.getCourseData(slug, lang);
     // const t = await getTranslations({
@@ -95,10 +125,31 @@ export default async function Index(props: IIndexProps) {
 
     return (
       <main className='min-h-screen'>
-        <SplashCursor />
+        {/* <SplashCursor /> */}
         <HeroCourses content={heroContent} />
         <CourseRequirements content={{ title: courseData.syllabus.title, items: courseData.syllabus.items }} />
-        
+
+
+        <div style={{ height: '800px', position: 'relative' }} className=''>
+          <InfiniteMenu  items={items} />
+        </div>
+
+        {/* {courseData.projects && courseData.projects.length > 0 && courseData.projects[0] && (
+          <StudentProjectsSwiper 
+            data={{ 
+              ...courseData.projects[0], 
+              course: 1,
+              items: courseData.projects[0].items.map(item => ({
+                ...item,
+                ref: item.ref || '', // Handle null ref by providing empty string
+                type: item.type as 'image' | 'video'
+              }))
+            }} 
+          />
+        )} */}
+
+        <InstructorProfile instructor={courseData.instructor} />
+
         {courseData.opinions && courseData.opinions.length > 0 && (
           <div style={{ height: "600px", position: "relative" }}>
             <CircularGallery
@@ -112,24 +163,7 @@ export default async function Index(props: IIndexProps) {
             />
           </div>
         )}
-        
-        {courseData.projects && courseData.projects.length > 0 && courseData.projects[0] && (
-          <StudentProjectsSwiper 
-            data={{ 
-              ...courseData.projects[0], 
-              course: 1,
-              items: courseData.projects[0].items.map(item => ({
-                ...item,
-                ref: item.ref || '', // Handle null ref by providing empty string
-                type: item.type as 'image' | 'video'
-              }))
-            }} 
-          />
-        )}
-        
-        <InstructorProfile instructor={courseData.instructor} />
-        
-          <CourseFAQ faq={courseData.faqs} />
+        <CourseFAQ faq={courseData.faqs} />
       </main>
     );
   } catch (error) {

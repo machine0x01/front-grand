@@ -20,11 +20,11 @@ export const LocaleSwitcher = () => {
     <select
       defaultValue={locale}
       onChange={handleChange}
-      className="border border-gray-300 font-medium focus:outline-hidden focus-visible:ring-3"
+      className="bg-purple-900/30 border border-purple-700/50 text-purple-200 font-medium rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 hover:bg-purple-900/50 cursor-pointer"
       aria-label="lang-switcher"
     >
       {routing.locales.map(elt => (
-        <option key={elt} value={elt}>
+        <option key={elt} value={elt} className="bg-purple-900 text-purple-200">
           {elt.toUpperCase()}
         </option>
       ))}
