@@ -164,8 +164,11 @@ const BlogPosts: React.FC<BlogPostsProps> = ({
   };
 
   return (
-    <section className="px-6 py-16 ">
-      <div className="container mx-auto max-w-7xl">
+    <section className="px-6 py-16 relative">
+      {/* Right Side Lighting Effect */}
+     
+      
+      <div className="container mx-auto max-w-7xl relative z-10">
         {/* Header */}
         <div className="mx-auto mb-12 max-w-2xl text-center">
           <QuoteHeader 

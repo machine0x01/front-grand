@@ -2,13 +2,18 @@
 
 import type { About } from "@/types/home"
 import type React from "react"
-import SpaceBackground from "../shared/SpaceBackground"
+// import SpaceBackground from "../shared/SpaceBackground"
 
 interface AboutUsProps {
   content: About
 }
 
 const AboutUs: React.FC<AboutUsProps> = ({ content }) => {
+  // Add null checking for content and title
+  if (!content || !content.title) {
+    return null; // Don't render if no content
+  }
+  
   const titleWords = content.title.split(" ")
   const firstPart = titleWords.slice(0, -1).join(" ")
   const lastWord = titleWords[titleWords.length - 1]
@@ -16,7 +21,7 @@ const AboutUs: React.FC<AboutUsProps> = ({ content }) => {
   return (
     <section id="about-us" className="relative w-full bg-primary min-h-screen overflow-hidden">
       {/* Space Background */}
-      <SpaceBackground dotCount={80} />
+      {/* <SpaceBackground dotCount={80} /> */}
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col gap-8 lg:flex-row lg:gap-12 lg:items-start">

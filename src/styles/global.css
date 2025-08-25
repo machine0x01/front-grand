@@ -54,6 +54,31 @@ html {
   background: #6b7280;
 }
 
+/* Hide scrollbar for specific elements */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 /* Ensure the sticky element has proper stacking and positioning */
 .lg\:sticky {
   z-index: 10;
@@ -105,5 +130,20 @@ html {
 }
 
 .infinite-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Pause animation on group hover */
+.group:hover .group-hover\:pause {
+  animation-play-state: paused;
+}
+
+/* Pause animation on hover */
+.hover\:pause:hover {
+  animation-play-state: paused;
+}
+
+/* Pause animation on container hover */
+.hover\:pause-animation:hover .infinite-scroll {
   animation-play-state: paused;
 }

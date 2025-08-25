@@ -7,18 +7,20 @@ function Footer() {
     <footer className="relative h-[70vh] overflow-hidden bg-[#0B000F] text-white">
 
       {/* Background decorative lines */}
-      <LightRays
-    raysOrigin="bottom-center"
-    raysColor="#5d0d8f"
-    raysSpeed={1.5}
-    lightSpread={0.8}
-    rayLength={2}
-    followMouse={true}
-    mouseInfluence={0.1}
-    noiseAmount={0.3}
-    distortion={0.05}
+      {/* <LightRays
+    raysOrigin="right"
+    raysColor="#db2777"
+    raysSpeed={0.5}
+    lightSpread={5}
+    rayLength={20}
+    followMouse={false}
+    mouseInfluence={2}
+    noiseAmount={0.1}
+    distortion={0.2}
     className="custom-rays"
-  />
+  />      
+   */}
+
 
   <div className=' top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full bottom-0 absolute z-[5]'>
 

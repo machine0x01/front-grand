@@ -8,7 +8,7 @@ interface Dot {
   size: number
   speed: number
   opacity: number
-  type: 'star' | 'planet' | 'nebula'
+  type: 'star' | 'planet' | 'nebula' | 'moon'
   color: string
 }
 
@@ -43,25 +43,28 @@ const SpaceBackground: React.FC<SpaceBackgroundProps> = ({
     resizeCanvas()
     window.addEventListener('resize', resizeCanvas)
 
-    // Initialize dots with smaller sizes and primary color theme
+    // Initialize dots with moon-like white stars and celestial bodies
     const initDots = (): void => {
-      dotsRef.current = Array.from({ length: dotCount }, () => {
-        const type = Math.random() > 0.8 ? 'planet' : Math.random() > 0.6 ? 'nebula' : 'star'
+      dotsRef.current = Array.from({ length: dotCount }, (_, index) => {
+        const type = Math.random() > 0.85 ? 'moon' : Math.random() > 0.7 ? 'planet' : Math.random() > 0.5 ? 'nebula' : 'star'
+        const isMoon = type === 'moon'
         const isPlanet = type === 'planet'
         const isNebula = type === 'nebula'
         
         return {
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: isPlanet ? Math.random() * 2 + 1 : isNebula ? Math.random() * 3 + 1.5 : Math.random() * 1 + 0.5,
-          speed: isPlanet ? Math.random() * 0.2 + 0.05 : isNebula ? Math.random() * 0.15 + 0.03 : Math.random() * 0.4 + 0.1,
-          opacity: isPlanet ? Math.random() * 0.4 + 0.2 : isNebula ? Math.random() * 0.2 + 0.1 : Math.random() * 0.6 + 0.2,
+          size: isMoon ? Math.random() * 4 + 3 : isPlanet ? Math.random() * 2 + 1 : isNebula ? Math.random() * 3 + 1.5 : Math.random() * 1.5 + 0.8,
+          speed: isMoon ? Math.random() * 0.1 + 0.02 : isPlanet ? Math.random() * 0.2 + 0.05 : isNebula ? Math.random() * 0.15 + 0.03 : Math.random() * 0.4 + 0.1,
+          opacity: isMoon ? Math.random() * 0.8 + 0.4 : isPlanet ? Math.random() * 0.4 + 0.2 : isNebula ? Math.random() * 0.2 + 0.1 : Math.random() * 0.8 + 0.3,
           type,
-          color: isPlanet ? 
-            ['#2d1b1b', '#3d2b2b', '#4a2f2f', '#5a3a3a'][Math.floor(Math.random() * 4)] || '#2d1b1b' : 
+          color: isMoon ? 
+            ['#ffffff', '#f8f8f8', '#f0f0f0', '#e8e8e8'][Math.floor(Math.random() * 4)] || '#ffffff' : 
+            isPlanet ? 
+            ['#ffffff', '#f5f5f5', '#e8e8e8', '#d0d0d0'][Math.floor(Math.random() * 4)] || '#ffffff' :
             isNebula ? 
-            ['#1a0b0f', '#2a1b1f', '#3a2b2f', '#4a3b3f'][Math.floor(Math.random() * 4)] || '#1a0b0f' :
-            ['#feb101', '#ffd984', '#ffedb3', '#fff4d4'][Math.floor(Math.random() * 4)] || '#feb101'
+            ['#ffffff', '#f8f8f8', '#e8e8e8', '#d8d8d8'][Math.floor(Math.random() * 4)] || '#ffffff' :
+            ['#ffffff', '#f8f8f8', '#f0f0f0', '#e8e8e8'][Math.floor(Math.random() * 4)] || '#ffffff'
         }
       })
     }
@@ -83,8 +86,36 @@ const SpaceBackground: React.FC<SpaceBackgroundProps> = ({
           dot.x = Math.random() * canvas.width
         }
 
-        if (dot.type === 'planet') {
-          // Draw small planet with subtle gradient and glow
+        if (dot.type === 'moon') {
+          // Draw moon with white glow and subtle craters
+          const twinkle = Math.sin(Date.now() * 0.0002 + index) * 0.2 + 0.8
+          
+          // Outer glow (largest)
+          ctx.beginPath()
+          ctx.arc(dot.x, dot.y, dot.size * 4, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(255, 255, 255, ${dot.opacity * 0.1 * twinkle})`
+          ctx.fill()
+          
+          // Middle glow
+          ctx.beginPath()
+          ctx.arc(dot.x, dot.y, dot.size * 2.5, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(255, 255, 255, ${dot.opacity * 0.3 * twinkle})`
+          ctx.fill()
+          
+          // Moon core
+          ctx.beginPath()
+          ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(255, 255, 255, ${dot.opacity * twinkle})`
+          ctx.fill()
+          
+          // Subtle crater effect
+          ctx.beginPath()
+          ctx.arc(dot.x + dot.size * 0.3, dot.y - dot.size * 0.2, dot.size * 0.2, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(200, 200, 200, ${dot.opacity * 0.3 * twinkle})`
+          ctx.fill()
+          
+        } else if (dot.type === 'planet') {
+          // Draw small planet with white glow
           const gradient = ctx.createRadialGradient(dot.x, dot.y, 0, dot.x, dot.y, dot.size * 2)
           gradient.addColorStop(0, dot.color)
           gradient.addColorStop(0.8, dot.color)
@@ -93,13 +124,13 @@ const SpaceBackground: React.FC<SpaceBackgroundProps> = ({
           // Outer glow
           ctx.beginPath()
           ctx.arc(dot.x, dot.y, dot.size * 3, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(254, 177, 1, ${dot.opacity * 0.1})`
+          ctx.fillStyle = `rgba(255, 255, 255, ${dot.opacity * 0.1})`
           ctx.fill()
           
           // Inner glow
           ctx.beginPath()
           ctx.arc(dot.x, dot.y, dot.size * 2, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(254, 177, 1, ${dot.opacity * 0.2})`
+          ctx.fillStyle = `rgba(255, 255, 255, ${dot.opacity * 0.2})`
           ctx.fill()
           
           // Planet core
@@ -109,7 +140,7 @@ const SpaceBackground: React.FC<SpaceBackgroundProps> = ({
           ctx.fill()
           
         } else if (dot.type === 'nebula') {
-          // Draw small nebula with glowing layers
+          // Draw small nebula with white glowing layers
           for (let i = 0; i < 3; i++) {
             const layerSize = dot.size * (1 + i * 0.3)
             const layerOpacity = dot.opacity * (1 - i * 0.2) * 0.3
@@ -117,7 +148,7 @@ const SpaceBackground: React.FC<SpaceBackgroundProps> = ({
             // Glow effect
             ctx.beginPath()
             ctx.arc(dot.x, dot.y, layerSize * 1.5, 0, Math.PI * 2)
-            ctx.fillStyle = `rgba(254, 177, 1, ${layerOpacity * 0.5})`
+            ctx.fillStyle = `rgba(255, 255, 255, ${layerOpacity * 0.5})`
             ctx.fill()
             
             // Nebula core
@@ -128,31 +159,31 @@ const SpaceBackground: React.FC<SpaceBackgroundProps> = ({
           }
           
         } else {
-          // Draw small star with enhanced glowing effect
+          // Draw small star with white glowing effect
           const twinkle = Math.sin(Date.now() * 0.0005 + index) * 0.3 + 0.7
           
           // Outer glow (largest)
           ctx.beginPath()
           ctx.arc(dot.x, dot.y, dot.size * 6, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(254, 177, 1, ${dot.opacity * 0.05 * twinkle})`
+          ctx.fillStyle = `rgba(255, 255, 255, ${dot.opacity * 0.05 * twinkle})`
           ctx.fill()
           
           // Middle glow
           ctx.beginPath()
           ctx.arc(dot.x, dot.y, dot.size * 4, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(254, 177, 1, ${dot.opacity * 0.1 * twinkle})`
+          ctx.fillStyle = `rgba(255, 255, 255, ${dot.opacity * 0.1 * twinkle})`
           ctx.fill()
           
           // Inner glow
           ctx.beginPath()
           ctx.arc(dot.x, dot.y, dot.size * 2, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(254, 177, 1, ${dot.opacity * 0.2 * twinkle})`
+          ctx.fillStyle = `rgba(255, 255, 255, ${dot.opacity * 0.2 * twinkle})`
           ctx.fill()
           
           // Star core
           ctx.beginPath()
           ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(254, 177, 1, ${dot.opacity * twinkle})`
+          ctx.fillStyle = `rgba(255, 255, 255, ${dot.opacity * twinkle})`
           ctx.fill()
           
           // Bright center
@@ -175,7 +206,7 @@ const SpaceBackground: React.FC<SpaceBackgroundProps> = ({
             ctx.beginPath()
             ctx.moveTo(dot1.x, dot1.y)
             ctx.lineTo(dot2.x, dot2.y)
-            ctx.strokeStyle = `rgba(254, 177, 1, ${0.03 * (1 - distance / 80)})`
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.03 * (1 - distance / 80)})`
             ctx.lineWidth = 0.3
             ctx.stroke()
           }

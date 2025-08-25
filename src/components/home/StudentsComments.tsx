@@ -48,14 +48,16 @@ export function StudentsComments({content}:StudentsCommentsProps) {
   const data = content || testimonials
   
   return (
-    <div className="w-full h-screen flex justify-center flex-col overflow-hidden">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div className="w-full h-screen flex justify-center flex-col overflow-hidden relative">
+    
+      
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <QuoteHeader
           title="What Our Students Say"
           description="Whether you're a beginner or looking to refine your skills, our diverse range of animation courses has something for everyone."
         />
       </div>
-      <div className="relative flex h-[30rem] w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-md antialiased">
+      <div className="relative flex h-[30rem] w-full flex-col items-center justify-center gap-4 overflow-hidden rounded-md antialiased z-10">
         <InfiniteMovingCards items={data} direction="right" speed="fast" />
         <InfiniteMovingCards items={data} direction="left" speed="fast" />
       </div>
@@ -96,18 +98,24 @@ function InfiniteMovingCards({ items, direction, speed }: InfiniteMovingCardsPro
   const duration = getAnimationDuration(speed);
 
   return (
-  <div className="relative w-full ">
-      <div className="relative w-full  overflow-hidden">
+  <div className="relative w-full group">
+      <div className="relative w-full overflow-hidden hover:pause-animation">
       <div
-        className="flex w-max gap-4"
+        className="flex w-max gap-4 infinite-scroll"
         style={{
           animation: `${animationDirection} ${duration} linear infinite`,
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.animationPlayState = 'paused';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.animationPlayState = 'running';
         }}
       >
         {duplicatedItems.map((item, index) => (
           <div
             key={index}
-            className="relative w-[300px] sm:w-[350px] md:w-[400px] lg:w-[450px] max-w-full flex-shrink-0 rounded-2xl border bg-[#20002b] px-6 sm:px-8 py-6"
+            className="relative w-[300px] sm:w-[350px] md:w-[400px] lg:w-[450px] max-w-full flex-shrink-0 rounded-2xl border bg-[#20002b] px-6 sm:px-8 py-6 hover:cursor-pointer transition-transform hover:scale-105"
           >
             <blockquote>
               <div

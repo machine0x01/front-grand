@@ -13,6 +13,7 @@ import CreationsShowcase from '@/components/home/ShowCase';
 import BlogPosts from '@/components/home/BlogPosts';
 import { courseService } from '@/libs/services/courseService';
 import SplashCursor from '@/components/shared/SplashCursor';
+import Lanyard from '@/components/shared/lanyard/Lanyard';
 
 type IIndexProps = {
   params: Promise<{ locale: string }>;
@@ -202,26 +203,27 @@ export default async function Index(props: IIndexProps) {
     const comments = homeData.comments || [];
     const featuredBlogs = homeData.featured_blogs || [];
     return (
-      <main className='min-h-screen'>
+      <main className='min-h-screen relative'>
+        {/* Left Side Lighting Effect */}
+    
+        
         {/* <SplashCursor /> */}
 
         <HeroHome content={homeData.hero} />
 
-        <AboutUs
-          content={homeData.about}
-        />
+        {/* {homeData.about && <AboutUs content={homeData.about} />} */}
 
-        {coursesData.length > 0 && (
-          <CoursesList content={{
+        {/* {coursesData.length > 0 && ( */}
+          {/* <CoursesList content={{
             courses: coursesData,
             title: coursesSection.title,
             description: coursesSection.description,
           }}
-          />
-        )}
+          /> */}
+        {/* )} */}
 
-        {comments.length > 0 && (
-          <StudentsComments
+        {/* {comments.length > 0 && ( */}
+          {/* <StudentsComments
             content={comments.map(comment => ({
               quote: comment.comment,
               course: comment.course_name,
@@ -243,7 +245,11 @@ export default async function Index(props: IIndexProps) {
           <BlogPosts
             featured_blogs={featuredBlogs}
           />
-        )}
+        )} */}
+
+      {/* <div className='w-full  h-[80vh]'>
+      <Lanyard />
+      </div> */}
       </main>
     );
   } catch (error) {

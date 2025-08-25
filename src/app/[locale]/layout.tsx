@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/libs/I18nRouting';
 import '@/styles/global.css';
 import { CartProvider } from '@/context/cart-context';
+import GlobalSpaceBackground from '@/components/shared/GlobalSpaceBackground';
 
 export const metadata: Metadata = {
   icons: [
@@ -55,7 +56,9 @@ export default async function RootLayout(props: {
       <body>
         <NextIntlClientProvider>
           <CartProvider>
-            {props.children}
+            {/* <GlobalSpaceBackground dotCount={80}> */}
+              {props.children}
+            {/* </GlobalSpaceBackground> */}
           </CartProvider>
         </NextIntlClientProvider>
       </body>

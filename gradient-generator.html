@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanyard Gradient Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0B000F;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .gradient-canvas {
+            width: 512px;
+            height: 64px;
+            border: 2px solid #4A1F63;
+            border-radius: 8px;
+            margin: 20px 0;
+            background: linear-gradient(to right, #6B2A8A, #4A1F63, #2A0F3A);
+        }
+        .download-btn {
+            background: linear-gradient(to right, #4A1F63, #3A1553);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .download-btn:hover {
+            background: linear-gradient(to right, #6B2A8A, #4A1F63);
+        }
+        .color-info {
+            background: rgba(74, 31, 99, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .color-swatch {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            margin: 0 10px;
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Lanyard Purple Gradient Generator</h1>
+        <p>This generates a gradient texture that matches your website's color scheme.</p>
+        
+        <div class="color-info">
+            <h3>Gradient Colors:</h3>
+            <div>
+                <span class="color-swatch" style="background: #6B2A8A;"></span>
+                <span>Start: #6B2A8A (lighter purple)</span>
+            </div>
+            <div>
+                <span class="color-swatch" style="background: #4A1F63;"></span>
+                <span>Middle: #4A1F63 (website's primary purple)</span>
+            </div>
+            <div>
+                <span class="color-swatch" style="background: #2A0F3A;"></span>
+                <span>End: #2A0F3A (darker purple)</span>
+            </div>
+        </div>
+
+        <canvas id="gradientCanvas" class="gradient-canvas"></canvas>
+        
+        <div>
+            <button class="download-btn" onclick="downloadGradient()">Download PNG Texture</button>
+        </div>
+
+        <div class="color-info">
+            <h3>Instructions:</h3>
+            <ol>
+                <li>Click "Download PNG Texture" to save the gradient</li>
+                <li>Save the file as "lanyard-purple-gradient.png"</li>
+                <li>Place it in: <code>public/assets/images/3d/</code></li>
+                <li>The Lanyard component will automatically use this texture</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gradientCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size
+        canvas.width = 512;
+        canvas.height = 64;
+        
+        // Create gradient
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+        gradient.addColorStop(0, '#6B2A8A');
+        gradient.addColorStop(0.5, '#4A1F63');
+        gradient.addColorStop(1, '#2A0F3A');
+        
+        // Fill canvas with gradient
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        function downloadGradient() {
+            const link = document.createElement('a');
+            link.download = 'lanyard-purple-gradient.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html> 

@@ -8,6 +8,7 @@ import MobileMenu from './shared/MobileNavbar';
 import { ShoppingCart, Globe } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import Image from 'next/image';
+import GooeyNav from './shared/GooeyNav';
 
 const Navbar = () => {
   const t = useTranslations('RootLayout');
@@ -18,9 +19,9 @@ const Navbar = () => {
 
   const items = [
     { label: t('home_link'), href: `` },
-    { label: t('about_link'), href: `/about` },
-    { label: t('counter_link'), href: `/courses` },
-    { label: t('portfolio_link'), href: `/blog` },
+    { label: t('about_link'), href: `/#about` },
+    { label: t('counter_link'), href: `/#courses` },
+    { label: t('portfolio_link'), href: `/#blog` },
   ];
 
   const isActive = (href: string) => {
@@ -34,7 +35,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-purple-700/30 backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 border-b border-purple-700/30 backdrop-blur-xl bg-primary">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link 
@@ -55,25 +56,19 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center space-x-1">
-          {items.map((item, index) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-300 group ${
-                isActive(item.href)
-                  ? 'text-purple-400 bg-purple-900/30 border border-purple-700/50'
-                  : 'text-purple-200 hover:text-white hover:bg-purple-900/20'
-              }`}
-            >
-              <span className="relative z-10">{item.label}</span>
-              {isActive(item.href) && (
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-purple-800/20 rounded-lg animate-pulse"></div>
-              )}
-              <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-purple-600 group-hover:w-full group-hover:left-0 transition-all duration-300"></div>
-            </Link>
-          ))}
-        </div>
+        <div className="hidden relative lg:flex items-center space-x-1">
+  {/* <GooeyNav
+    items={items}
+    particleCount={15}
+    particleDistances={[90, 10]}
+    particleR={100}
+    initialActiveIndex={0}
+    animationTime={600}
+    timeVariance={300}
+    colors={[1, 2, 3, 1, 2, 3, 1, 4]}
+  /> */}
+</div>
+
 
         {/* Right Side Actions */}
         <div className="flex items-center space-x-4">

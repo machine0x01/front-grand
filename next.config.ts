@@ -17,6 +17,21 @@ const baseConfig: NextConfig = {
   },
   poweredByHeader: false,
   reactStrictMode: true,
+  experimental: {
+    turbo: {
+      resolveAlias: {
+        '*.glb': 'asset',
+        '*.gltf': 'asset',
+      },
+    },
+  },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.(glb|gltf)$/,
+      type: 'asset/resource',
+    });
+    return config;
+  },
 };
 
 // Initialize the Next-Intl plugin
