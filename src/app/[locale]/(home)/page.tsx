@@ -14,6 +14,7 @@ import BlogPosts from '@/components/home/BlogPosts';
 import { courseService } from '@/libs/services/courseService';
 import SplashCursor from '@/components/shared/SplashCursor';
 import Lanyard from '@/components/shared/lanyard/Lanyard';
+import { Blender3DSection, GraphicDesignSection, MohoAnimationSection, MotionGraphicsSection } from '@/components/courses-sections';
 
 type IIndexProps = {
   params: Promise<{ locale: string }>;
@@ -211,19 +212,14 @@ export default async function Index(props: IIndexProps) {
 
         <HeroHome content={homeData.hero} />
 
-        {/* {homeData.about && <AboutUs content={homeData.about} />} */}
+        {homeData.about && <AboutUs />}
+        <GraphicDesignSection />
+        <MotionGraphicsSection />
+        <MohoAnimationSection />
+        <Blender3DSection />
 
-        {/* {coursesData.length > 0 && ( */}
-          {/* <CoursesList content={{
-            courses: coursesData,
-            title: coursesSection.title,
-            description: coursesSection.description,
-          }}
-          /> */}
-        {/* )} */}
-
-        {/* {comments.length > 0 && ( */}
-          {/* <StudentsComments
+        {comments.length > 0 && (
+           <StudentsComments
             content={comments.map(comment => ({
               quote: comment.comment,
               course: comment.course_name,
@@ -231,6 +227,7 @@ export default async function Index(props: IIndexProps) {
             }))}
           />
         )}
+
         {coursesData.length > 0 && (
           <CreationsShowcase
             courses_section={{
@@ -245,7 +242,7 @@ export default async function Index(props: IIndexProps) {
           <BlogPosts
             featured_blogs={featuredBlogs}
           />
-        )} */}
+        )}
 
       {/* <div className='w-full  h-[80vh]'>
       <Lanyard />

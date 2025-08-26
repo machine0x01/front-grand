@@ -224,7 +224,7 @@ const CreationsShowcase: React.FC<CreationsShowcaseProps> = ({ courses_section =
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
-  const [hoveredProject] = useState<number | null>(null);
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
   // Process categories from courses data
   const categories: Category[] = React.useMemo(() => {
@@ -341,25 +341,29 @@ const CreationsShowcase: React.FC<CreationsShowcaseProps> = ({ courses_section =
         {/* Sidebar - Sticky */}
         <aside className="space-y-6 lg:w-1/3 lg:sticky lg:top-24 lg:self-start">
           {/* Categories Section */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-xl backdrop-blur-lg">
-            <h2 className="mb-4 text-xl font-semibold text-white">Categories</h2>
+          <div className="group hover-lift rounded-2xl border border-white/10 bg-white/5 p-6 shadow-xl backdrop-blur-lg transition-all duration-500 hover:border-white/20 hover:bg-white/10 hover:shadow-2xl hover:shadow-purple-500/20">
+            <h2 className="mb-4 text-xl font-semibold text-white transition-all duration-300 group-hover:text-purple-200">Categories</h2>
             <nav className="space-y-3">
               {categories.map(category => (
                 <button
                   key={category.slug}
                   onClick={() => handleCategoryChange(category.slug)}
+                  onMouseEnter={() => setHoveredProject(category.slug === 'all' ? -1 : parseInt(category.slug))}
+                  onMouseLeave={() => setHoveredProject(null)}
                   aria-label={`Show ${category.name} projects`}
-                  className={`focus:ring-opacity-50 w-full transform rounded-lg p-3 transition-all duration-300 ease-out hover:scale-105 focus:ring-2 focus:ring-purple-500 focus:outline-none ${
+                  className={`group/category focus:ring-opacity-50 w-full transform rounded-lg p-3 transition-all duration-500 ease-out hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20 focus:ring-2 focus:ring-purple-500 focus:outline-none ${
                     activeCategory === category.slug
-                      ? `bg-gradient-to-r ${category.color} font-bold text-white shadow-lg`
-                      : 'bg-white/5 text-purple-300 hover:bg-white/10 hover:text-white'
+                      ? `bg-gradient-to-r ${category.color} font-bold text-white shadow-lg shadow-purple-500/30 hover:shadow-2xl hover:shadow-purple-500/50`
+                      : 'bg-white/5 text-purple-300 hover:bg-white/15 hover:text-white hover:shadow-lg hover:shadow-purple-500/20 hover:scale-105'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span>{category.name}</span>
+                    <span className="transition-all duration-300 group-hover/category:scale-105">{category.name}</span>
                     <span
-                      className={`rounded-full px-2 py-1 text-xs font-medium ${
-                        activeCategory === category.slug ? 'bg-white/20' : 'bg-purple-500/20 text-purple-300'
+                      className={`rounded-full px-2 py-1 text-xs font-medium transition-all duration-300 ${
+                        activeCategory === category.slug 
+                          ? 'bg-white/20 shadow-lg' 
+                          : 'bg-purple-500/20 text-purple-300 group-hover/category:bg-purple-500/30 group-hover/category:scale-110'
                       }`}
                     >
                       {category.count}
@@ -371,124 +375,119 @@ const CreationsShowcase: React.FC<CreationsShowcaseProps> = ({ courses_section =
           </div>
 
           {/* Navigation Controls */}
-          <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4 shadow-xl backdrop-blur-lg">
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1 || isAnimating}
-              className="focus:ring-opacity-50 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 p-3 transition-all duration-300 hover:scale-110 hover:shadow-lg focus:ring-2 focus:ring-purple-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-              aria-label="Previous project"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
+          <div className="group hover-lift rounded-2xl border border-white/10 bg-white/5 p-4 shadow-xl backdrop-blur-lg transition-all duration-500 hover:border-white/20 hover:bg-white/10 hover:shadow-2xl hover:shadow-purple-500/20">
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1 || isAnimating}
+                className="group/btn focus:ring-opacity-50 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 p-3 transition-all duration-500 hover:scale-110 hover:shadow-xl hover:shadow-purple-500/40 focus:ring-2 focus:ring-purple-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-lg"
+                aria-label="Previous project"
+              >
+                <ChevronLeft className="h-5 w-5 transition-transform duration-300 group-hover/btn:translate-x-[-2px]" />
+              </button>
 
-            <div className="text-center">
-              <p className="text-sm font-medium text-slate-300">
-                Page
-                {' '}
-                {currentPage}
-                {' '}
-                of
-                {' '}
-                {totalPages}
-              </p>
-              <div className="mt-2 flex space-x-1">
-                {Array.from({ length: Math.min(totalPages, 10) }).map((_, index) => (
-                  <div
-                    key={index}
-                    className={`h-2 w-2 rounded-full transition-all duration-300 ${
-                      index + 1 === currentPage
-                        ? 'scale-125 bg-gradient-to-r from-purple-500 to-pink-500'
-                        : 'bg-white/30'
-                    }`}
-                  />
-                ))}
+              <div className="text-center">
+                <p className="text-sm font-medium text-slate-300 transition-all duration-300 group-hover:text-white">
+                  Page
+                  {' '}
+                  {currentPage}
+                  {' '}
+                  of
+                  {' '}
+                  {totalPages}
+                </p>
+                <div className="mt-2 flex space-x-1">
+                  {Array.from({ length: Math.min(totalPages, 10) }).map((_, index) => (
+                    <div
+                      key={index}
+                      className={`h-2 w-2 rounded-full transition-all duration-500 hover:scale-150 cursor-pointer ${
+                        index + 1 === currentPage
+                          ? 'scale-125 bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg shadow-purple-500/50'
+                          : 'bg-white/30 hover:bg-white/50 hover:shadow-lg hover:shadow-purple-500/30'
+                      }`}
+                      onClick={() => handlePageChange(index + 1)}
+                      title={`Go to page ${index + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages || isAnimating}
-              className="focus:ring-opacity-50 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 p-3 transition-all duration-300 hover:scale-110 hover:shadow-lg focus:ring-2 focus:ring-purple-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-              aria-label="Next project"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages || isAnimating}
+                className="group/btn focus:ring-opacity-50 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 p-3 transition-all duration-500 hover:scale-110 hover:shadow-xl hover:shadow-purple-500/40 focus:ring-2 focus:ring-purple-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-lg"
+                aria-label="Next project"
+              >
+                <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover/btn:translate-x-[2px]" />
+              </button>
+            </div>
           </div>
         </aside>
 
         {/* Main Content */}
         <main className="lg:w-2/3">
           <article
-            className={`rounded-3xl border border-white/20 bg-white/10 p-6 shadow-2xl backdrop-blur-lg transition-all duration-300 ${
+            onMouseEnter={() => setHoveredProject(currentProject.id)}
+            onMouseLeave={() => setHoveredProject(null)}
+            className={`group hover-lift rounded-3xl border border-white/20 bg-white/10 p-6 shadow-2xl backdrop-blur-lg transition-all duration-700 hover:border-white/40 hover:bg-white/15 hover:shadow-3xl hover:shadow-purple-500/30 ${
               isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'
             }`}
           >
-            {/* Project Header */}
-            {/* <header className="mb-6 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-lg font-semibold text-white shadow-lg">
-                    {currentProject.student_name
-                      .split(' ')
-                      .map(n => n[0])
-                      .join('')}
-                  </div>
-                  <div className="absolute -top-1 -right-1 h-4 w-4 animate-pulse rounded-full border-2 border-white bg-green-400" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white">{currentProject.student_name}</h3>
-                  <p className="text-sm text-purple-200">{currentProject.courseName}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1">
-                  <Star className="h-4 w-4 fill-current text-yellow-400" />
-                  <span className="text-sm font-medium text-white">{currentProject.courseRating}</span>
-                </div>
-              </div>
-            </header> */}
-
             {/* Project Content */}
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
               {/* Project Image/Video */}
-              <div className="group relative overflow-hidden rounded-xl">
-                <div className="relative overflow-hidden rounded-xl">
+              <div className="group/image relative overflow-hidden rounded-xl">
+                <div className="relative overflow-hidden rounded-xl transition-all duration-700 group-hover/image:scale-105">
                   <Image
                     src={currentProject.thumb || '/placeholder.svg'}
                     alt={currentProject.title}
                     width={600}
                     height={400}
-                    className="h-auto w-full rounded-xl object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="h-auto w-full rounded-xl object-cover transition-all duration-700 group-hover/image:scale-110"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-all duration-500 group-hover/image:opacity-100" />
+                  
+                  {/* Animated overlay with floating particles effect */}
+                  <div className="absolute inset-0 opacity-0 transition-opacity duration-700 group-hover/image:opacity-100">
+                    <div className="absolute top-4 left-4 h-2 w-2 animate-ping rounded-full bg-purple-400 opacity-75"></div>
+                    <div className="absolute top-8 right-8 h-1 w-1 animate-ping rounded-full bg-pink-400 opacity-75" style={{ animationDelay: '0.5s' }}></div>
+                    <div className="absolute bottom-8 left-8 h-1.5 w-1.5 animate-ping rounded-full bg-cyan-400 opacity-75" style={{ animationDelay: '1s' }}></div>
+                    
+                    {/* Additional floating elements for enhanced effect */}
+                    <div className="absolute top-1/2 left-1/4 h-1 w-1 animate-ping rounded-full bg-yellow-400 opacity-60" style={{ animationDelay: '1.5s' }}></div>
+                    <div className="absolute top-1/3 right-1/3 h-1.5 w-1.5 animate-ping rounded-full bg-green-400 opacity-70" style={{ animationDelay: '2s' }}></div>
+                    
+                    {/* Subtle grid pattern overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover/image:opacity-100 transition-opacity duration-1000"></div>
+                  </div>
                 </div>
 
                 {currentProject.type === 'video' && (
                   <>
                     <button
                       aria-label="Play video"
-                      className="focus:ring-opacity-50 absolute top-4 right-4 rounded-full bg-black/50 p-3 text-white backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-black/70 focus:ring-2 focus:ring-white focus:outline-none"
+                      className="group/play focus:ring-opacity-50 absolute top-4 right-4 rounded-full bg-black/50 p-3 text-white backdrop-blur-sm transition-all duration-500 hover:scale-110 hover:bg-black/70 hover:shadow-lg hover:shadow-purple-500/30 focus:ring-2 focus:ring-white focus:outline-none"
                       onClick={() => window.open(currentProject.ref, '_blank')}
                     >
-                      <Play className="h-5 w-5" />
+                      <Play className="h-5 w-5 transition-transform duration-300 group-hover/play:scale-110" />
                     </button>
 
                     {/* Floating Play Button */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-500 group-hover/image:opacity-100">
                       <button
                         aria-label="Play video"
-                        className="animate-pulse rounded-full bg-white/20 p-4 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/30"
+                        className="group/playBtn animate-pulse rounded-full bg-white/20 p-4 text-white backdrop-blur-md transition-all duration-500 hover:scale-125 hover:bg-white/30 hover:shadow-2xl hover:shadow-white/30"
                         onClick={() => window.open(currentProject.ref, '_blank')}
                       >
-                        <Play className="h-8 w-8" />
+                        <Play className="h-8 w-8 transition-transform duration-300 group-hover/playBtn:scale-110" />
                       </button>
                     </div>
                   </>
                 )}
 
                 {/* Project Type Badge */}
-                <div className="absolute top-4 left-4 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-3 py-1 text-xs font-semibold text-white capitalize">
+                <div className="group/badge absolute top-4 left-4 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-3 py-1 text-xs font-semibold text-white capitalize transition-all duration-500 hover:scale-110 hover:shadow-lg hover:shadow-purple-500/30">
                   {currentProject.type}
                 </div>
               </div>
@@ -496,21 +495,22 @@ const CreationsShowcase: React.FC<CreationsShowcaseProps> = ({ courses_section =
               {/* Project Details */}
               <div className="flex flex-col justify-between">
                 <div className="space-y-4">
-                  <div>
-                    <h4 className="mb-2 text-3xl leading-tight font-bold text-white">{currentProject.title}</h4>
-                    <p className="mb-4 text-xl font-medium text-purple-300">
+                  <div className="transition-all duration-500 group-hover:scale-105">
+                    <h4 className="mb-2 text-3xl leading-tight font-bold text-white transition-all duration-300 group-hover:text-purple-200">{currentProject.title}</h4>
+                    <p className="mb-4 text-xl font-medium text-purple-300 transition-all duration-300 group-hover:text-purple-200">
                       By
-                      {currentProject.student_name}
+                      {' '}
+                      <span className="transition-all duration-300 group-hover:text-white">{currentProject.student_name}</span>
                     </p>
                   </div>
 
-                  <p className="text-base leading-relaxed text-slate-300">
+                  <p className="text-base leading-relaxed text-slate-300 transition-all duration-300 group-hover:text-slate-200">
                     {currentProject.description_en || currentProject.description_ar}
                   </p>
 
                   {/* Course Badge */}
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-sm text-purple-200 transition-colors duration-200 hover:bg-white/20">
+                    <span className="group/badge rounded-full border border-white/20 bg-white/10 px-3 py-1 text-sm text-purple-200 transition-all duration-300 hover:border-white/40 hover:bg-white/20 hover:text-white hover:shadow-lg hover:shadow-purple-500/20">
                       #
                       {currentProject.courseName}
                     </span>
@@ -518,11 +518,16 @@ const CreationsShowcase: React.FC<CreationsShowcaseProps> = ({ courses_section =
                 </div>
 
                 <div className="mt-8 space-y-4">
-                  <button
-                    className="focus:ring-opacity-50 w-full rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-105 hover:from-purple-700 hover:to-pink-700 hover:shadow-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                    onClick={() => window.open(currentProject.ref, '_blank')}
-                  >
-                    View Full Project
+                                      <button
+                      className="group/btn btn-hover-effect focus:ring-opacity-50 w-full rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-3 font-semibold text-white transition-all duration-500 hover:scale-105 hover:from-purple-700 hover:to-pink-700 hover:shadow-2xl hover:shadow-purple-500/40 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                      onClick={() => window.open(currentProject.ref, '_blank')}
+                    >
+                    <span className="flex items-center justify-center gap-2 transition-all duration-300 group-hover/btn:gap-3">
+                      View Full Project
+                      <div className="h-0 w-0 overflow-hidden transition-all duration-300 group-hover/btn:h-4 group-hover/btn:w-4">
+                        →
+                      </div>
+                    </span>
                   </button>
                 </div>
               </div>

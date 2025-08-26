@@ -2,78 +2,10 @@
 
 import { Hero } from '@/types/home';
 import { motion } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
-import { useGLTF, OrbitControls } from '@react-three/drei';
-import { Suspense, useEffect } from 'react';
 
 interface HeroHomeProps {
   content: Hero
 }
-
-// Astronaut 3D Model Component
-const Astronaut = () => {
-  const { scene } = useGLTF('/assets/images/hero/astronaut.glb');
-  
-  // Clone the scene to avoid conflicts
-  const clonedScene = scene.clone();
-  
-  return (
-    <primitive 
-      object={clonedScene} 
-      position={[0, 0, 0]} 
-      rotation={[0, Math.PI / 4, 0]}
-      scale={[2.5, 2.5, 2.5]}
-    />
-  );
-};
-
-// 3D Scene for Astronaut
-const AstronautScene = () => {
-  return (
-    <motion.div
-      animate={{ 
-        y: [0, -20, 0],
-      }}
-      transition={{ 
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }}
-      style={{ 
-        position: 'absolute', 
-        bottom: '-100px', 
-        left: '-200px', 
-        width: '800px', 
-        height: '800px', 
-        zIndex: 2 
-      }}
-    >
-      <Canvas
-        camera={{ position: [0, 0, 8], fov: 60 }}
-        style={{ 
-          width: '100%', 
-          height: '100%'
-        }}
-      >
-        <ambientLight intensity={1} />
-        <directionalLight position={[10, 10, 5]} intensity={1.5} />
-        <pointLight position={[-10, -10, -5]} intensity={0.8} />
-        
-        <Suspense fallback={null}>
-          <Astronaut />
-        </Suspense>
-        
-        <OrbitControls 
-          enableZoom={false} 
-          enablePan={false} 
-          autoRotate={false}
-          maxPolarAngle={Math.PI / 2}
-          minPolarAngle={Math.PI / 3}
-        />
-      </Canvas>
-    </motion.div>
-  );
-};
 
 const HeroHome = ({ content }: HeroHomeProps) => {
   return (
@@ -99,9 +31,6 @@ const HeroHome = ({ content }: HeroHomeProps) => {
         <div className="absolute bottom-1/3 left-16 w-10 h-10 bg-white rounded-full blur-sm" />
         <div className="absolute top-3/4 right-16 w-6 h-6 bg-white rounded-full blur-sm" />
       </div>
-      
-      {/* Astronaut 3D Model - Left Bottom */}
-      <AstronautScene />
       
       {/* Content Container */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">
