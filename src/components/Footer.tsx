@@ -1,42 +1,45 @@
+"use client"
 import { ExternalLink, Facebook, Globe, Instagram, Linkedin, MapPin, Phone } from 'lucide-react';
 import React from 'react';
 import LightRays from './shared/LightRays';
+import { LampContainer } from './ui/lamp';
+import { motion } from 'framer-motion';
 
 function Footer() {
   return (
-    <footer className="relative h-[70vh] overflow-hidden bg-[#0B000F] text-white">
+    <footer className="relative h-screen overflow-hidden  text-white">
 
       {/* Background decorative lines */}
-      {/* <LightRays
-    raysOrigin="right"
-    raysColor="#db2777"
-    raysSpeed={0.5}
-    lightSpread={5}
-    rayLength={20}
-    followMouse={false}
-    mouseInfluence={2}
+      <LightRays
+    raysOrigin="bottom-center"
+    raysColor="#00ffff"
+    raysSpeed={1.5}
+    lightSpread={0.8}
+    rayLength={1.2}
+    followMouse={true}
+    mouseInfluence={0.1}
     noiseAmount={0.1}
-    distortion={0.2}
+    distortion={0.05}
     className="custom-rays"
-  />      
-   */}
+  />
+   
+  
 
 
-  <div className=' top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full bottom-0 absolute z-[5]'>
+   <div className=' top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full bottom-0 absolute z-[5]'>
 
       <div className="relative z-10 px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         <div className="container mx-auto">
 
-          {/* Main Footer Content */}
+          
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
 
-            {/* Our Location Section */}
             <div className="lg:col-span-1">
               <h3 className="mb-6 bg-gradient-to-r from-[#FEB101] to-[#FFD984] bg-clip-text text-xl font-bold text-transparent sm:text-2xl">
                 Our Location
               </h3>
 
-              {/* Map Placeholder with enhanced styling */}
+              
               <div className="group mb-6 flex h-40 w-full items-center justify-center rounded-xl border border-purple-400/20 bg-gradient-to-br from-[#4A1F63] to-[#3A1553] text-gray-300 shadow-2xl transition-all duration-300 hover:border-purple-400/40 sm:h-48">
                 <div className="text-center">
                   <MapPin size={40} className="mx-auto mb-2 transition-colors duration-300 group-hover:text-[#FEB101]" />
@@ -44,7 +47,7 @@ function Footer() {
                 </div>
               </div>
 
-              {/* Contact Info */}
+              
               <div className="space-y-3">
                 <div className="flex items-center">
                   <div className="mr-3 rounded-lg bg-gradient-to-r from-[#FEB101] to-[#FFD984] p-2">
@@ -64,7 +67,7 @@ function Footer() {
               </div>
             </div>
 
-            {/* Quick Links Section */}
+            
             <div className="lg:col-span-1">
               <h3 className="mb-6 bg-gradient-to-r from-[#FEB101] to-[#FFD984] bg-clip-text text-xl font-bold text-transparent">
                 Quick Links
@@ -85,7 +88,7 @@ function Footer() {
               </ul>
             </div>
 
-            {/* Diplomas Section */}
+            
             <div className="lg:col-span-1">
               <h3 className="mb-6 bg-gradient-to-r from-[#FEB101] to-[#FFD984] bg-clip-text text-xl font-bold text-transparent">
                 Diplomas
@@ -106,7 +109,7 @@ function Footer() {
               </ul>
             </div>
 
-            {/* Support & Newsletter Section */}
+            
             <div className="lg:col-span-1">
               <h3 className="mb-6 bg-gradient-to-r from-[#FEB101] to-[#FFD984] bg-clip-text text-xl font-bold text-transparent">
                 Support
@@ -126,20 +129,20 @@ function Footer() {
                 ))}
               </ul>
 
-              {/* Newsletter Signup */}
+              
 
             </div>
           </div>
 
-          {/* Divider */}
+          
           <div className="mt-12 mb-8 sm:mt-16">
             <div className="h-px bg-gradient-to-r from-transparent via-purple-400/30 to-transparent"></div>
           </div>
 
-          {/* Footer Bottom Section */}
+          
           <div className="flex flex-col items-center justify-between space-y-6 lg:flex-row lg:space-y-0">
 
-            {/* Copyright */}
+            
             <div className="text-center lg:text-left">
               <p className="mb-2 text-sm text-gray-300">
                 © 2025
@@ -152,7 +155,7 @@ function Footer() {
               </p>
             </div>
 
-            {/* Social Media Links */}
+                
             <div className="flex items-center space-x-6">
               <span className="hidden text-sm text-gray-300 sm:block">Follow Us:</span>
               <div className="flex items-center space-x-3">
@@ -176,7 +179,7 @@ function Footer() {
           </div>
         </div>
       </div>
-  </div>
+  </div> 
     </footer>
   );
 }

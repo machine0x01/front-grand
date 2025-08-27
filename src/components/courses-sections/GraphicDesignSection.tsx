@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { ArrowRight, Check, Users, Award, Globe, Palette } from "lucide-react"
+import { Meteors } from "../ui/meteors"
 
 
 
@@ -9,7 +10,7 @@ import { ArrowRight, Check, Users, Award, Globe, Palette } from "lucide-react"
 export default function GraphicDesignSection() {
   return (
     <section id="graphic-design" className="min-h-screen relative overflow-hidden bg-primary">
-            {/* Background 3D Elements */}
+      {/* Background 3D Elements */}
       <div className="absolute inset-0 opacity-30">
         <div className="w-full h-full bg-gradient-to-br from-black/20 to-transparent"></div>
       </div>
@@ -30,12 +31,12 @@ export default function GraphicDesignSection() {
           >
             <Palette className="w-12 h-12 text-white" />
           </motion.div>
-          
+
           <h1 className="text-6xl md:text-7xl font-bold text-white mb-6">
             Graphic Design
           </h1>
           <p className="text-xl md:text-2xl text-emerald-100 max-w-3xl mx-auto leading-relaxed mb-8">
-            Master the art of visual communication with our comprehensive graphic design course. 
+            Master the art of visual communication with our comprehensive graphic design course.
             Learn to create stunning visuals that tell compelling stories.
           </p>
 
@@ -109,40 +110,9 @@ export default function GraphicDesignSection() {
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="space-y-4"
-            >
-              <h4 className="text-2xl font-semibold text-white">Course Duration</h4>
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                <div className="flex items-center justify-between">
-                  <span className="text-emerald-300">Total Hours:</span>
-                  <span className="text-2xl font-bold text-emerald-300">24 Hours</span>
-                </div>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-emerald-300">Exercises:</span>
-                  <span className="text-2xl font-bold text-emerald-300">48 Projects</span>
-                </div>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-emerald-300">Certification:</span>
-                  <span className="text-emerald-300 font-semibold">Included</span>
-                </div>
-              </div>
-            </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="space-y-4"
-            >
-              <h4 className="text-2xl font-semibold text-white">Prerequisites</h4>
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                <p className="text-emerald-100">Basic computer skills • Creative mindset • No prior design experience required</p>
-              </div>
-            </motion.div>
+
+
           </div>
 
           {/* Right Column - Photoshop Interface Demo */}
@@ -154,7 +124,7 @@ export default function GraphicDesignSection() {
           >
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:border-emerald-400/50 transition-all duration-300 group">
               <h4 className="text-2xl font-bold text-white mb-6 text-center">Photoshop Interface</h4>
-              
+
               {/* Photoshop Interface Layout */}
               <div className="bg-gray-900 rounded-lg p-4 h-80">
                 {/* Top Menu Bar */}
@@ -162,7 +132,7 @@ export default function GraphicDesignSection() {
                   <span className="text-emerald-300 text-xs font-semibold">File Edit Image Layer</span>
                   <span className="text-emerald-300 text-xs">100%</span>
                 </div>
-                
+
                 {/* Main Interface */}
                 <div className="flex h-64 space-x-3">
                   {/* Left Side - Tools Panel */}
@@ -182,9 +152,9 @@ export default function GraphicDesignSection() {
                     <div className="bg-gray-700 rounded p-2 text-center">
                       <span className="text-gray-300 text-xs">E</span>
                     </div>
-                     
+
                   </div>
-                  
+
                   {/* Center - Canvas Area */}
                   <div className="flex-1 bg-gray-800 rounded p-3 relative">
                     <div className="bg-emerald-600 rounded-lg h-full flex items-center justify-center relative overflow-hidden">
@@ -199,7 +169,7 @@ export default function GraphicDesignSection() {
                       <div className="absolute top-1/4 left-1/4 w-1/2 h-1/2 border-2 border-dashed border-white opacity-60"></div>
                     </div>
                   </div>
-                  
+
                   {/* Right Side - Layers Panel */}
                   <div className="w-32 bg-gray-800 rounded p-3">
                     <div className="flex items-center justify-between mb-3">
@@ -220,7 +190,7 @@ export default function GraphicDesignSection() {
                         <span className="text-emerald-200 text-xs">Image Layer</span>
                       </div>
                     </div>
-                    
+
                     {/* Properties */}
                     <div className="mt-4 pt-3 border-t border-gray-700">
                       <div className="space-y-1">
@@ -253,19 +223,44 @@ export default function GraphicDesignSection() {
             { icon: Award, title: "Portfolio Building", desc: "Create 10+ professional projects" },
             { icon: Globe, title: "Global Community", desc: "Connect with designers worldwide" }
           ].map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 * index }}
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-emerald-400/50 transition-all duration-300 group text-center"
-            >
-              <div className="inline-block p-4 rounded-full bg-emerald-500 mb-4 group-hover:scale-110 transition-transform duration-300">
-                <feature.icon className="w-8 h-8 text-white" />
+            <div className="">
+              <div className="relative w-full max-w-xl">
+                <div className="group relative flex h-full flex-col items-start justify-end overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 px-4 py-8 shadow-lg transition-all duration-300 hover:border-gray-600 hover:shadow-2xl hover:shadow-blue-500/25 hover:scale-105 hover:bg-gray-800">
+
+                  <div className="mb-4 flex h-5 w-5 items-center justify-center rounded-full border border-gray-500">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="h-2 w-2 text-gray-300"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25"
+                      />
+                    </svg>
+                  </div>
+
+                  <h1 className="relative z-50 mb-4 text-xl font-bold text-white">
+                    Meteors because they&apos;re cool
+                  </h1>
+
+                  <p className="relative z-50 mb-4 text-base font-normal text-slate-500">
+                    I don&apos;t know what to write so I&apos;ll just paste something
+                    cool here. One more sentence because lorem ipsum is just
+                    unacceptable. Won&apos;t ChatGPT the shit out of this.
+                  </p>
+
+                  {/* Meteor effect */}
+                  <Meteors number={20} />
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
-              <p className="text-emerald-100 leading-relaxed">{feature.desc}</p>
-            </motion.div>
+            </div>
+
+
           ))}
         </motion.div>
 
@@ -283,5 +278,5 @@ export default function GraphicDesignSection() {
         </motion.div>
       </div>
     </section>
-  )
-} 
+  );
+}
