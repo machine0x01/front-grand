@@ -1,293 +1,187 @@
-'use client';
+'use client'
 
-import { Hero } from '@/types/home';
-import { motion } from 'framer-motion';
-import TextPressure from '../ui/TextPressure';
-import GradientBlinds from '../ui/GradientBlinds';
-import React, { useState, useRef, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, OrbitControls, Environment } from '@react-three/drei';
-import { SkeletonUtils } from 'three-stdlib';
-import * as THREE from 'three';
+import React, { useEffect, useRef } from 'react'
+import { AstronautScene } from '../models/AstronautScene'
 
-interface HeroHomeProps {
-  content: Hero
-}
+export default function HeroHome() {
+  const starsRef = useRef<HTMLDivElement>(null)
 
-function Model(props: any) {
-  const { scene, animations } = useGLTF('/assets/images/walking_astronaut.glb');
-  const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene]);
-  const groupRef = useRef<THREE.Group>(null);
-  const mixerRef = useRef<THREE.AnimationMixer | null>(null);
-  const headBonesRef = useRef<{
-    head: THREE.Bone | null;
-    neck: THREE.Bone | null;
-    spine: THREE.Bone | null;
-  }>({                                  
-    head: null,
-    neck: null,
-    spine: null
-  });
-
-  // Initialize head bones and mixer
   useEffect(() => {
-    if (groupRef.current) {
-      // Create animation mixer
-      mixerRef.current = new THREE.AnimationMixer(groupRef.current);
+    const createStars = () => {
+      if (!starsRef.current) return
+
+      const container = starsRef.current
+      const numberOfStars = 100 // Reduced for better performance
+
+      // Clear existing stars
+      container.innerHTML = ''
+
+      for (let i = 0; i < numberOfStars; i++) {
+        const star = document.createElement('div')
+        const size = Math.random() * 4 + 1 // Bigger stars
+        const left = Math.random() * 100
+        const top = Math.random() * 100
+        const animationDelay = Math.random() * 5
+        const animationDuration = Math.random() * 4 + 2
+        const moveSpeed = Math.random() * 20 + 10 // Movement speed
+        
+        // Fewer glowing stars for better performance
+        const isGlowing = Math.random() > 0.7 // 30% chance
+        const isSuperGlow = Math.random() > 0.9 // 10% chance for super glow
+
+        let starClass, glowEffect
+        if (isSuperGlow) {
+          starClass = 'bg-white'
+          glowEffect = 'shadow-[0_0_20px_#ffffff,0_0_40px_#60a5fa,0_0_60px_#3b82f6,0_0_80px_#1d4ed8] animate-pulse'
+        } else if (isGlowing) {
+          starClass = 'bg-blue-100'
+          glowEffect = 'shadow-[0_0_15px_#60a5fa,0_0_30px_#3b82f6,0_0_45px_#1d4ed8] animate-pulse'
+        } else {
+          starClass = 'bg-white opacity-90'
+          glowEffect = ''
+        }
+
+        star.className = `absolute rounded-full ${starClass} ${glowEffect}`
+        
+        star.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          left: ${left}%;
+          top: ${top}%;
+          animation-delay: ${animationDelay}s;
+          animation-duration: ${animationDuration}s;
+        `
+
+        // Space-like floating animations
+        const floatSpeed = Math.random() * 30 + 20 // Slower, more space-like movement
+        if (isSuperGlow) {
+          star.style.animation = `spaceFloat ${floatSpeed}s linear infinite ${animationDelay}s, superTwinkle ${animationDuration}s infinite ${animationDelay}s`
+        } else if (isGlowing) {
+          star.style.animation = `gentleFloat ${floatSpeed * 1.2}s linear infinite ${animationDelay}s, superTwinkle ${animationDuration}s infinite ${animationDelay}s`
+        } else {
+          star.style.animation = `slowDrift ${floatSpeed * 1.5}s linear infinite ${animationDelay}s, twinkle ${animationDuration}s infinite ${animationDelay}s`
+        }
+
+        container.appendChild(star)
+      }
+    }
+
+    createStars()
+  }, [])
+
+  return (
+    <div className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-black via-slate-950 to-black px-6 overflow-hidden">
+      {/* Animated Stars Background */}
+      <div 
+        ref={starsRef} 
+        className="absolute inset-0 w-full h-full"
+        style={{
+          background: `
+            radial-gradient(ellipse at top, rgba(30, 30, 50, 0.4) 0%, transparent 50%),
+            radial-gradient(ellipse at bottom, rgba(10, 10, 20, 0.3) 0%, transparent 50%)
+          `
+        }}
+      />
       
-      // Find head and neck bones
-      groupRef.current.traverse((child) => {
-        if (child instanceof THREE.Bone) {
-          const boneName = child.name.toLowerCase();
-          
-          // Find head and neck bones
-          if (boneName.includes('head')) {
-            headBonesRef.current.head = child;
-          } else if (boneName.includes('neck')) {
-            headBonesRef.current.neck = child;
-          } else if (boneName.includes('spine') && boneName.includes('2')) {
-            headBonesRef.current.spine = child;
+      {/* Nebula-like background effects */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600 rounded-full blur-3xl opacity-15 animate-pulse"></div>
+        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-blue-600 rounded-full blur-3xl opacity-15 animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-600 rounded-full blur-3xl opacity-10 animate-pulse" style={{animationDelay: '2s'}}></div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center">
+        {/* Header */}
+        <h2 className="text-lg font-medium mb-2 text-blue-200 drop-shadow-lg">
+          <span className="font-semibold text-white">Motion</span> Design School
+        </h2>
+
+        {/* Main Title */}
+        <h1 className="text-6xl md:text-[20rem] font-extrabold leading-none text-center tracking-tight text-white drop-shadow-2xl">
+          <span className="bg-gradient-to-r from-blue-200 via-white to-purple-200 bg-clip-text text-transparent">
+            GRAND
+          </span>
+          <br />
+          <span className="bg-gradient-to-r from-purple-200 via-white to-blue-200 bg-clip-text text-transparent">
+            NOTION
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p className="mt-6 text-center text-base md:text-lg max-w-xl text-blue-100 drop-shadow-lg">
+          Learning and practicing from zero to pro <br /> Motion Design and CG area
+        </p>
+      </div>
+
+      {/* 3D Astronaut Scene - Bottom Left */}
+      <div className="absolute bottom-0 left-0 w-[400px] h-[600px] md:w-[500px] md:h-[700px] animate-slide-in-left">
+        <AstronautScene 
+          className="w-full h-full"
+          enableControls={false}
+          cameraPosition={[2, 1, 4]}
+          cameraFov={60}
+          rotateAstronaut={false}
+          randomMovement={false}
+        />
+      </div>
+
+      {/* Custom CSS for animations */}
+      <style jsx>{`
+        @keyframes twinkle {
+          0%, 100% { opacity: 0.4; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.3); }
+        }
+        
+        @keyframes superTwinkle {
+          0%, 100% { opacity: 0.8; transform: scale(1); }
+          25% { opacity: 1; transform: scale(1.5); }
+          50% { opacity: 0.9; transform: scale(1.2); }
+          75% { opacity: 1; transform: scale(1.4); }
+        }
+        
+        @keyframes slowDrift {
+          0% { transform: translateX(0) translateY(0); }
+          25% { transform: translateX(10px) translateY(-20px); }
+          50% { transform: translateX(-8px) translateY(-40px); }
+          75% { transform: translateX(12px) translateY(-60px); }
+          100% { transform: translateX(0) translateY(-80px); }
+        }
+        
+        @keyframes gentleFloat {
+          0% { transform: translateX(0) translateY(0) scale(1); }
+          20% { transform: translateX(15px) translateY(-25px) scale(1.05); }
+          40% { transform: translateX(-12px) translateY(-50px) scale(1.1); }
+          60% { transform: translateX(18px) translateY(-75px) scale(1.05); }
+          80% { transform: translateX(-10px) translateY(-100px) scale(1.08); }
+          100% { transform: translateX(0) translateY(-120px) scale(1); }
+        }
+        
+        @keyframes spaceFloat {
+          0% { transform: translateX(0) translateY(0) rotate(0deg) scale(1); }
+          16% { transform: translateX(20px) translateY(-30px) rotate(30deg) scale(1.1); }
+          33% { transform: translateX(-15px) translateY(-60px) rotate(-20deg) scale(1.05); }
+          50% { transform: translateX(25px) translateY(-90px) rotate(40deg) scale(1.15); }
+          66% { transform: translateX(-18px) translateY(-120px) rotate(-30deg) scale(1.08); }
+          83% { transform: translateX(22px) translateY(-150px) rotate(25deg) scale(1.12); }
+          100% { transform: translateX(0) translateY(-180px) rotate(0deg) scale(1); }
+        }
+        
+        @keyframes slide-in-left {
+          0% { 
+            transform: translateX(-100%); 
+            opacity: 0; 
+          }
+          100% { 
+            transform: translateX(0); 
+            opacity: 1; 
           }
         }
-      });
-    }
-  }, []);
-
-  // Animation frame loop
-  useFrame((state, delta) => {
-    if (mixerRef.current) {
-      mixerRef.current.update(delta);
-    }
-
-    // Control head based on mouse position when hovered
-    if (props.isHovered && headBonesRef.current && props.mousePosition) {
-      const { x, y } = props.mousePosition;
-      
-      // Convert mouse position (0-1) to rotation angles
-      const headRotationY = (x - 0.5) * 0.8; // Left-right rotation
-      const headRotationX = (y - 0.5) * 0.4; // Up-down rotation
-      
-      // Apply head rotation
-      if (headBonesRef.current.head) {
-        headBonesRef.current.head.rotation.y = headRotationY;
-        headBonesRef.current.head.rotation.x = headRotationX;
-      }
-      
-      // Apply neck rotation for more natural movement
-      if (headBonesRef.current.neck) {
-        headBonesRef.current.neck.rotation.y = headRotationY * 0.5;
-        headBonesRef.current.neck.rotation.x = headRotationX * 0.3;
-      }
-      
-      // Apply spine rotation for body follow
-      if (headBonesRef.current.spine) {
-        headBonesRef.current.spine.rotation.y = headRotationY * 0.2;
-      }
-    } else {
-      // Smoothly reset head position when not hovered
-      if (headBonesRef.current.head) {
-        headBonesRef.current.head.rotation.y = THREE.MathUtils.lerp(
-          headBonesRef.current.head.rotation.y, 0, delta * 2
-        );
-        headBonesRef.current.head.rotation.x = THREE.MathUtils.lerp(
-          headBonesRef.current.head.rotation.x, 0, delta * 2
-        );
-      }
-      
-      if (headBonesRef.current.neck) {
-        headBonesRef.current.neck.rotation.y = THREE.MathUtils.lerp(
-          headBonesRef.current.neck.rotation.y, 0, delta * 2
-        );
-        headBonesRef.current.neck.rotation.x = THREE.MathUtils.lerp(
-          headBonesRef.current.neck.rotation.x, 0, delta * 2
-        );
-      }
-      
-      if (headBonesRef.current.spine) {
-        headBonesRef.current.spine.rotation.y = THREE.MathUtils.lerp(
-          headBonesRef.current.spine.rotation.y, 0, delta * 2
-        );
-      }
-    }
-  });
-
-  return (
-    <group ref={groupRef} {...props} dispose={null}>
-      <primitive object={clone} />
-    </group>
+        
+        .animate-slide-in-left {
+          animation: slide-in-left 1.5s ease-out forwards;
+        }
+      `}</style>
+    </div>
   );
 }
-
-useGLTF.preload('/assets/images/walking_astronaut.glb');
-
-const HeroHome = ({ content }: HeroHomeProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [currentGesture, setCurrentGesture] = useState<string | null>(null);
-  const [clickCount, setClickCount] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
-  const gestureTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const gestures = ['wave', 'point', 'salute', 'peace'];
-  
-  const handleClick = () => {
-    // Clear any existing timeout
-    if (gestureTimeoutRef.current) {
-      clearTimeout(gestureTimeoutRef.current);
-    }
-    
-    // Cycle through gestures
-    const nextGesture = gestures[clickCount % gestures.length];
-    if (nextGesture) {
-      setCurrentGesture(nextGesture);
-      setClickCount(prev => prev + 1);
-      
-      // Reset gesture after animation
-      gestureTimeoutRef.current = setTimeout(() => {
-        setCurrentGesture(null);
-      }, 2000);
-    }
-  };
-
-  // Track mouse movement for head control
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width;
-    const y = (event.clientY - rect.top) / rect.height;
-    setMousePosition({ x, y });
-  };
-
-  return (
-    <header className="relative mx-auto flex flex-col h-[100svh] items-center justify-center w-full max-w-[1920px] overflow-hidden">
-
-      {/* 3D Model Canvas */}
-      <div 
-        className="absolute inset-0 z-0 cursor-pointer"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={handleClick}
-        onMouseMove={handleMouseMove}
-      >
-        <Canvas
-          camera={{ position: [0, 0, 20], fov: 25 }}
-          style={{ background: 'transparent' }}
-        >
-          {/* Dynamic lighting based on hover */}
-          <ambientLight intensity={isHovered ? 1.5 : 1} />
-          <directionalLight 
-            position={[2, 2, 2]} 
-            intensity={isHovered ? 3 : 2}
-            color={isHovered ? "#ff6b6b" : "#ffffff"}
-          />
-          <pointLight 
-            position={[-2, -2, -2]} 
-            intensity={isHovered ? 2 : 1.5}
-            color={isHovered ? "#4ecdc4" : "#ffffff"}
-          />
-          
-          {/* Additional hover lights */}
-          {isHovered && (
-            <>
-              <pointLight position={[5, 5, 5]} intensity={2} color="#ffd93d" />
-              <pointLight position={[-5, -5, 5]} intensity={1.5} color="#6c5ce7" />
-            </>
-          )}
-          
-          {/* Gesture-specific lighting */}
-          {currentGesture && (
-            <>
-              <pointLight position={[0, 5, 0]} intensity={3} color="#ff6b6b" />
-              <pointLight position={[0, -5, 0]} intensity={2} color="#4ecdc4" />
-            </>
-          )}
-          
-          <Model 
-            position={[0, -3, 0]}
-            scale={[0.8, 0.8, 0.8]}
-            rotation={[0, 0, 0]}
-            isHovered={isHovered}
-            mousePosition={mousePosition}
-          />
-          
-          <Environment preset="city" />
-          <OrbitControls 
-            enableZoom={false}
-            enablePan={false}
-            autoRotate={!isHovered && !currentGesture}
-            autoRotateSpeed={0.15}
-            minPolarAngle={Math.PI / 8}
-            maxPolarAngle={Math.PI / 2.2}
-          />
-        </Canvas>
-        
-        {/* Hover overlay effects */}
-        {isHovered && (
-          <div className="absolute inset-0 pointer-events-none">
-            {/* Glowing border effect */}
-            <div className="absolute inset-0 border-4 border-blue-400/30 rounded-full blur-xl animate-pulse" />
-            
-            {/* Particle effect overlay */}
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400 rounded-full animate-ping" />
-              <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-purple-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }} />
-              <div className="absolute bottom-1/3 left-1/3 w-1 h-1 bg-cyan-400 rounded-full animate-ping" style={{ animationDelay: '1s' }} />
-              <div className="absolute bottom-1/4 right-1/4 w-2.5 h-2.5 bg-pink-400 rounded-full animate-ping" style={{ animationDelay: '1.5s' }} />
-            </div>
-          </div>
-        )}
-
-        {/* Gesture indicator overlay */}
-        {currentGesture && (
-          <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="bg-black/80 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20"
-            >
-              <div className="text-center">
-                <div className="text-4xl mb-2">
-                  {currentGesture === 'wave' && '👋'}
-                  {currentGesture === 'point' && '👆'}
-                  {currentGesture === 'salute' && '🫡'}
-                  {currentGesture === 'peace' && '✌️'}
-                </div>
-                <div className="text-white font-semibold text-lg capitalize">
-                  {currentGesture}!
-                </div>
-                <div className="text-white/70 text-sm mt-1">
-                  Click again for more gestures
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </div>
-
-      {/* Interactive hover indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: isHovered ? 1 : 0.6, y: isHovered ? 0 : 20 }}
-          transition={{ duration: 0.3 }}
-          className="text-center"
-        >
-          <div className="text-white/80 text-sm font-medium mb-2">
-            {isHovered ? "👋 Astronaut is following your mouse! Move to control the head" : "Hover to interact • Move mouse to control head"}
-          </div>
-          <div className="text-white/60 text-xs mb-2">
-            Click to trigger gestures!
-          </div>
-          <div className="flex space-x-2 justify-center">
-            <div className={`w-2 h-2 rounded-full transition-all duration-300 ${isHovered ? 'bg-blue-400 scale-125' : 'bg-white/40'}`} />
-            <div className={`w-2 h-2 rounded-full transition-all duration-300 ${isHovered ? 'bg-purple-400 scale-125' : 'bg-white/40'}`} />
-            <div className={`w-2 h-2 rounded-full transition-all duration-300 ${isHovered ? 'bg-cyan-400 scale-125' : 'bg-white/40'}`} />
-          </div>
-        </motion.div>
-      </div>
-
-    </header>
-  );
-};
-
-export default HeroHome;

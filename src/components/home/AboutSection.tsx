@@ -68,35 +68,46 @@ export default function AboutSection() {
   ];
 
   return (
-    <section className="relative min-h-screen py-24 overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
-      {/* Animated Background Elements */}
+    <section className="relative min-h-screen py-24 overflow-hidden bg-gradient-to-b from-black via-slate-950 to-black">
+      {/* Animated Background Elements - Matching Hero */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-600/15 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
-      {/* Floating Particles */}
+      {/* Space Stars - Matching Hero */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-white/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              opacity: [0.2, 0.8, 0.2],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
+        {[...Array(50)].map((_, i) => {
+          const isGlowing = Math.random() > 0.7;
+          const size = Math.random() * 3 + 1;
+          return (
+            <motion.div
+              key={i}
+              className={`absolute rounded-full ${
+                isGlowing 
+                  ? 'bg-blue-100 shadow-[0_0_15px_#60a5fa,0_0_30px_#3b82f6] animate-pulse' 
+                  : 'bg-white opacity-80'
+              }`}
+              style={{
+                width: `${size}px`,
+                height: `${size}px`,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -30, 0],
+                x: [0, Math.random() * 20 - 10, 0],
+                opacity: [0.3, 1, 0.3],
+              }}
+              transition={{
+                duration: 4 + Math.random() * 3,
+                repeat: Infinity,
+                delay: Math.random() * 3,
+              }}
+            />
+          );
+        })}
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -111,10 +122,10 @@ export default function AboutSection() {
             initial={{ scale: 0.8 }}
             whileInView={{ scale: 1 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-400/30 rounded-full backdrop-blur-sm mb-8"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 rounded-full backdrop-blur-sm mb-8"
           >
-            <Sparkles className="w-5 h-5 text-purple-400" />
-            <span className="text-purple-200 font-medium">Creative Education Platform</span>
+            <Sparkles className="w-5 h-5 text-blue-400" />
+            <span className="text-blue-200 font-medium">Creative Education Platform</span>
           </motion.div>
 
           <h1 className="text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
@@ -377,7 +388,7 @@ export default function AboutSection() {
                 { name: "Mercury", size: "w-8 h-8", texture: "from-gray-300 via-gray-500 to-gray-700", orbit: 70, speed: 6, startAngle: 0 },
                 { name: "Venus", size: "w-10 h-10", texture: "from-yellow-200 via-orange-300 to-red-500", orbit: 90, speed: 12, startAngle: 90 },
                 { name: "Earth", size: "w-12 h-12", texture: "from-blue-500 via-green-400 to-blue-600", orbit: 180, speed: 14, startAngle: 180 },
-                { name: "Saturn", size: "w-12 h-12", texture: "from-yellow-100 via-orange-200 to-yellow-300", orbit: 220, speed: 0.5, startAngle: 270 },
+                { name: "Saturn", size: "w-12 h-12", texture: "from-yellow-100 via-orange-200 to-yellow-300", orbit: 220, speed: 28, startAngle: 270 },
               ].map((planet) => (
                 <motion.div
                   key={planet.name}

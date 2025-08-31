@@ -211,11 +211,11 @@ export default async function Index(props: IIndexProps) {
         
         {/* <SplashCursor /> */}
 
-        <HeroHome content={homeData.hero} />
-        {/* <AboutSection /> */}
+        <HeroHome  />
+        <AboutSection />
         {/* {homeData.about && <AboutUs />} */}
-        {/* <GraphicDesignSection />
-        <MotionGraphicsSection />
+       <GraphicDesignSection />
+        {/*  <MotionGraphicsSection />
         <MohoAnimationSection />
         <Blender3DSection />
 
