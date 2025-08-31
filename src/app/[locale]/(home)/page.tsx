@@ -15,6 +15,7 @@ import { courseService } from '@/libs/services/courseService';
 import SplashCursor from '@/components/shared/SplashCursor';
 import Lanyard from '@/components/shared/lanyard/Lanyard';
 import { Blender3DSection, GraphicDesignSection, MohoAnimationSection, MotionGraphicsSection } from '@/components/courses-sections';
+import AboutSection from '@/components/home/AboutSection';
 
 type IIndexProps = {
   params: Promise<{ locale: string }>;
@@ -211,9 +212,9 @@ export default async function Index(props: IIndexProps) {
         {/* <SplashCursor /> */}
 
         <HeroHome content={homeData.hero} />
-
-        {homeData.about && <AboutUs />}
-        <GraphicDesignSection />
+        {/* <AboutSection /> */}
+        {/* {homeData.about && <AboutUs />} */}
+        {/* <GraphicDesignSection />
         <MotionGraphicsSection />
         <MohoAnimationSection />
         <Blender3DSection />
@@ -242,7 +243,7 @@ export default async function Index(props: IIndexProps) {
           <BlogPosts
             featured_blogs={featuredBlogs}
           />
-        )}
+        )} */}
 
       {/* <div className='w-full  h-[80vh]'>
       <Lanyard />
