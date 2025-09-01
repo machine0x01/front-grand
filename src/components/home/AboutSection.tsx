@@ -19,6 +19,7 @@ import {
   Shield,
   Lightbulb
 } from "lucide-react";
+import AnimatedStars from "../shared/AnimatedStars";
 
 export default function AboutSection() {
   const [activeSection, setActiveSection] = useState<string>("mission");
@@ -77,38 +78,12 @@ export default function AboutSection() {
       </div>
 
       {/* Space Stars - Matching Hero */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(50)].map((_, i) => {
-          const isGlowing = Math.random() > 0.7;
-          const size = Math.random() * 3 + 1;
-          return (
-            <motion.div
-              key={i}
-              className={`absolute rounded-full ${
-                isGlowing 
-                  ? 'bg-blue-100 shadow-[0_0_15px_#60a5fa,0_0_30px_#3b82f6] animate-pulse' 
-                  : 'bg-white opacity-80'
-              }`}
-              style={{
-                width: `${size}px`,
-                height: `${size}px`,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -30, 0],
-                x: [0, Math.random() * 20 - 10, 0],
-                opacity: [0.3, 1, 0.3],
-              }}
-              transition={{
-                duration: 4 + Math.random() * 3,
-                repeat: Infinity,
-                delay: Math.random() * 3,
-              }}
-            />
-          );
-        })}
-      </div>
+      <AnimatedStars 
+        count={50}
+        glowIntensity="low"
+        animationSpeed="slow"
+        zIndex={0}
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Header */}
@@ -211,17 +186,17 @@ export default function AboutSection() {
                     key={i}
                     className="absolute w-1 h-1 bg-white rounded-full"
                     style={{
-                      left: `${Math.random() * 100}%`,
-                      top: `${Math.random() * 100}%`,
+                      left: `${(i * 5) % 100}%`,
+                      top: `${(i * 7) % 100}%`,
                     }}
                     animate={{
                       opacity: [0.2, 1, 0.2],
                       scale: [0.5, 1, 0.5],
                     }}
                     transition={{
-                      duration: 2 + Math.random() * 3,
+                      duration: 2 + (i % 3),
                       repeat: Infinity,
-                      delay: Math.random() * 2,
+                      delay: (i % 2) * 2,
                     }}
                   />
                 ))}

@@ -10,8 +10,10 @@ function PlanetMesh({ isHovered }: { isHovered: boolean }) {
   
   useFrame((state) => {
     if (meshRef.current) {
-      // Base slow rotation
-      meshRef.current.rotation.y += isHovered ? 0.02 : 0.005
+      // Only rotate when hovered, and rotate on X-axis (top to bottom)
+      if (isHovered) {
+        meshRef.current.rotation.x += 0.02
+      }
       
       // Gentle floating motion - adjusted for massive planet
       meshRef.current.position.y = -32 + Math.sin(state.clock.elapsedTime * 0.5) * 0.5
@@ -36,81 +38,139 @@ function PlanetMesh({ isHovered }: { isHovered: boolean }) {
             attach="map" 
             object={(() => {
               const canvas = document.createElement('canvas')
-              canvas.width = 1024
-              canvas.height = 1024
+              canvas.width = 2048
+              canvas.height = 2048
               const ctx = canvas.getContext('2d')!
               
-              // Create base planet surface with hero-matching colors
-              const baseGradient = ctx.createRadialGradient(512, 512, 0, 512, 512, 512)
-              baseGradient.addColorStop(0, '#a855f7')  // purple-500
-              baseGradient.addColorStop(0.3, '#8b5cf6') // purple-500
-              baseGradient.addColorStop(0.6, '#7c3aed') // purple-600
-              baseGradient.addColorStop(0.8, '#6d28d9') // purple-700
-              baseGradient.addColorStop(1, '#5b21b6')   // purple-800
+              // Create base planet surface with primary brand colors
+              const baseGradient = ctx.createRadialGradient(1024, 1024, 0, 1024, 1024, 1024)
+              baseGradient.addColorStop(0, '#3b82f6')  // blue-500
+              baseGradient.addColorStop(0.2, '#1d4ed8') // blue-700
+              baseGradient.addColorStop(0.4, '#1e40af') // blue-800
+              baseGradient.addColorStop(0.6, '#1e3a8a') // blue-900
+              baseGradient.addColorStop(0.8, '#172554') // blue-950
+              baseGradient.addColorStop(1, '#0f172a')   // slate-900
               
               ctx.fillStyle = baseGradient
-              ctx.fillRect(0, 0, 1024, 1024)
+              ctx.fillRect(0, 0, 2048, 2048)
               
-              // Add continent-like landmasses
-              for (let i = 0; i < 8; i++) {
-                const centerX = Math.random() * 1024
-                const centerY = Math.random() * 1024
-                const baseSize = 80 + Math.random() * 120
-                
-                // Create organic continent shape
-                ctx.beginPath()
-                for (let angle = 0; angle < Math.PI * 2; angle += 0.1) {
-                  const noise = Math.sin(angle * 3) * 0.3 + Math.cos(angle * 5) * 0.2
-                  const radius = baseSize * (0.7 + noise)
-                  const x = centerX + Math.cos(angle) * radius
-                  const y = centerY + Math.sin(angle) * radius
+              // Add multiple layers of continents with different biomes
+              for (let layer = 0; layer < 3; layer++) {
+                for (let i = 0; i < 12; i++) {
+                  const centerX = Math.random() * 2048
+                  const centerY = Math.random() * 2048
+                  const baseSize = 100 + Math.random() * 200
                   
-                  if (angle === 0) ctx.moveTo(x, y)
-                  else ctx.lineTo(x, y)
+                  // Create organic continent shape with more detail
+                  ctx.beginPath()
+                  for (let angle = 0; angle < Math.PI * 2; angle += 0.05) {
+                    const noise = Math.sin(angle * 4) * 0.4 + Math.cos(angle * 7) * 0.3 + Math.sin(angle * 11) * 0.2
+                    const radius = baseSize * (0.6 + noise)
+                    const x = centerX + Math.cos(angle) * radius
+                    const y = centerY + Math.sin(angle) * radius
+                    
+                    if (angle === 0) ctx.moveTo(x, y)
+                    else ctx.lineTo(x, y)
+                  }
+                  ctx.closePath()
+                  
+                  // Different biome colors for each layer
+                  let continentGradient
+                  if (layer === 0) {
+                    // Primary continents - white/light blue
+                    continentGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, baseSize)
+                    continentGradient.addColorStop(0, '#ffffff') // white
+                    continentGradient.addColorStop(0.3, '#f1f5f9') // slate-100
+                    continentGradient.addColorStop(0.7, '#e2e8f0') // slate-200
+                    continentGradient.addColorStop(1, '#cbd5e1')   // slate-300
+                  } else if (layer === 1) {
+                    // Secondary continents - light blue tones
+                    continentGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, baseSize)
+                    continentGradient.addColorStop(0, '#dbeafe') // blue-100
+                    continentGradient.addColorStop(0.4, '#bfdbfe') // blue-200
+                    continentGradient.addColorStop(0.8, '#93c5fd') // blue-300
+                    continentGradient.addColorStop(1, '#60a5fa')   // blue-400
+                  } else {
+                    // Tertiary continents - teal tones
+                    continentGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, baseSize)
+                    continentGradient.addColorStop(0, '#ccfbf1') // teal-100
+                    continentGradient.addColorStop(0.4, '#99f6e4') // teal-200
+                    continentGradient.addColorStop(0.8, '#5eead4') // teal-300
+                    continentGradient.addColorStop(1, '#14b8a6')   // teal-400
+                  }
+                  
+                  ctx.fillStyle = continentGradient
+                  ctx.fill()
                 }
-                ctx.closePath()
-                
-                const continentGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, baseSize)
-                continentGradient.addColorStop(0, '#ec4899') // pink-500
-                continentGradient.addColorStop(0.5, '#be185d') // pink-700
-                continentGradient.addColorStop(1, '#9d174d')   // pink-800
-                
-                ctx.fillStyle = continentGradient
-                ctx.fill()
               }
               
-              // Add detailed surface features (craters, mountains)
-              for (let i = 0; i < 300; i++) {
-                const x = Math.random() * 1024
-                const y = Math.random() * 1024
-                const size = Math.random() * 15 + 3
+              // Add detailed surface features with better variety
+              for (let i = 0; i < 800; i++) {
+                const x = Math.random() * 2048
+                const y = Math.random() * 2048
+                const size = Math.random() * 25 + 5
                 
                 ctx.beginPath()
                 ctx.arc(x, y, size, 0, Math.PI * 2)
                 
                 const featureGradient = ctx.createRadialGradient(x, y, 0, x, y, size)
-                if (Math.random() > 0.5) {
-                  // Bright features
+                const featureType = Math.random()
+                
+                if (featureType > 0.7) {
+                  // Bright crystalline features
+                  featureGradient.addColorStop(0, '#ffffff') // white
+                  featureGradient.addColorStop(0.5, '#f8fafc') // slate-50
+                  featureGradient.addColorStop(1, '#e2e8f0')   // slate-200
+                } else if (featureType > 0.4) {
+                  // Blue features
                   featureGradient.addColorStop(0, '#60a5fa') // blue-400
-                  featureGradient.addColorStop(1, '#3b82f6') // blue-500
+                  featureGradient.addColorStop(0.5, '#3b82f6') // blue-500
+                  featureGradient.addColorStop(1, '#1d4ed8')   // blue-700
                 } else {
                   // Dark features
-                  featureGradient.addColorStop(0, '#1e1b4b') // indigo-900
-                  featureGradient.addColorStop(1, '#312e81') // indigo-800
+                  featureGradient.addColorStop(0, '#0f172a') // slate-900
+                  featureGradient.addColorStop(0.5, '#1e293b') // slate-800
+                  featureGradient.addColorStop(1, '#334155')   // slate-700
                 }
                 
                 ctx.fillStyle = featureGradient
                 ctx.fill()
               }
               
-              // Add atmospheric glow effect
-              const glowGradient = ctx.createRadialGradient(512, 512, 400, 512, 512, 512)
-              glowGradient.addColorStop(0, 'rgba(139, 92, 246, 0)')
-              glowGradient.addColorStop(0.8, 'rgba(139, 92, 246, 0.1)')
-              glowGradient.addColorStop(1, 'rgba(139, 92, 246, 0.3)')
+              // Add mountain ranges and ridges
+              for (let i = 0; i < 15; i++) {
+                const startX = Math.random() * 2048
+                const startY = Math.random() * 2048
+                const length = 100 + Math.random() * 300
+                const angle = Math.random() * Math.PI * 2
+                
+                ctx.beginPath()
+                ctx.moveTo(startX, startY)
+                
+                for (let j = 0; j < 20; j++) {
+                  const progress = j / 20
+                  const x = startX + Math.cos(angle) * length * progress
+                  const y = startY + Math.sin(angle) * length * progress
+                  const offset = Math.sin(progress * Math.PI * 4) * 30
+                  
+                  ctx.lineTo(x + Math.cos(angle + Math.PI/2) * offset, 
+                            y + Math.sin(angle + Math.PI/2) * offset)
+                }
+                
+                ctx.strokeStyle = '#ffffff'
+                ctx.lineWidth = 6
+                ctx.stroke()
+              }
+              
+              // Add subtle atmospheric glow effect
+              const glowGradient = ctx.createRadialGradient(1024, 1024, 800, 1024, 1024, 2048)
+              glowGradient.addColorStop(0, 'rgba(59, 130, 246, 0)')
+              glowGradient.addColorStop(0.7, 'rgba(59, 130, 246, 0.03)')
+              glowGradient.addColorStop(0.9, 'rgba(59, 130, 246, 0.06)')
+              glowGradient.addColorStop(1, 'rgba(59, 130, 246, 0.1)')
               
               ctx.fillStyle = glowGradient
-              ctx.fillRect(0, 0, 1024, 1024)
+              ctx.fillRect(0, 0, 2048, 2048)
               
               const texture = new THREE.CanvasTexture(canvas)
               texture.wrapS = texture.wrapT = THREE.RepeatWrapping

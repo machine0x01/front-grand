@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Mail, Phone, MapPin, Github, Twitter, Linkedin, Instagram, ArrowUp } from 'lucide-react';
 import Planet3D from './models/HalfBall3D';
+import AnimatedStars from './shared/AnimatedStars';
 
 function Footer() {
   const footerRef = useRef<HTMLElement>(null);
@@ -44,46 +45,13 @@ function Footer() {
   return (
    <footer ref={footerRef} className="relative bg-gradient-to-b from-black via-slate-950 to-black overflow-hidden">
      {/* Animated Stars Background - Matching Hero */}
-     <div className="absolute inset-0 w-full h-full pointer-events-none">
-       {[...Array(100)].map((_, i) => {
-         const size = Math.random() * 4 + 1;
-         const left = Math.random() * 100;
-         const top = Math.random() * 100;
-         const animationDelay = Math.random() * 5;
-         const animationDuration = Math.random() * 4 + 2;
-         
-         const isGlowing = Math.random() > 0.7;
-         const isSuperGlow = Math.random() > 0.9;
-
-         let starClass, glowEffect;
-         if (isSuperGlow) {
-           starClass = 'bg-white';
-           glowEffect = 'shadow-[0_0_20px_#ffffff,0_0_40px_#60a5fa,0_0_60px_#3b82f6,0_0_80px_#1d4ed8] animate-pulse';
-         } else if (isGlowing) {
-           starClass = 'bg-blue-100';
-           glowEffect = 'shadow-[0_0_15px_#60a5fa,0_0_30px_#3b82f6,0_0_45px_#1d4ed8] animate-pulse';
-         } else {
-           starClass = 'bg-white opacity-90';
-           glowEffect = '';
-         }
-
-         return (
-           <div
-             key={i}
-             className={`absolute rounded-full ${starClass} ${glowEffect}`}
-             style={{
-               width: `${size}px`,
-               height: `${size}px`,
-               left: `${left}%`,
-               top: `${top}%`,
-               animationDelay: `${animationDelay}s`,
-               animationDuration: `${animationDuration}s`,
-             }}
-           />
-         );
-       })}
-     </div>
-     
+     {/* <AnimatedStars 
+       count={100}
+       glowIntensity="medium"
+       animationSpeed="normal"
+       zIndex={0}
+     />
+      */}
      {/* Nebula-like background effects - Matching Hero */}
      <div className="absolute inset-0 opacity-20">
        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600 rounded-full blur-3xl opacity-15 animate-pulse"></div>
@@ -196,10 +164,10 @@ function Footer() {
        </motion.div>
      </div>
 
-         {/* 3D Planet - Full width, only top half visible */}
-    <div className="absolute -bottom-16 left-0 w-full h-[28rem] overflow-hidden">
-      <Planet3D className="w-full h-full" />
-    </div>
+     {/* 3D Planet - Full width, only top half visible */}
+     <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 w-[120%] h-[32rem] overflow-hidden">
+       <Planet3D className="w-full h-full" />
+     </div>
    </footer>
   );
 }

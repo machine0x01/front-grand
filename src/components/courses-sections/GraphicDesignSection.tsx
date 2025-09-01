@@ -1,8 +1,9 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { ArrowRight, Check, Users, Award, Globe, Palette } from "lucide-react"
-import { Meteors } from "../ui/meteors"
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Palette, CheckCircle, Play, ArrowRight, Star, Users, Clock, Award } from 'lucide-react';
+import AnimatedStars from '../shared/AnimatedStars';
 
 
 
@@ -18,30 +19,12 @@ export default function GraphicDesignSection() {
       </div>
 
       {/* Space Stars - Matching Hero and About */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(50)].map((_, i) => {
-          const isGlowing = Math.random() > 0.7;
-          const size = Math.random() * 3 + 1;
-          return (
-            <div
-              key={i}
-              className={`absolute rounded-full ${
-                isGlowing 
-                  ? 'bg-blue-100 shadow-[0_0_15px_#60a5fa,0_0_30px_#3b82f6] animate-pulse' 
-                  : 'bg-white opacity-80'
-              }`}
-              style={{
-                width: `${size}px`,
-                height: `${size}px`,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDuration: `${4 + Math.random() * 3}s`,
-                animationDelay: `${Math.random() * 3}s`,
-              }}
-            />
-          );
-        })}
-      </div>
+      <AnimatedStars 
+        count={50}
+        glowIntensity="low"
+        animationSpeed="slow"
+        zIndex={0}
+      />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 py-20">
@@ -113,25 +96,25 @@ export default function GraphicDesignSection() {
               <div className="space-y-4">
                 <div className="flex items-start space-x-3 group">
                   <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300">
-                    <Check className="w-4 h-4 text-white" />
+                    <CheckCircle className="w-4 h-4 text-white" />
                   </div>
                   <p className="text-purple-200 group-hover:text-white transition-colors duration-300">Master Adobe Creative Suite tools (Photoshop, Illustrator, InDesign)</p>
                 </div>
                 <div className="flex items-start space-x-3 group">
                   <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300">
-                    <Check className="w-4 h-4 text-white" />
+                    <CheckCircle className="w-4 h-4 text-white" />
                   </div>
                   <p className="text-purple-200 group-hover:text-white transition-colors duration-300">Learn color theory and typography principles</p>
                 </div>
                 <div className="flex items-start space-x-3 group">
                   <div className="w-6 h-6 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300">
-                    <Check className="w-4 h-4 text-white" />
+                    <CheckCircle className="w-4 h-4 text-white" />
                   </div>
                   <p className="text-purple-200 group-hover:text-white transition-colors duration-300">Create brand identities and marketing materials</p>
                 </div>
                 <div className="flex items-start space-x-3 group">
                   <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300">
-                    <Check className="w-4 h-4 text-white" />
+                    <CheckCircle className="w-4 h-4 text-white" />
                   </div>
                   <p className="text-purple-200 group-hover:text-white transition-colors duration-300">Understand print and digital design workflows</p>
                 </div>
@@ -249,7 +232,7 @@ export default function GraphicDesignSection() {
           {[
             { icon: Users, title: "Live Sessions", desc: "Weekly Q&A with industry experts" },
             { icon: Award, title: "Portfolio Building", desc: "Create 10+ professional projects" },
-            { icon: Globe, title: "Global Community", desc: "Connect with designers worldwide" }
+            { icon: Star, title: "Global Community", desc: "Connect with designers worldwide" }
           ].map((feature, index) => (
             <div key={index} className="">
               <div className="relative w-full max-w-xl">
@@ -268,7 +251,7 @@ export default function GraphicDesignSection() {
                   </p>
 
                   {/* Meteor effect */}
-                  <Meteors number={20} />
+                  {/* The Meteors component was removed, so this will be removed or replaced */}
                 </div>
               </div>
             </div>

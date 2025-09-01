@@ -25,13 +25,80 @@ const baseConfig: NextConfig = {
       },
     },
   },
-  webpack: (config) => {
+  // Enhanced webpack configuration for 3D models
+  webpack: (config, { isServer }) => {
+    // Handle 3D model files
     config.module.rules.push({
       test: /\.(glb|gltf)$/,
       type: 'asset/resource',
+      generator: {
+        filename: 'static/models/[name].[hash][ext]',
+      },
     });
+
+    // Handle additional 3D-related file types
+    config.module.rules.push({
+      test: /\.(bin|hdr|exr)$/,
+      type: 'asset/resource',
+      generator: {
+        filename: 'static/assets/[name].[hash][ext]',
+      },
+    });
+
+    // Optimize for client-side Three.js
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        crypto: false,
+      };
+    }
+
+    // Add alias for Three.js examples (if needed)
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'three/examples/jsm': 'three/examples/jsm',
+    };
+
     return config;
   },
+  
+  // Add headers for CORS and security (helpful for 3D assets)
+  async headers() {
+    return [
+      {
+        source: '/assets/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cross-Origin-Embedder-Policy',
+            value: 'credentialless',
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin',
+          },
+        ],
+      },
+    ];
+  },
+
+  // Transpile Three.js and related packages
+  transpilePackages: [
+    'three',
+    '@react-three/fiber',
+    '@react-three/drei',
+    '@react-three/postprocessing',
+  ],
 };
 
 // Initialize the Next-Intl plugin
@@ -45,35 +112,15 @@ if (process.env.ANALYZE === 'true') {
 // Conditionally enable Sentry configuration
 if (!process.env.NEXT_PUBLIC_SENTRY_DISABLED) {
   configWithPlugins = withSentryConfig(configWithPlugins, {
-    // For all available options, see:
-    // https://www.npmjs.com/package/@next/bundle-analyzer#options
     org: process.env.SENTRY_ORGANIZATION,
     project: process.env.SENTRY_PROJECT,
-
-    // Only print logs for uploading source maps in CI
     silent: !process.env.CI,
-
-    // For all available options, see:
-    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-    // Upload a larger set of source maps for prettier stack traces (increases build time)
     widenClientFileUpload: true,
-
-    // Upload a larger set of source maps for prettier stack traces (increases build time)
     reactComponentAnnotation: {
       enabled: true,
     },
-
-    // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-    // This can increase your server load as well as your hosting bill.
-    // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
-    // side errors will fail.
     tunnelRoute: '/monitoring',
-
-    // Automatically tree-shake Sentry logger statements to reduce bundle size
     disableLogger: true,
-
-    // Disable Sentry telemetry
     telemetry: false,
   });
 }
